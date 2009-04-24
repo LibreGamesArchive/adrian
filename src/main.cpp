@@ -5,6 +5,7 @@
 #include "Menu.h"
 #include "cursor.h"
 #include "Panel.h"
+#include "config.h"
 
 #include <stdio.h>
 #include<stdlib.h>
@@ -40,7 +41,7 @@ bool Bool_Mouse_HotAreaBottom = false;
 bool display_lines = false;
 bool show_minimap = true;
 
-float angle = 0;
+float angle = START_ANGLE;
 
 void SIGSEGV_HANDLER(int signum)
 {
@@ -210,7 +211,7 @@ void Initialize(void)
 	display_lines = false;
 	show_minimap = true;
 	showHelp = false;
-	angle = 0;
+	angle = START_ANGLE;
 }
 
 void WorldCamUpdate(void)
