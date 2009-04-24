@@ -6,45 +6,43 @@
 
 #define			MAX_SOUNDS		20
 
-extern void ChannelFadeCallback( int channel );
+extern void ChannelFadeCallback(int channel);
 
-typedef enum
-{
+typedef enum {
 	SOUNDTYPE_ALARM = 1,
 	SOUNDTYPE_BACKGROUND,
 	SOUNDTYPE_MENU,
 	SOUNDTYPE_SHOOT
 } SoundType;
 
-class SoundSystem
-{
-	friend void ChannelFadeCallback( int channel );
+class SoundSystem {
+	friend void ChannelFadeCallback(int channel);
 
-	public:
-		SoundSystem( void );
-		~SoundSystem();
+ public:
+	 SoundSystem(void);
+	~SoundSystem();
 
-		int Initialize( void );
-		int LoadWavs( void );
+	int Initialize(void);
+	int LoadWavs(void);
 
-		int Play( SoundType );
+	int Play(SoundType);
 
-		void HaltAllChannels( void );
+	void HaltAllChannels(void);
 
-		bool PlaySound( SoundType s , int loop );
+	bool PlaySound(SoundType s, int loop);
 
-	private:
-		bool initialized;
-		
-		Mix_Chunk * sounds[MAX_SOUNDS];
-		int channels[MAX_SOUNDS];
-		bool channelFadeStatus[MAX_SOUNDS];
+ private:
+	 bool initialized;
 
-		int audio_rate;
-		Uint16 audio_format;
-		int audio_channels;
-		int audio_buffers;
+	Mix_Chunk *sounds[MAX_SOUNDS];
+	int channels[MAX_SOUNDS];
+	bool channelFadeStatus[MAX_SOUNDS];
+
+	int audio_rate;
+	Uint16 audio_format;
+	int audio_channels;
+	int audio_buffers;
 
 };
 
-#endif				/*	__GAME_SOUNDSYSTEM_H__	*/
+#endif				/*      __GAME_SOUNDSYSTEM_H__  */

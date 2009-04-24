@@ -5,33 +5,32 @@
 #include <GL/gl.h>
 #include <GL/glu.h>
 
-class Building
-{
-	public:
-		int buildingID;
-		int buildingType;
+class Building {
+ public:
+	int buildingID;
+	int buildingType;
 
-		float x1;
-		float x2;
-		float y1;
-		float y2;
-		float h;
-		
-		float bx1;
-		float bx2;
-		float by1;
-		float by2;
+	float x1;
+	float x2;
+	float y1;
+	float y2;
+	float h;
 
-		int textureID;
+	float bx1;
+	float bx2;
+	float by1;
+	float by2;
 
-		Building( void );
-		~Building();
+	int textureID;
 
-		bool isInside( float x , float y );
-		void setType( int );
-		void Render( void );
-		void Dump( void );
-		
+	 Building(void);
+	~Building();
+
+	bool isInside(float x, float y);
+	void setType(int);
+	void Render(void);
+	void Dump(void);
+
 };
 
-#endif			/*	__GAME_BUILDING_H__	*/
+#endif				/*      __GAME_BUILDING_H__     */

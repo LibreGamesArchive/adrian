@@ -4,4 +4,4 @@
 #include "Map.h"
 #include "Camera.h"
 
-#endif		/*	__GAME_MAIN_H__	*/
+#endif				/*      __GAME_MAIN_H__ */
