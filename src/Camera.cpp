@@ -14,11 +14,14 @@ void Camera::Initialize(void)
 {
 	distance = 50;
 	height = 30;
-	angle = 0;
+	angle = 30;
 
-	camx = 0;
+//	angle = 0;
+//	camx = 0;
 	camy = height;
-	camz = distance;
+//	camz = distance;
+	camx = distance * sin(angle) + initx;
+	camz = distance * cos(angle) + initz;
 
 	pointx = 0;
 	pointy = 0;
@@ -32,6 +35,8 @@ void Camera::Initialize(void)
 	initz = hero->cury;
 
 	yfactor = -sqrt(1 + (distance * distance) / (height * height));
+
+
 
 	Move();
 }
