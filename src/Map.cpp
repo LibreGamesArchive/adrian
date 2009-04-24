@@ -99,13 +99,13 @@ void Map::Render(void)
 	glBindTexture(GL_TEXTURE_2D, textureID);
 	glBegin(GL_POLYGON);
 	glTexCoord2f(length / 256, breadth / 256);
-	glVertex3f(-length / 2.0, 0, -breadth / 2.0);
+	glVertex3f(-length, 0, -breadth);
 	glTexCoord2f(length / 256, 0);
-	glVertex3f(-length / 2.0, 0, breadth / 2.0);
+	glVertex3f(-length, 0, breadth);
 	glTexCoord2f(0, 0);
-	glVertex3f(length / 2.0, 0, breadth / 2.0);
+	glVertex3f(length, 0, breadth);
 	glTexCoord2f(0, breadth / 256);
-	glVertex3f(length / 2.0, 0, -breadth / 2.0);
+	glVertex3f(length, 0, -breadth);
 	glEnd();
 	glDisable(GL_TEXTURE_2D);
 
