@@ -15,7 +15,7 @@ int num_guards = 0;
 void block_convert(float &, float &, float, float);
 float FontTexture[256][2];
 void fontInit();
-void drawfontString(char *, float, float, float, float);
+void drawfontString(const char *, float, float, float, float);
 MiniMap *minimap;
 Panel *panel;
 SDL_Cursor cursors[4];

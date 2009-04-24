@@ -228,7 +228,7 @@ class Md2 {
 	int AnimNum_Death;
 
  public:
-	 Md2(char *filename);
+	Md2(const char *filename);
 	void render(void);
 	//// void animate( void );
 	float ReturnCurrentTime(t3DModel * pModel, int nextFrame);

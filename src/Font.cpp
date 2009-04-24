@@ -119,13 +119,14 @@ void fontInit()
 	FontTexture[90][1] = .375;
 }
 
-void drawfontString(char *str, float x, float y, float font_width,
-		    float font_height)
+void drawfontString(const char *string, float x, float y, float font_width,
+					float font_height)
 {
 	float add_x = (float)10 / (float)128;
 	float add_y = (float)15 / (float)128;
 	int loop_var = 0;
 	int limit;
+	const unsigned char *str = (const unsigned char *)string;
 
 	glEnable(GL_ALPHA_TEST);
 	glEnable(GL_BLEND);
@@ -133,10 +134,12 @@ void drawfontString(char *str, float x, float y, float font_width,
 	glAlphaFunc(GL_GEQUAL, 0.9);
 	glEnable(GL_TEXTURE_2D);
 	glBindTexture(GL_TEXTURE_2D, 50);
-	limit = strlen(str);
 
-	if (str == NULL)
+	if (string == NULL)
 		return;
+
+	limit = strlen(string);
+
 	for (loop_var = 0; loop_var < limit; loop_var++) {
 		glBegin(GL_POLYGON);
 		glTexCoord2f(FontTexture[str[loop_var]][0],

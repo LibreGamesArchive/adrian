@@ -39,7 +39,7 @@ void Hero::Initialize(float x, float y, float f, float s)
 	PanelTexId = 65;
 }
 
-int Hero::Run(float dx, float dy, float perfectx, float perfecty)
+void Hero::Run(float dx, float dy, float perfectx, float perfecty)
 {
 	Compute(dx, dy, perfectx, perfecty);
 
@@ -47,17 +47,15 @@ int Hero::Run(float dx, float dy, float perfectx, float perfecty)
 		status = HERO_RUNNING;
 		setAnimation(RUN);
 	}
-
-	return 0;
 }
 
-int Hero::Stand(void)
+void Hero::Stand(void)
 {
 	status = HERO_STANDING;
 	setAnimation(STAND);
 }
 
-int Hero::Attack(void)
+void Hero::Attack(void)
 {
 	status = HERO_ATTACKING;
 	AttackFrameCount = getNumFrames(ATTACK);
@@ -82,8 +80,9 @@ int Hero::NextMove(void)
 			Stand();
 		return 0;
 	case HERO_DEAD:
-		if (DeathFrameCount == 0)
-			Alive == false;
+//		if (DeathFrameCount == 0)
+//		TODO Never worked! :)
+//			Alive == false;
 		return 0;
 	case HERO_RUNNING:
 		{

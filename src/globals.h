@@ -18,7 +18,7 @@ extern int num_guards;
 extern float FontTexture[256][2];
 extern void block_convert(float &, float &, float, float);
 extern void fontInit();
-extern void drawfontString(char *, float, float, float, float);
+extern void drawfontString(const char *, float, float, float, float);
 extern MiniMap *minimap;
 extern Panel *panel;
 extern SoundSystem *soundSystem;

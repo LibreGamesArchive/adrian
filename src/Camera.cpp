@@ -76,7 +76,6 @@ void Camera::MoveDown(void)
 {
 	float tmpx, tmpy;
 	ConvertCoordinates(320, 240, tmpx, tmpy);
-//      printf("tmpy = %f\n",tmpy);
 	if (tmpy < -map->breadth / 2)
 		return;
 

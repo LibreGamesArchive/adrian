@@ -28,7 +28,7 @@ class Map {
 	~Map();
 	void Initialize(void);
 
-	int LoadFile(char *filename = "maps/default.map");
+	int LoadFile(const char *filename = "maps/default.map");
 	void Render(void);
 
 	void Dump(void);
