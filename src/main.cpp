@@ -373,6 +373,12 @@ void process_events(void)
 						showHelp = !showHelp;
 						break;
 					}
+				case SDLK_F3:
+					{
+						if (panel)
+							panel->show_fps = !panel->show_fps;
+						break;
+					}
 				case SDLK_a:
 					{
 						Bool_Cam_RotateP = true;
@@ -623,19 +629,8 @@ void drawObjects(GLenum mode)
 	}
 }
 
-int fpscounter = 0;
-unsigned long int tmptime = 0;
-
 void render(void)
 {
-	fpscounter++;
-	int gap = time(NULL) - tmptime;
-	if (gap) {
-		tmptime += gap;
-//              printf("FPS = %f\n",((float)fpscounter)/(float)gap );
-		fpscounter = 0;
-	}
-
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();

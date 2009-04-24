@@ -4,6 +4,7 @@
 class Panel {
  public:
 	int textureId;
+	bool show_fps;
 	 Panel(int);
 	~Panel();
 	void Render();

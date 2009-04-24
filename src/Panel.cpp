@@ -7,6 +7,7 @@
 Panel::Panel(int texid)
 {
 	textureId = texid;
+	show_fps = false;
 }
 
 Panel::~Panel()
@@ -70,6 +71,20 @@ void Panel::Render()
 
 	glColor3f(1, 1, 1);
 	drawfontString("F1:HELP", 500, 450, 15, 15);
+
+	static int fpscounter = 0;
+	static unsigned long int tmptime = 0;
+    static char fps_str[16];
+
+	fpscounter += 1;
+	int gap = time(NULL) - tmptime;
+	if (gap) {
+		tmptime += gap;
+		snprintf(fps_str, 16, "FPS: %.1f", ((float)fpscounter)/(float)gap);
+		fpscounter = 0;
+	}
+	if (show_fps)
+		drawfontString(fps_str, 300, 450, 15, 15);
 
 	if (!gameOver) {
 		drawBot();
