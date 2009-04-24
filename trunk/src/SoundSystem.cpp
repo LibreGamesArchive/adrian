@@ -6,7 +6,6 @@
 
 SoundSystem::SoundSystem(void)
 {
-//      printf("CONTRUCTOR S\n");
 	initialized = false;
 
 	audio_rate = 44100;
@@ -19,8 +18,6 @@ SoundSystem::SoundSystem(void)
 		channels[i] = -1;
 		channelFadeStatus[i] = false;
 	}
-
-//      printf("CONTRUCTOR E\n");
 }
 
 SoundSystem::~SoundSystem()
@@ -32,33 +29,23 @@ SoundSystem::~SoundSystem()
 
 int SoundSystem::Initialize(void)
 {
-//      printf("INIT S\n");
 	if (SDL_InitSubSystem(SDL_INIT_AUDIO) < 0)
-//      if( SDL_Init( SDL_INIT_AUDIO ) < 0 )
 	{
-		printf
-		    ("Error Initializing Sound SubSystem\nSound will be Disabled");
-//      printf("1INIT END\n");
+		printf("Error Initializing Sound SubSystem\nSound will be Disabled\n");
 		return -1;
 	}
-//      printf("2INIT END\n");
 
 	if (Mix_OpenAudio
 	    (audio_rate, audio_format, audio_channels, audio_buffers)) {
 		printf("Unable to open audio!\n");
-		//printf("3INIT END\n");
 		return -1;
 	}
-	//printf("4INIT END\n");
 
 	initialized = true;
 
-	//printf("5INIT END\n");
 	if (LoadWavs() < 0) {
-		//printf("6INIT END\n");
 		return -1;
 	}
-	//printf("7INIT END\n");
 
 	return 0;
 }
@@ -83,8 +70,7 @@ int SoundSystem::Play(SoundType s)
 	case SOUNDTYPE_ALARM:
 		HaltAllChannels();
 		if (!sounds[SOUNDTYPE_ALARM]) {
-			if ((sounds[SOUNDTYPE_ALARM] =
-			     Mix_LoadWAV("wavs/alarm.wav")) == NULL) {
+			if ((sounds[SOUNDTYPE_ALARM] = Mix_LoadWAV("wavs/alarm.wav")) == NULL) {
 				printf("Cannot Load wavs/alarm.wav\n");
 				return -1;
 			}
@@ -95,8 +81,7 @@ int SoundSystem::Play(SoundType s)
 	case SOUNDTYPE_BACKGROUND:
 		HaltAllChannels();
 		if (!sounds[SOUNDTYPE_BACKGROUND]) {
-			if ((sounds[SOUNDTYPE_BACKGROUND] =
-			     Mix_LoadWAV("wavs/background.wav")) == NULL) {
+			if ((sounds[SOUNDTYPE_BACKGROUND] = Mix_LoadWAV("wavs/background.wav")) == NULL) {
 				printf("Cannot load wavs/background.wav\n");
 				return -1;
 			}

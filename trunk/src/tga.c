@@ -100,7 +100,7 @@ unsigned char *getData (FILE *s, int sz, int iBits)
 }
 // loads a 24bit or 32 bit targa file and uploads it to memory
 // id is the texture id to bind too
-int loadTGA (char *name, int id)
+int loadTGA (const char *name, int id)
 {
 	unsigned char type[4];
 	unsigned char info[7];

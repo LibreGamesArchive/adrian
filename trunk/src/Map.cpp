@@ -19,7 +19,7 @@ void Map::Initialize(void)
 		guard[i]->Initialize();
 }
 
-int Map::LoadFile(char *filename)
+int Map::LoadFile(const char *filename)
 {
 	FILE *f;
 

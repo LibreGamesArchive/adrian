@@ -57,7 +57,7 @@ void Guard::Initialize()
 	selected = false;
 }
 
-int Guard::Run(float dx, float dy)
+void Guard::Run(float dx, float dy)
 {
 	Compute(dx, dy);
 
@@ -68,8 +68,6 @@ int Guard::Run(float dx, float dy)
 		status = RUNNING;
 		setAnimation(RUN);
 	}
-
-	return 0;
 }
 
 void Guard::Death(void)
@@ -79,7 +77,7 @@ void Guard::Death(void)
 	setAnimation(DEATH);
 }
 
-int Guard::Stand(float x, float y)
+void Guard::Stand(float x, float y)
 {
 	Md2::x = curx = x;
 	Md2::y = 25;
@@ -88,7 +86,7 @@ int Guard::Stand(float x, float y)
 	setAnimation(STAND);
 }
 
-int Guard::Attack(float x, float y)
+void Guard::Attack(float x, float y)
 {
 	status = ATTACKING;
 	AttackFrameCount = 20 * getNumFrames(ATTACK);
@@ -239,6 +237,7 @@ int Guard::Compute(float &dx, float &dy)
 		return -1;
 	}
 
+	return 0;
 }
 
 bool Guard::mouseOverMe(float x, float y)

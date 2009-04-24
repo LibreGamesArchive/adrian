@@ -8,7 +8,7 @@ class Panel {
 	~Panel();
 	void Render();
 	void drawBot();
-	void drawTips(char *, char *);
+	void drawTips(const char *, const char *);
 };
 
 #endif				// __PANEL_H__

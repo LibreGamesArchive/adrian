@@ -21,5 +21,5 @@
 #define TGA_BAD_DATA				17
     
 // id is the texture id to bind too
-int loadTGA(char *name, int id);
+int loadTGA(const char *name, int id);
 

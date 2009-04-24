@@ -1,6 +1,6 @@
-COMPILE_COMMAND = g++ -g
+COMPILE_COMMAND = g++ -Wall -Werror -g3
 
-LINK_COMMAND = g++ -g -lGL -lGLU -lm -lSDL -lSDL_image -lSDL_mixer
+LINK_COMMAND = g++ -Wall -Werror -g3 -lGL -lGLU -lm -lSDL -lSDL_image -lSDL_mixer
 
 OBJECT_FILES	=	Map.o			\
 					MiniMap.o		\

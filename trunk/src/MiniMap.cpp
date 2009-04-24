@@ -56,6 +56,7 @@ int MiniMap::GenerateDisplayLists(void)
 	}
 	glDisable(GL_TEXTURE_2D);
 	glEndList();
+	return 0;
 }
 
 void MiniMap::Render(void)
@@ -89,7 +90,7 @@ void MiniMap::Render(void)
 	glColor3f(1, 1, 1);
 	float hm = 21.33;
 	glLineWidth(1);
-	float my = -((camera->initz)) / yconvfactor;	///yconvfactor;
+//	float my = -((camera->initz)) / yconvfactor;	///yconvfactor;
 	glBegin(GL_LINE_STRIP);
 	glVertex2f(-hm, -hm);
 	glVertex2f(-hm, +hm);

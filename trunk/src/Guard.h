@@ -51,9 +51,9 @@ class Guard:public Md2 {
 	~Guard();
 	void Initialize();
 
-	int Run(float x, float y);
-	int Stand(float, float);
-	int Attack(float x, float y);
+	void Run(float x, float y);
+	void Stand(float, float);
+	void Attack(float x, float y);
 	int NextMove(void);
 	int Patrol(float, float, float, float);
 	void Death(void);

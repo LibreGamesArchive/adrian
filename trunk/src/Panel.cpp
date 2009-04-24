@@ -138,7 +138,7 @@ void Panel::drawBot()
 	glDisable(GL_BLEND);
 }
 
-void Panel::drawTips(char *str1, char *str2)
+void Panel::drawTips(const char *str1, const char *str2)
 {
 	drawfontString(str1, 120, 20, 15, 15);
 	drawfontString(str2, 120, 0, 15, 15);

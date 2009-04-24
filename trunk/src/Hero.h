@@ -48,9 +48,9 @@ class Hero:public Md2 {
 	~Hero();
 	void Initialize(float, float, float, float);
 
-	int Run(float x, float y, float perfectx, float perfecty);
-	int Stand(void);
-	int Attack(void);
+	void Run(float x, float y, float perfectx, float perfecty);
+	void Stand(void);
+	void Attack(void);
 	void Death();
 	int NextMove(void);
 	bool mouseOverMe(float x, float y);
