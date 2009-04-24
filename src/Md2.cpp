@@ -503,7 +503,8 @@ void Md2::render(void)
 	    // Next, we want to get the current time that we are interpolating by.  Remember,
 	    // if t = 0 then we are at the beginning of the animation, where if t = 1 we are at the end.
 	    // Anyhing from 0 to 1 can be thought of as a percentage from 0 to 100 percent complete.
-//	float t = ReturnCurrentTime(pModel, nextFrame);
+//		float t = 
+		ReturnCurrentTime(pModel, nextFrame);
 	
 	    // Start rendering lines or triangles, depending on our current rendering mode (Lft Mouse Btn)
 	    glBegin(g_ViewMode);
