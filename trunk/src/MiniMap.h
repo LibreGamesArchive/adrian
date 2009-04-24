@@ -3,25 +3,24 @@
 
 #include "Map.h"
 
-class MiniMap
-{
-	public:
-//		Map * map;
-		
-		MiniMap();
-		~MiniMap();
+class MiniMap {
+ public:
+//              Map * map;
 
-		void Render( void );
+	MiniMap();
+	~MiniMap();
 
-		float xconvfactor;
-		float yconvfactor;
-			
-		GLuint mapbuildings;
+	void Render(void);
 
-		int GenerateDisplayLists( void );
+	float xconvfactor;
+	float yconvfactor;
 
-		bool isMouseOver( int sx , int sy , float & , float &);
-		
+	GLuint mapbuildings;
+
+	int GenerateDisplayLists(void);
+
+	bool isMouseOver(int sx, int sy, float &, float &);
+
 };
 
-#endif			/*	__GAME_MINIMAP_H__	*/
+#endif				/*      __GAME_MINIMAP_H__      */

@@ -9,31 +9,30 @@
 #include "tga.h"
 #include "Building.h"
 
-class Map
-{
-	public:
-		float length;
-		float breadth;
-		
-		int no_of_buildings;
-		Building * buildings;
+class Map {
+ public:
+	float length;
+	float breadth;
 
-		int textureID;
-		char texname[256];
+	int no_of_buildings;
+	Building *buildings;
 
-	    int no_blocksx,no_blocksy;
-	    int blocksize;	
+	int textureID;
+	char texname[256];
 
-	public:
-		Map( void );
-		~Map();
-		void Initialize( void );
-		
-		int LoadFile( char * filename = "maps/default.map" );
-		void Render( void );
+	int no_blocksx, no_blocksy;
+	int blocksize;
 
-		void Dump( void );
+ public:
+	 Map(void);
+	~Map();
+	void Initialize(void);
+
+	int LoadFile(char *filename = "maps/default.map");
+	void Render(void);
+
+	void Dump(void);
 
 };
 
-#endif		/*	__GAME_MAP_H__	*/
+#endif				/*      __GAME_MAP_H__  */

@@ -8,55 +8,52 @@
 
 #include <stdio.h>
 
-class Camera
-{
-	public:
-		float camx;
-		float camy;
-		float camz;
+class Camera {
+ public:
+	float camx;
+	float camy;
+	float camz;
 
-		float pointx;
-		float pointy;
-		float pointz;
-		
-		float lookx;
-		float looky;
-		float lookz;
+	float pointx;
+	float pointy;
+	float pointz;
 
-		float distance;
-		float height;
-		float angle;
-		float initx;
-		float initz;
+	float lookx;
+	float looky;
+	float lookz;
 
-		float yfactor;
-		
-	public:
-		Camera( void );
-		~Camera();
+	float distance;
+	float height;
+	float angle;
+	float initx;
+	float initz;
 
-		void Initialize();
+	float yfactor;
 
-		inline void Update( void )
-		{
-			glLoadIdentity();
-			gluLookAt( camx , camy , camz , pointx , pointy , pointz , lookx , looky , lookz );
-		}
+ public:
+	 Camera(void);
+	~Camera();
 
-		void Move();
-		void MoveUp();
-		void MoveDown();
-		void MoveLeft();
-		void MoveRight();
+	void Initialize();
 
-		void Rotate( float a );
+	inline void Update(void) {
+		glLoadIdentity();
+		gluLookAt(camx, camy, camz, pointx, pointy, pointz, lookx,
+			  looky, lookz);
+	} void Move();
+	void MoveUp();
+	void MoveDown();
+	void MoveLeft();
+	void MoveRight();
 
-		void Zoom( float d );
-		
-		int ConvertCoordinates( int x , int y , float & , float & );
+	void Rotate(float a);
 
-		int ScrollOver( float x , float y );
+	void Zoom(float d);
+
+	int ConvertCoordinates(int x, int y, float &, float &);
+
+	int ScrollOver(float x, float y);
 
 };
 
-#endif			/*	__GAME_CAMERA_H__	*/
+#endif				/*      __GAME_CAMERA_H__       */

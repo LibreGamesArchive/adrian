@@ -7,19 +7,19 @@
 #include "SoundSystem.h"
 #include <SDL/SDL.h>
 
-Map * map;
-Camera * camera;
-Hero * hero;
-Guard * guard[50];
-int num_guards=0;
+Map *map;
+Camera *camera;
+Hero *hero;
+Guard *guard[50];
+int num_guards = 0;
 void block_convert(float &, float &, float, float);
 float FontTexture[256][2];
 void fontInit();
-void drawfontString( char *, float , float , float , float );
-MiniMap * minimap;
+void drawfontString(char *, float, float, float, float);
+MiniMap *minimap;
 Panel *panel;
 SDL_Cursor cursors[4];
-SoundSystem * soundSystem = NULL;
+SoundSystem *soundSystem = NULL;
 
 bool gameMenu = true;
 bool gameMenuInit = true;

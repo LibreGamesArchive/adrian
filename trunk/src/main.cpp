@@ -16,7 +16,7 @@
 #include <unistd.h>
 
 #define			TIME_INTERVAL			300
-extern Uint32 TimerCallback( unsigned int );
+extern Uint32 TimerCallback(unsigned int);
 
 extern SDL_Cursor *init_system_cursor(const char *image[]);
 
@@ -40,154 +40,153 @@ bool Bool_Mouse_HotAreaBottom = false;
 bool display_lines = false;
 bool show_minimap = true;
 
-float angle=0;
+float angle = 0;
 
-void SIGSEGV_HANDLER( int signum )
+void SIGSEGV_HANDLER(int signum)
 {
 	printf("Segmentaion Fault\n");
 	system("~/reset");
 	system("killall -9 a.out");
-//	SDL_Quit();
-//	exit(0);
+//      SDL_Quit();
+//      exit(0);
 }
+
 void Quit(int val)
 {
-	SDL_SetTimer( TIME_INTERVAL , NULL );
+	SDL_SetTimer(TIME_INTERVAL, NULL);
 	SDL_Quit();
 	exit(val);
-}	
-
+}
 
 void LoadTextures(void)
 {
 	// LOADS ALL TEXTURES
-	
+
 	//Map
-    if(!loadTGA( "maps/ground.tga", 1 ))
-	        printf("Unable To Load Map Texture\n");
+	if (!loadTGA("maps/ground.tga", 1))
+		printf("Unable To Load Map Texture\n");
 
 	//Menu
-    if(!loadTGA( "maps/menu.tga", 2 ))
-	        printf("Unable To Load Map Texture\n");
+	if (!loadTGA("maps/menu.tga", 2))
+		printf("Unable To Load Map Texture\n");
 
 	//Line Of Sight
-    if(!loadTGA( "maps/los.tga", 3 ))
-	        printf("Unable To Load Map Texture\n");
+	if (!loadTGA("maps/los.tga", 3))
+		printf("Unable To Load Map Texture\n");
 
 	//Help
-    if(!loadTGA( "maps/help.tga", 100 ))
-	        printf("Unable To Load Map Texture\n");
+	if (!loadTGA("maps/help.tga", 100))
+		printf("Unable To Load Map Texture\n");
 
 	//Guards
 	//next 12 id's for guard bots
 
 	//Buildings
 
-    if(!loadTGA( "maps/200x200building.tga", 16 ))
-	        printf("Unable To Load Map Texture\n");
+	if (!loadTGA("maps/200x200building.tga", 16))
+		printf("Unable To Load Map Texture\n");
 
-    if(!loadTGA( "maps/generalsbuilding.tga", 17 ))
-	        printf("Unable To Load Map Texture\n");
+	if (!loadTGA("maps/generalsbuilding.tga", 17))
+		printf("Unable To Load Map Texture\n");
 
-    if(!loadTGA( "maps/wall.tga", 18 ))
-	        printf("Unable To Load Map Texture\n");
+	if (!loadTGA("maps/wall.tga", 18))
+		printf("Unable To Load Map Texture\n");
 
-    if(!loadTGA( "maps/bunker.tga", 19 ))
-	        printf("Unable To Load Map Texture\n");
+	if (!loadTGA("maps/bunker.tga", 19))
+		printf("Unable To Load Map Texture\n");
 
-    if(!loadTGA( "maps/aircraftgun.tga", 20 ))
-	        printf("Unable To Load Map Texture\n");
+	if (!loadTGA("maps/aircraftgun.tga", 20))
+		printf("Unable To Load Map Texture\n");
 
-    if(!loadTGA( "maps/barrel.tga", 21 ))
-	        printf("Unable To Load Map Texture\n");
+	if (!loadTGA("maps/barrel.tga", 21))
+		printf("Unable To Load Map Texture\n");
 
-    if(!loadTGA( "maps/crate.tga", 22 ))
-	        printf("Unable To Load Map Texture\n");
+	if (!loadTGA("maps/crate.tga", 22))
+		printf("Unable To Load Map Texture\n");
 
-    if(!loadTGA( "maps/metal.tga", 23 ))
-	        printf("Unable To Load Map Texture\n");
+	if (!loadTGA("maps/metal.tga", 23))
+		printf("Unable To Load Map Texture\n");
 
-	if(!loadTGA("maps/font.tga",50))
+	if (!loadTGA("maps/font.tga", 50))
 		printf("ERROR LOADING ALPHA TEXTURE\n");
 
-	if( !loadTGA("maps/wall.tga",30 ))
+	if (!loadTGA("maps/wall.tga", 30))
 		printf("Ihave to check\n");
-	
+
 	//The Panel Textures
-	    //Panel Bot Texture For Hero
-	if( !loadTGA("maps/panel.tga", 62 ) )
+	//Panel Bot Texture For Hero
+	if (!loadTGA("maps/panel.tga", 62))
 		printf("Error loading Panel Texture\n");
-		
-    if( !loadTGA("maps/panelhero.tga", 65 ) )
-        printf("Error Loading Panel Texture\n");
-		
-    if( !loadTGA("maps/MutantManPanel.tga", 66 ) )
-        printf("Error Loading Panel Texture\n");
-		
-    if( !loadTGA("maps/CorpsePanel.tga", 67 ) )
-        printf("Error Loading Panel Texture\n");
-		
-    if( !loadTGA("maps/SkelPanel.tga", 68 ) )
-        printf("Error Loading Panel Texture\n");
 
-    if( !loadTGA("maps/MutantCheeta.tga", 69 ) )
-        printf("Error Loading Panel Texture\n");
+	if (!loadTGA("maps/panelhero.tga", 65))
+		printf("Error Loading Panel Texture\n");
 
-    if( !loadTGA("maps/MutantLizard.tga", 70 ) )
-        printf("Error Loading Panel Texture\n");
-														
-    if( !loadTGA("maps/Ripper.tga", 71 ) )
-        printf("Error Loading Panel Texture\n");
+	if (!loadTGA("maps/MutantManPanel.tga", 66))
+		printf("Error Loading Panel Texture\n");
 
-	fontInit( );
+	if (!loadTGA("maps/CorpsePanel.tga", 67))
+		printf("Error Loading Panel Texture\n");
+
+	if (!loadTGA("maps/SkelPanel.tga", 68))
+		printf("Error Loading Panel Texture\n");
+
+	if (!loadTGA("maps/MutantCheeta.tga", 69))
+		printf("Error Loading Panel Texture\n");
+
+	if (!loadTGA("maps/MutantLizard.tga", 70))
+		printf("Error Loading Panel Texture\n");
+
+	if (!loadTGA("maps/Ripper.tga", 71))
+		printf("Error Loading Panel Texture\n");
+
+	fontInit();
 }
 
-
-void setup_opengl_menu( int width, int height )
+void setup_opengl_menu(int width, int height)
 {
-	glViewport(0,0,width,height);
+	glViewport(0, 0, width, height);
 
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	gluOrtho2D( 0, 640, 0, 480 );	
+	gluOrtho2D(0, 640, 0, 480);
 
-	glMatrixMode(GL_MODELVIEW);						 // Select The Modelview Matrix
-	glLoadIdentity();	   // Reset The Modelview Matrix
+	glMatrixMode(GL_MODELVIEW);	// Select The Modelview Matrix
+	glLoadIdentity();	// Reset The Modelview Matrix
 
-	glClearColor(0,0,0,0);
+	glClearColor(0, 0, 0, 0);
 	glDisable(GL_DEPTH_TEST);
 
 }
 
-void setup_opengl_game( int width, int height )
+void setup_opengl_game(int width, int height)
 {
-	glViewport(0,0,width,height);
+	glViewport(0, 0, width, height);
 
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	glOrtho( -320, 320, -240, 240, -640, 640);
+	glOrtho(-320, 320, -240, 240, -640, 640);
 
-	glMatrixMode(GL_MODELVIEW);						 // Select The Modelview Matrix
-	glLoadIdentity();	   // Reset The Modelview Matrix
+	glMatrixMode(GL_MODELVIEW);	// Select The Modelview Matrix
+	glLoadIdentity();	// Reset The Modelview Matrix
 
 	//3D
 	glEnable(GL_DEPTH_TEST);
-	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
-	glClearColor(0,0,0,0);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glClearColor(0, 0, 0, 0);
 
-	/*{	   // ENABLING FOG
-	float fogColor[4] = {0.0, 0.0, 0.0, 1.0f};	// Let's make the Fog Color black too
+	/*{        // ENABLING FOG
+	   float fogColor[4] = {0.0, 0.0, 0.0, 1.0f};   // Let's make the Fog Color black too
 
-	glFogi(GL_FOG_MODE, GL_EXP2);			  // Set The Fog Mode
-	glFogfv(GL_FOG_COLOR, fogColor);			// Set The Fog Color
-	glFogf(GL_FOG_DENSITY, 0.003f);		   // Set How Dense Will The Fog Be
-	glHint(GL_FOG_HINT, GL_DONT_CARE);		// Set The Fog's calculation accuracy
-	//glHint(GL_FOG_HINT, GL_NICEST);		 // Set The Fog's calculation accuracy
-	glFogf(GL_FOG_START, -600);				// Set The Fog's Start Depth
-	glFogf(GL_FOG_END, 600);			// Set The Fog's End Depth
-	glEnable (GL_FOG);
-	}*/
-	
+	   glFogi(GL_FOG_MODE, GL_EXP2);                          // Set The Fog Mode
+	   glFogfv(GL_FOG_COLOR, fogColor);                     // Set The Fog Color
+	   glFogf(GL_FOG_DENSITY, 0.003f);                 // Set How Dense Will The Fog Be
+	   glHint(GL_FOG_HINT, GL_DONT_CARE);           // Set The Fog's calculation accuracy
+	   //glHint(GL_FOG_HINT, GL_NICEST);             // Set The Fog's calculation accuracy
+	   glFogf(GL_FOG_START, -600);                          // Set The Fog's Start Depth
+	   glFogf(GL_FOG_END, 600);                     // Set The Fog's End Depth
+	   glEnable (GL_FOG);
+	   } */
+
 }
 
 void Initialize(void)
@@ -214,165 +213,153 @@ void Initialize(void)
 	angle = 0;
 }
 
-void WorldCamUpdate( void )
+void WorldCamUpdate(void)
 {
-	if ( Bool_Cam_Rotate_WheelP )
-	{
+	if (Bool_Cam_Rotate_WheelP) {
 		angle += 0.09;
-		camera->Rotate( angle );
+		camera->Rotate(angle);
 		Bool_Cam_Rotate_WheelP = false;
 	}
-	if ( Bool_Cam_Rotate_WheelN )
-	{
+	if (Bool_Cam_Rotate_WheelN) {
 		angle -= 0.09;
-		camera->Rotate( angle );
+		camera->Rotate(angle);
 		Bool_Cam_Rotate_WheelN = false;
 	}
-	if ( Bool_Cam_RotateP )
-	{
+	if (Bool_Cam_RotateP) {
 		angle += 0.015;
-		camera->Rotate( angle );
+		camera->Rotate(angle);
 	}
-	if ( Bool_Cam_RotateN )
-	{
+	if (Bool_Cam_RotateN) {
 		angle -= 0.015;
-		camera->Rotate( angle );
+		camera->Rotate(angle);
 	}
-	if( Bool_Cam_MvyP || Bool_Mouse_HotAreaTop )
-	{
+	if (Bool_Cam_MvyP || Bool_Mouse_HotAreaTop) {
 		camera->MoveUp();
 	}
-	if( Bool_Cam_MvyN || Bool_Mouse_HotAreaBottom )
-	{
+	if (Bool_Cam_MvyN || Bool_Mouse_HotAreaBottom) {
 		camera->MoveDown();
 	}
-	if( Bool_Cam_MvxP || Bool_Mouse_HotAreaRight )
-	{
+	if (Bool_Cam_MvxP || Bool_Mouse_HotAreaRight) {
 		camera->MoveLeft();
 	}
-	if( Bool_Cam_MvxN || Bool_Mouse_HotAreaLeft )
-	{
+	if (Bool_Cam_MvxN || Bool_Mouse_HotAreaLeft) {
 		camera->MoveRight();
 	}
 }
 
-void newpickObjects( int x, int y)
+void newpickObjects(int x, int y)
 {
-	float newx,newy;	//newx newy are coordinates of clicked pt on map
+	float newx, newy;	//newx newy are coordinates of clicked pt on map
 
-	camera->ConvertCoordinates(x,y,newx,newy);
+	camera->ConvertCoordinates(x, y, newx, newy);
 
-	if(hero->mouseOverMe(newx,newy))
-	{
+	if (hero->mouseOverMe(newx, newy)) {
 		hero->selected = true;
 		PanelBotTexId = hero->PanelTexId;
-	}
-	else
-	{
+	} else {
 		hero->selected = false;
 	}
-		
-	for( int i = 0 ; i < num_guards ; i++ )
-	{
-		if(guard[i]->mouseOverMe(newx,newy))
-		{
+
+	for (int i = 0; i < num_guards; i++) {
+		if (guard[i]->mouseOverMe(newx, newy)) {
 			guard[i]->selected = true;
 			PanelBotTexId = guard[i]->PanelTexId;
-		}
-		else
-		{
+		} else {
 			guard[i]->selected = false;
 		}
-	}		
+	}
 }
 
 void block_convert(float &newx, float &newy, float x, float y)
 {
-	int tempx,tempy;
+	int tempx, tempy;
 
-	tempx = (int)((map->length/2.0+x)/map->blocksize);
-	tempy = (int)((map->breadth/2.0+y)/map->blocksize);
-	newx = -map->length/2.0+tempx*map->blocksize+map->blocksize/2.0;
-	newy = -map->breadth/2.0+tempy*map->blocksize+map->blocksize/2.0;
+	tempx = (int)((map->length / 2.0 + x) / map->blocksize);
+	tempy = (int)((map->breadth / 2.0 + y) / map->blocksize);
+	newx =
+	    -map->length / 2.0 + tempx * map->blocksize + map->blocksize / 2.0;
+	newy =
+	    -map->breadth / 2.0 + tempy * map->blocksize + map->blocksize / 2.0;
 }
 
-void process_events( void ){
+void process_events(void)
+{
 	/* Our SDL event placeholder. */
 
-	if( !hero->Alive )
-		Quit( 0 );
+	if (!hero->Alive)
+		Quit(0);
 
 	SDL_Event event;
-		/* Grab all the events off the queue. */
-	while( SDL_PollEvent( &event ) ) {
-		switch( event.type ) {
-			case SDL_KEYUP:
+	/* Grab all the events off the queue. */
+	while (SDL_PollEvent(&event)) {
+		switch (event.type) {
+		case SDL_KEYUP:
 			{
-				switch( event.key.keysym.sym ) {
-					case SDLK_UP:
+				switch (event.key.keysym.sym) {
+				case SDLK_UP:
 					{
 						Bool_Cam_MvyN = false;
 						break;
 					}
-					case SDLK_DOWN:
+				case SDLK_DOWN:
 					{
 						Bool_Cam_MvyP = false;
 						break;
 					}
-					case SDLK_LEFT:
+				case SDLK_LEFT:
 					{
 						Bool_Cam_MvxN = false;
 						break;
 					}
-					case SDLK_RIGHT:
+				case SDLK_RIGHT:
 					{
 						Bool_Cam_MvxP = false;
 						break;
 					}
-					case SDLK_SPACE:
+				case SDLK_SPACE:
 					{
 						break;
 					}
-					case SDLK_a:
+				case SDLK_a:
 					{
 						Bool_Cam_RotateP = false;
 						break;
 					}
-					case SDLK_d:
+				case SDLK_d:
 					{
 						Bool_Cam_RotateN = false;
 						break;
 					}
-					default:
-						break;
+				default:
+					break;
 
 				}
 				break;
 			}
-			case SDL_KEYDOWN:
+		case SDL_KEYDOWN:
 			{
-				switch( event.key.keysym.sym ) {
-					case SDLK_UP:
+				switch (event.key.keysym.sym) {
+				case SDLK_UP:
 					{
 						Bool_Cam_MvyN = true;
 						break;
 					}
-					case SDLK_DOWN:
+				case SDLK_DOWN:
 					{
 						Bool_Cam_MvyP = true;
 						break;
 					}
-					case SDLK_LEFT:
+				case SDLK_LEFT:
 					{
 						Bool_Cam_MvxN = true;
 						break;
 					}
-					case SDLK_RIGHT:
+				case SDLK_RIGHT:
 					{
 						Bool_Cam_MvxP = true;
 						break;
 					}
-					case SDLK_F2:
+				case SDLK_F2:
 					{
 						gameMenu = true;
 						gameMenuInit = true;
@@ -381,223 +368,255 @@ void process_events( void ){
 						gameOver = true;
 						break;
 					}
-					case SDLK_F1:
+				case SDLK_F1:
 					{
 						showHelp = !showHelp;
 						break;
 					}
-					case SDLK_a:
+				case SDLK_a:
 					{
 						Bool_Cam_RotateP = true;
 						break;
 					}
-					case SDLK_p:
+				case SDLK_p:
 					{
-						gamePaused = !gamePaused;			
+						gamePaused = !gamePaused;
 						break;
 					}
-					case SDLK_m:
+				case SDLK_m:
 					{
-						show_minimap = !show_minimap;			
+						show_minimap = !show_minimap;
 						break;
 					}
-					case SDLK_d:
+				case SDLK_d:
 					{
 						Bool_Cam_RotateN = true;
 						break;
 					}
-					case SDLK_g:
+				case SDLK_g:
 					{
-						if(hero->selected)
-							hero->gunselected = !hero->gunselected;
+						if (hero->selected)
+							hero->gunselected =
+							    !hero->gunselected;
 						break;
 					}
-					case SDLK_h:
+				case SDLK_h:
 					{
 						hero->selected = true;
 						break;
 					}
-					case SDLK_b:
+				case SDLK_b:
 					{
-						if( hero->curx <= -580 && hero->cury <= -640)
+						if (hero->curx <= -580
+						    && hero->cury <= -640)
 							gameOver = true;
 						break;
 					}
-					case SDLK_s:
+				case SDLK_s:
 					{
 						break;
 					}
-					case SDLK_q:
+				case SDLK_q:
 					{
 						Quit(0);
 						break;
 					}
-					case SDLK_ESCAPE:
+				case SDLK_ESCAPE:
 					{
 						hero->selected = false;
 						break;
 					}
-					case SDLK_l:
+				case SDLK_l:
 					{
 						display_lines = !display_lines;
 						break;
 					}
-					case SDLK_SPACE:
+				case SDLK_SPACE:
 					{
-						if(hero->selected)
-						{
-						    camera->pointx = camera->initx = hero->curx;
-						    camera->pointz = camera->initz = hero->cury;
-						
-						    camera->camx = camera->distance * sin(angle) + camera->initx;
-							camera->camz = camera->distance * cos(angle) + camera->initz;
+						if (hero->selected) {
+							camera->pointx =
+							    camera->initx =
+							    hero->curx;
+							camera->pointz =
+							    camera->initz =
+							    hero->cury;
+
+							camera->camx =
+							    camera->distance *
+							    sin(angle) +
+							    camera->initx;
+							camera->camz =
+							    camera->distance *
+							    cos(angle) +
+							    camera->initz;
 						}
 						break;
 					}
-					default:
-						break;
-				 }
+				default:
+					break;
+				}
 				break;
 			}
-		
-			case SDL_MOUSEMOTION:
+
+		case SDL_MOUSEMOTION:
 			{
-				//printf("<%d,%d>\n", event.button.x, event.button.y );	
-				if( event.button.x > 630 )
+				//printf("<%d,%d>\n", event.button.x, event.button.y ); 
+				if (event.button.x > 630)
 					Bool_Mouse_HotAreaRight = true;
 				else
 					Bool_Mouse_HotAreaRight = false;
 
-				if( event.button.x < 10 )
+				if (event.button.x < 10)
 					Bool_Mouse_HotAreaLeft = true;
 				else
 					Bool_Mouse_HotAreaLeft = false;
 
-				if( event.button.y > 470 )
+				if (event.button.y > 470)
 					Bool_Mouse_HotAreaTop = true;
 				else
 					Bool_Mouse_HotAreaTop = false;
 
-				if( event.button.y < 10 )
+				if (event.button.y < 10)
 					Bool_Mouse_HotAreaBottom = true;
 				else
 					Bool_Mouse_HotAreaBottom = false;
-				
+
 				break;
 			}
-		   case SDL_MOUSEBUTTONDOWN:
-		   {
-			   if( event.button.button == SDL_BUTTON_LEFT )
-			   {
-			   		float nx,ny;
-					if( minimap->isMouseOver((int)event.button.x,(int)event.button.y , nx , ny ) )
-					{
-//						printf("NEWX = %f NEWY = %f\n",nx,ny);
-						camera->ScrollOver( nx * minimap->xconvfactor, ny * minimap->yconvfactor );
+		case SDL_MOUSEBUTTONDOWN:
+			{
+				if (event.button.button == SDL_BUTTON_LEFT) {
+					float nx, ny;
+					if (minimap->isMouseOver
+					    ((int)event.button.x,
+					     (int)event.button.y, nx, ny)) {
+//                                              printf("NEWX = %f NEWY = %f\n",nx,ny);
+						camera->ScrollOver(nx *
+								   minimap->xconvfactor,
+								   ny *
+								   minimap->yconvfactor);
+					} else {
+						newpickObjects((int)
+							       event.button.x,
+							       (int)
+							       event.button.y);
 					}
-					else
-					{
-						newpickObjects((int)event.button.x,(int)event.button.y);
-					}
-			   
-			   }
-			   if( event.button.button == SDL_BUTTON_RIGHT )
-			   {
-			   		float nx,ny,px,py;
-					if( minimap->isMouseOver((int)event.button.x,(int)event.button.y , nx , ny ) )
-					{
-						float fx,fy;
+
+				}
+				if (event.button.button == SDL_BUTTON_RIGHT) {
+					float nx, ny, px, py;
+					if (minimap->isMouseOver
+					    ((int)event.button.x,
+					     (int)event.button.y, nx, ny)) {
+						float fx, fy;
 
 						px = nx * minimap->xconvfactor;
 						py = ny * minimap->yconvfactor;
 
-						block_convert(fx,fy,px,py);
-						hero->Run( fx , fy , px , py );
-					}
-					else
-					{
+						block_convert(fx, fy, px, py);
+						hero->Run(fx, fy, px, py);
+					} else {
 
-					   	float x3,y3;
-						camera->ConvertCoordinates( (int)event.button.x, (int)event.button.y , x3 , y3 );
-			
-						if( hero->selected )
-						{
+						float x3, y3;
+						camera->ConvertCoordinates((int)
+									   event.button.x, (int)
+									   event.button.y, x3, y3);
+
+						if (hero->selected) {
 							float flag = true;
-							for( int i = 0 ; i < num_guards ; i++ )
-	   						{
-						   		if(guard[i]->Alive && (guard[i]->mouseOverMe(x3,y3))&&(guard[i]->inRange(hero->curx,hero->cury,hero->facingAngle)))
+							for (int i = 0;
+							     i < num_guards;
+							     i++) {
+								if (guard
+								    [i]->Alive
+								    &&
+								    (guard
+								     [i]->mouseOverMe
+								     (x3, y3))
+								    &&
+								    (guard[i]->
+								     inRange
+								     (hero->curx,
+								      hero->cury,
+								      hero->facingAngle)))
 								{
-									if( guard[i]->status != DEAD )
-									{
-										soundSystem->Play( SOUNDTYPE_SHOOT );
-										hero->Attack( );
-										guard[i]->Death();
-										printf("GUARD DESTROYED %d\n",i);
+									if (guard[i]->status != DEAD) {
+										soundSystem->Play
+										    (SOUNDTYPE_SHOOT);
+										hero->Attack
+										    ();
+										guard
+										    [i]->Death
+										    ();
+										printf
+										    ("GUARD DESTROYED %d\n",
+										     i);
 									}
-									flag = false;
+									flag =
+									    false;
 									break;
 								}
-					//   		if(guard[i]->Alive && (guard[i]->mouseOverMe(x3,y3))&&(!guard[i]->inRange(hero->curx,hero->cury,hero->facingAngle)))
-					//		{
-					//			flag = false;
-					//		}
+								//              if(guard[i]->Alive && (guard[i]->mouseOverMe(x3,y3))&&(!guard[i]->inRange(hero->curx,hero->cury,hero->facingAngle)))
+								//              {
+								//                      flag = false;
+								//              }
 							}
-							if(flag)
-							{
-								float fx,fy;
-	
-								block_convert(fx,fy,x3,y3);
-			
-								hero->Run( fx , fy , x3 , y3 );
+							if (flag) {
+								float fx, fy;
+
+								block_convert
+								    (fx, fy, x3,
+								     y3);
+
+								hero->Run(fx,
+									  fy,
+									  x3,
+									  y3);
 							}
 						}
-		   
-					}
-			   }
-			   if( event.button.button == SDL_BUTTON_WHEELUP )
-			   {
-			   	Bool_Cam_Rotate_WheelP = true;
-			   }
-			   if( event.button.button == SDL_BUTTON_WHEELDOWN )
-			   {
-			   	Bool_Cam_Rotate_WheelN = true;
-			   }
-			   break;
-		   }
 
-		   case SDL_QUIT:
-		   {
-		   /* Handle quit requests (like Ctrl-c). */
-		   		Quit( 0 );
+					}
+				}
+				if (event.button.button == SDL_BUTTON_WHEELUP) {
+					Bool_Cam_Rotate_WheelP = true;
+				}
+				if (event.button.button == SDL_BUTTON_WHEELDOWN) {
+					Bool_Cam_Rotate_WheelN = true;
+				}
 				break;
-		   }
+			}
+
+		case SDL_QUIT:
+			{
+				/* Handle quit requests (like Ctrl-c). */
+				Quit(0);
+				break;
+			}
 		}
 	}
 	WorldCamUpdate();
 }
 
-void drawObjects( GLenum mode )
+void drawObjects(GLenum mode)
 {
-    float farthestdist = 2 * (320 *320 + 240 *240);
+	float farthestdist = 2 * (320 * 320 + 240 * 240);
 
-	glColor3f( 1.0, 1.0, 1.0 );
+	glColor3f(1.0, 1.0, 1.0);
 
-	if( (hero->curx - camera->initx)*(hero->curx - camera->initx) +
-	(hero->cury - camera->initz)*(hero->cury - camera->initz) <= farthestdist )
-	{
-		hero->Render( );
+	if ((hero->curx - camera->initx) * (hero->curx - camera->initx) +
+	    (hero->cury - camera->initz) * (hero->cury - camera->initz) <=
+	    farthestdist) {
+		hero->Render();
 	}
-	for( int i = 0 ; i < num_guards ; i++ )
-	{
-		if( guard[i]->selected )
-		{
+	for (int i = 0; i < num_guards; i++) {
+		if (guard[i]->selected) {
 			guard[i]->Render();
-		}
-		else
-		{
-			if( (guard[i]->curx - camera->initx)*(guard[i]->curx - camera->initx) +
-				(guard[i]->cury - camera->initz)*(guard[i]->cury - camera->initz) <= farthestdist )
-			{
+		} else {
+			if ((guard[i]->curx - camera->initx) * (guard[i]->curx -
+								camera->initx) +
+			    (guard[i]->cury - camera->initz) * (guard[i]->cury -
+								camera->initz)
+			    <= farthestdist) {
 				guard[i]->Render();
 			}
 		}
@@ -607,36 +626,35 @@ void drawObjects( GLenum mode )
 int fpscounter = 0;
 unsigned long int tmptime = 0;
 
-void render( void )
+void render(void)
 {
 	fpscounter++;
 	int gap = time(NULL) - tmptime;
-	if( gap )
-	{
+	if (gap) {
 		tmptime += gap;
-//		printf("FPS = %f\n",((float)fpscounter)/(float)gap );
+//              printf("FPS = %f\n",((float)fpscounter)/(float)gap );
 		fpscounter = 0;
 	}
-											
-	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	glOrtho( -320, 320, -240, 240, -640, 640);
-	glMatrixMode(GL_MODELVIEW);						 // Select The Modelview Matrix
-	glLoadIdentity();								   // Reset The Modelview Matrix
+	glOrtho(-320, 320, -240, 240, -640, 640);
+	glMatrixMode(GL_MODELVIEW);	// Select The Modelview Matrix
+	glLoadIdentity();	// Reset The Modelview Matrix
 
-	camera->Update( );
-	
+	camera->Update();
+
 	//Terrain
-		map->Render();
-		//printf("MAP CENTER: %f %f\n",camera->pointx,camera->pointz);
-	
-		drawObjects( GL_RENDER );
-		
-		if( show_minimap )
-			panel->Render( );
+	map->Render();
+	//printf("MAP CENTER: %f %f\n",camera->pointx,camera->pointz);
 
-	SDL_GL_SwapBuffers( );
+	drawObjects(GL_RENDER);
+
+	if (show_minimap)
+		panel->Render();
+
+	SDL_GL_SwapBuffers();
 }
 
 int main(void)
@@ -644,159 +662,152 @@ int main(void)
 	int width = 640;
 	int height = 480;
 	int VideoFlags = 0;
-	SDL_Surface * MainWindow;
+	SDL_Surface *MainWindow;
 
-//	atexit( SDL_Quit );
+//      atexit( SDL_Quit );
 
-//	signal( SIGSEGV , SIGSEGV_HANDLER );
+//      signal( SIGSEGV , SIGSEGV_HANDLER );
 
-	
-	if( SDL_Init( SDL_INIT_VIDEO|SDL_INIT_TIMER ) < 0 )	   // try to initialize SDL video module
+	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER) < 0)	// try to initialize SDL video module
 	{
-		printf("SDL ERROR:%s\n",SDL_GetError());	 // report error if it fails
+		printf("SDL ERROR:%s\n", SDL_GetError());	// report error if it fails
 		Quit(0);
 	}
 
-	const SDL_VideoInfo * VideoInfo = SDL_GetVideoInfo();	 // query SDL for information about our video hardware
+	const SDL_VideoInfo *VideoInfo = SDL_GetVideoInfo();	// query SDL for information about our video hardware
 
-	if(VideoInfo == NULL)								// if this query fails
+	if (VideoInfo == NULL)	// if this query fails
 	{
-		printf("Failed getting Video Info : %s\n",SDL_GetError());	// report error
+		printf("Failed getting Video Info : %s\n", SDL_GetError());	// report error
 		Quit(0);
 	}
-	
-	SDL_GL_SetAttribute( SDL_GL_DOUBLEBUFFER, 1 );	  // tell SDL that the GL drawing is going to be double buffered
 
-	VideoFlags =  SDL_OPENGL;
+	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);	// tell SDL that the GL drawing is going to be double buffered
 
-	MainWindow = SDL_SetVideoMode(640, 480, 16, SDL_FULLSCREEN | SDL_OPENGL | SDL_HWPALETTE );
-//	MainWindow = SDL_SetVideoMode(640, 480, 16, SDL_RESIZABLE | SDL_OPENGL | SDL_HWPALETTE );
+	VideoFlags = SDL_OPENGL;
 
-	if( MainWindow == NULL )							// if window creation failed
+	MainWindow =
+	    SDL_SetVideoMode(640, 480, 16,
+			     SDL_FULLSCREEN | SDL_OPENGL | SDL_HWPALETTE);
+//      MainWindow = SDL_SetVideoMode(640, 480, 16, SDL_RESIZABLE | SDL_OPENGL | SDL_HWPALETTE );
+
+	if (MainWindow == NULL)	// if window creation failed
 	{
-		printf("Failed to Create Window : %s\n",SDL_GetError());		 // report error
+		printf("Failed to Create Window : %s\n", SDL_GetError());	// report error
 		Quit(0);
 	}
 	SDL_WM_SetCaption("SDL Rendering", "SDL Rendering.");
 	//SDL_ShowCursor( SDL_DISABLE );
-	
+
 	//cursor kelking...
-	cursors[0] = init_system_cursor( arrow );
-	SDL_SetCursor( cursors[0]);
+	cursors[0] = init_system_cursor(arrow);
+	SDL_SetCursor(cursors[0]);
 
 	LoadTextures();
-	
+
 	soundSystem = new SoundSystem();
 	soundSystem->Initialize();
-	
+
 	Menu *menu = new Menu();
 	menu->Initialize();
 
 	//HERO
 	//hero = new Hero( -860 , 780 , 270 , 1);
-	hero = new Hero( 660 , 550 , 270 , 1);
+	hero = new Hero(660, 550, 270, 1);
 
 	// CAMERA
 	camera = new Camera;
 
 	//PANEL
-	panel = new Panel( 62 );
-	
+	panel = new Panel(62);
+
 	//MAP
 	map = new Map;
-	map->LoadFile();//only once
-	
+	map->LoadFile();	//only once
+
 	//MINIMAP
 	minimap = new MiniMap();
 	PanelBotTexId = 65;
 
-	SDL_SetTimer( TIME_INTERVAL , TimerCallback );
+	SDL_SetTimer(TIME_INTERVAL, TimerCallback);
 
-	while(1)
-	{
-		if(gameMenu)
-		{
-			if(gameMenuInit)
-			{
+	while (1) {
+		if (gameMenu) {
+			if (gameMenuInit) {
 				setup_opengl_menu(width, height);
 				gameOver = false;
 				gameMenuInit = false;
 				menu->Initialize();
-				soundSystem->Play( SOUNDTYPE_MENU );
+				soundSystem->Play(SOUNDTYPE_MENU);
+			} else {
+				menu->Render();
+				menu->MenuProcessEvents();
 			}
-			else
-			{
-	            menu->Render();
-				menu->MenuProcessEvents();					
-			}
-		}
-		else
-		{
-			if(gameInit)
-			{
+		} else {
+			if (gameInit) {
 				setup_opengl_game(width, height);
 				Initialize();
-				hero->Initialize( -780 , 780 , 270 , 1 );
-//				hero->Initialize( 260 , -550 , 270 , 1);
+				hero->Initialize(-780, 780, 270, 1);
+//                              hero->Initialize( 260 , -550 , 270 , 1);
 				camera->Initialize();
 				map->Initialize();
 				gameInit = false;
-                soundSystem->Play( SOUNDTYPE_BACKGROUND );
-			}
-			else
-			{
+				soundSystem->Play(SOUNDTYPE_BACKGROUND);
+			} else {
 				render();
 				process_events();
 			}
 		}
 	}
-	
+
 	return 0;
 }
 
-Uint32 TimerCallback( unsigned int )
+Uint32 TimerCallback(unsigned int)
 {
-	if(!gameMenu)
-	{
-		if(!gameOver)
-		{
-			if(!gamePaused)
-			{
+	if (!gameMenu) {
+		if (!gameOver) {
+			if (!gamePaused) {
 				hero->NextMove();
-				for( int i = 0 ; i < num_guards ; i++ )
-				{
+				for (int i = 0; i < num_guards; i++) {
 					guard[i]->NextMove();
 				}
-				for( int i = 0 ; i < num_guards ; i++ )
-				{
-        	        if(guard[i]->Alive && (guard[i]->mouseOverMe(hero->destx,hero->desty))&&(guard[i]->inRange(hero->curx,hero->cury,hero->facingAngle)))
-            	    {
-                	    if( guard[i]->status != DEAD )
-                    	{
-							soundSystem->Play( SOUNDTYPE_SHOOT );
-		                      hero->Attack( );
-	    	                  guard[i]->Death();
-	        	              printf("GUARD DESTROYED %d\n",i);
+				for (int i = 0; i < num_guards; i++) {
+					if (guard[i]->Alive
+					    &&
+					    (guard[i]->mouseOverMe
+					     (hero->destx, hero->desty))
+					    && (guard[i]->
+						inRange(hero->curx, hero->cury,
+							hero->facingAngle))) {
+						if (guard[i]->status != DEAD) {
+							soundSystem->Play
+							    (SOUNDTYPE_SHOOT);
+							hero->Attack();
+							guard[i]->Death();
+							printf
+							    ("GUARD DESTROYED %d\n",
+							     i);
 						}
 					}
-					if(guard[i]->Alive && guard[i]->checkIntruder(hero->curx,hero->cury))
-					{
-						soundSystem->Play( SOUNDTYPE_ALARM );
+					if (guard[i]->Alive &&
+					    guard[i]->checkIntruder(hero->curx,
+								    hero->
+								    cury)) {
+						soundSystem->
+						    Play(SOUNDTYPE_ALARM);
 						guard[i]->showbeam = true;
 						//hero->status = HERO_DEAD;
 						//hero->Death( );
 						hero->Stand();
 						gameOver = true;
 					}
-				}	
+				}
 			}
-		}
-		else
-		{
+		} else {
 			//rotating camera
-			Bool_Cam_RotateP = true;	
-		}	
+			Bool_Cam_RotateP = true;
+		}
 	}
-	return 1;	
+	return 1;
 }
-

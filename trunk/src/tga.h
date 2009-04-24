@@ -6,8 +6,8 @@
 	Date	: 05/05/1999
 	Author	: Nate Miller
 	Contact	: vandals1@home.com
-*/
-
+*/  
+    
 // Error Codes
 // file was not found
 #define TGA_FILE_NOT_FOUND			13
@@ -19,6 +19,7 @@
 #define TGA_BAD_BITS				16
 // image data could not be loaded
 #define TGA_BAD_DATA				17
-
+    
 // id is the texture id to bind too
-int loadTGA (char *name, int id);
+int loadTGA(char *name, int id);
+
