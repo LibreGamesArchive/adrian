@@ -25,6 +25,8 @@ int height = 480;
 
 bool Bool_Cam_RotateP = false;
 bool Bool_Cam_RotateN = false;
+bool Bool_Cam_Rotate_WheelP = false;
+bool Bool_Cam_Rotate_WheelN = false;
 bool Bool_Cam_MvyP = false;
 bool Bool_Cam_MvyN = false;
 bool Bool_Cam_MvxP = false;
@@ -193,6 +195,9 @@ void Initialize(void)
 
 	Bool_Cam_RotateP = false;
 	Bool_Cam_RotateN = false;
+	Bool_Cam_Rotate_WheelP = false;
+	Bool_Cam_Rotate_WheelN = false;
+
 	Bool_Cam_MvyP = false;
 	Bool_Cam_MvyN = false;
 	Bool_Cam_MvxP = false;
@@ -211,6 +216,18 @@ void Initialize(void)
 
 void WorldCamUpdate( void )
 {
+	if ( Bool_Cam_Rotate_WheelP )
+	{
+		angle += 0.09;
+		camera->Rotate( angle );
+		Bool_Cam_Rotate_WheelP = false;
+	}
+	if ( Bool_Cam_Rotate_WheelN )
+	{
+		angle -= 0.09;
+		camera->Rotate( angle );
+		Bool_Cam_Rotate_WheelN = false;
+	}
 	if ( Bool_Cam_RotateP )
 	{
 		angle += 0.015;
@@ -537,6 +554,14 @@ void process_events( void ){
 		   
 					}
 			   }
+			   if( event.button.button == SDL_BUTTON_WHEELUP )
+			   {
+			   	Bool_Cam_Rotate_WheelP = true;
+			   }
+			   if( event.button.button == SDL_BUTTON_WHEELDOWN )
+			   {
+			   	Bool_Cam_Rotate_WheelN = true;
+			   }
 			   break;
 		   }
 
@@ -752,8 +777,8 @@ Uint32 TimerCallback( unsigned int )
 		                      hero->Attack( );
 	    	                  guard[i]->Death();
 	        	              printf("GUARD DESTROYED %d\n",i);
-																												                        }
-																													                }
+						}
+					}
 					if(guard[i]->Alive && guard[i]->checkIntruder(hero->curx,hero->cury))
 					{
 						soundSystem->Play( SOUNDTYPE_ALARM );
