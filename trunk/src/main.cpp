@@ -632,7 +632,8 @@ void drawObjects(GLenum mode)
 
 void render(void)
 {
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	/* Just clear the depth buffer, color is overwritten anyway */
+	glClear(GL_DEPTH_BUFFER_BIT);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	glOrtho(-320, 320, -240, 240, -640, 640);
