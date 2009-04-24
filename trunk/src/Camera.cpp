@@ -1,5 +1,6 @@
 #include "Camera.h"
 #include "globals.h"
+#include "config.h"
 
 Camera::Camera(void)
 {
@@ -14,14 +15,7 @@ void Camera::Initialize(void)
 {
 	distance = 50;
 	height = 30;
-	angle = 30;
-
-//	angle = 0;
-//	camx = 0;
-	camy = height;
-//	camz = distance;
-	camx = distance * sin(angle) + initx;
-	camz = distance * cos(angle) + initz;
+	angle = START_ANGLE;
 
 	pointx = 0;
 	pointy = 0;
@@ -33,10 +27,12 @@ void Camera::Initialize(void)
 
 	initx = hero->curx;
 	initz = hero->cury;
+	
+	camy = height;
+	camx = distance * sin(angle) + initx;
+	camz = distance * cos(angle) + initz;
 
 	yfactor = -sqrt(1 + (distance * distance) / (height * height));
-
-
 
 	Move();
 }
