@@ -130,7 +130,7 @@ void drawfontString(const char *string, float x, float y, float font_width,
 
 	/* Convert coordinates from fixed 100 points to resolution scale */
 	x = SCR2RESX(x);
-	y = SCR2RESX(y);
+	y = SCR2RESY(y);
 
 	glEnable(GL_ALPHA_TEST);
 	glEnable(GL_BLEND);

@@ -468,7 +468,7 @@ void process_events(void)
 		case SDL_MOUSEMOTION:
 			{
 				//printf("<%d,%d>\n", event.button.x, event.button.y ); 
-				if (event.button.x > 630)
+				if (event.button.x > hres - 10)
 					Bool_Mouse_HotAreaRight = true;
 				else
 					Bool_Mouse_HotAreaRight = false;
@@ -478,7 +478,7 @@ void process_events(void)
 				else
 					Bool_Mouse_HotAreaLeft = false;
 
-				if (event.button.y > 470)
+				if (event.button.y > vres - 10)
 					Bool_Mouse_HotAreaTop = true;
 				else
 					Bool_Mouse_HotAreaTop = false;
