@@ -128,6 +128,10 @@ void drawfontString(const char *string, float x, float y, float font_width,
 	int limit;
 	const unsigned char *str = (const unsigned char *)string;
 
+	/* Convert coordinates from fixed 100 points to resolution scale */
+	x = SCR2RESX(x);
+	y = SCR2RESX(y);
+
 	glEnable(GL_ALPHA_TEST);
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);

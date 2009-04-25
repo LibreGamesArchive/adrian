@@ -34,17 +34,17 @@ void Menu::MenuProcessEvents(void)
 		}
 		if (event.type == SDL_MOUSEBUTTONDOWN)
 			if (event.button.button == SDL_BUTTON_LEFT) {
-				if ((event.button.x > 220
-				     && event.button.x < 420)
-				    && ((480 - event.button.y) > 260
-					&& (480 - event.button.y) < 330)) {
+				if ((event.button.x > SCR2RESX(220)
+				     && event.button.x < SCR2RESX(420))
+				    && ((vres - event.button.y) > SCR2RESY(260)
+					&& (vres - event.button.y) < SCR2RESY(330))) {
 					start = true;
 					displaymenu = false;
 				}
-				if ((event.button.x > 220
-				     && event.button.x < 420)
-				    && ((480 - event.button.y) > 150
-					&& (480 - event.button.y) < 220)) {
+				if ((event.button.x > SCR2RESX(220)
+				     && event.button.x < SCR2RESX(420))
+				    && ((vres - event.button.y) > SCR2RESY(150)
+					&& (vres - event.button.y) < SCR2RESY(220))) {
 					Quit();
 				}
 			}
@@ -69,24 +69,24 @@ void Menu::Render()
 
 		glBegin(GL_POLYGON);
 		glTexCoord2f(0.0, 1.0);
-		glVertex2f(220, 330);
+		glVertex2f(SCR2RESX(220), SCR2RESY(330));
 		glTexCoord2f(1.0, 1.0);
-		glVertex2f(420, 330);
+		glVertex2f(SCR2RESX(420), SCR2RESY(330));
 		glTexCoord2f(1.0, 0.5);
-		glVertex2f(420, 260);
+		glVertex2f(SCR2RESX(420), SCR2RESY(260));
 		glTexCoord2f(0.0, 0.5);
-		glVertex2f(220, 260);
+		glVertex2f(SCR2RESX(220), SCR2RESY(260));
 		glEnd();
 
 		glBegin(GL_POLYGON);
 		glTexCoord2f(0.0, 0.5);
-		glVertex2f(220, 220);
+		glVertex2f(SCR2RESX(220), SCR2RESY(220));
 		glTexCoord2f(1.0, 0.5);
-		glVertex2f(420, 220);
+		glVertex2f(SCR2RESX(420), SCR2RESY(220));
 		glTexCoord2f(1.0, 0.0);
-		glVertex2f(420, 150);
+		glVertex2f(SCR2RESX(420), SCR2RESY(150));
 		glTexCoord2f(0.0, 0.0);
-		glVertex2f(220, 150);
+		glVertex2f(SCR2RESX(220), SCR2RESY(150));
 		glEnd();
 
 	} else if (start) {

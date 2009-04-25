@@ -28,3 +28,7 @@ bool gamePaused = false;
 bool gameOver = true;
 int PanelBotTexId = 0;
 bool showHelp = false;
+
+int hres = 640;
+int vres = 480;
+

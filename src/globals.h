@@ -30,9 +30,15 @@ extern bool gamePaused;
 extern bool gameOver;
 extern bool showHelp;
 
+extern int hres;
+extern int vres;
+
 extern int PanelBotTexId;
 
 //cursors
 extern SDL_Cursor *cursors[4];
+
+#define		SCR2RESX(x)		((x)/640.0 * (hres))
+#define		SCR2RESY(y)		((y)/480.0 * (vres))
 
 #endif				/*      __GAME_GLOBALS_H__      */

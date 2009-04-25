@@ -64,7 +64,7 @@ void Camera::Move(void)
 void Camera::MoveUp(void)
 {
 	float tmpx, tmpy;
-	ConvertCoordinates(320, 240, tmpx, tmpy);
+	ConvertCoordinates((hres/2.0), (vres/2.0), tmpx, tmpy);
 	if (tmpy > map->breadth / 2)
 		return;
 
@@ -76,7 +76,7 @@ void Camera::MoveUp(void)
 void Camera::MoveDown(void)
 {
 	float tmpx, tmpy;
-	ConvertCoordinates(320, 240, tmpx, tmpy);
+	ConvertCoordinates((hres/2.0), (vres/2.0), tmpx, tmpy);
 	if (tmpy < -map->breadth / 2)
 		return;
 
@@ -88,7 +88,7 @@ void Camera::MoveDown(void)
 void Camera::MoveLeft(void)
 {
 	float tmpx, tmpy;
-	ConvertCoordinates(320, 240, tmpx, tmpy);
+	ConvertCoordinates((hres/2.0), (vres/2.0), tmpx, tmpy);
 	if (tmpx > map->length / 2)
 		return;
 
@@ -100,7 +100,7 @@ void Camera::MoveLeft(void)
 void Camera::MoveRight(void)
 {
 	float tmpx, tmpy;
-	ConvertCoordinates(320, 240, tmpx, tmpy);
+	ConvertCoordinates((hres/2.0), (vres/2.0), tmpx, tmpy);
 	if (tmpx < -map->length / 2)
 		return;
 
@@ -124,8 +124,8 @@ void Camera::Zoom(float d)
 
 int Camera::ConvertCoordinates(int x, int y, float &x3, float &y3)
 {
-	float newx = x - 320;
-	float newy = yfactor * (240 - y);
+	float newx = x - (hres/2.0);
+	float newy = yfactor * ((vres/2.0) - y);
 
 	x3 = newx * cos(angle) + newy * sin(angle);
 	y3 = newy * cos(angle) - newx * sin(angle);
