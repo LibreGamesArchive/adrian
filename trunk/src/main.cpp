@@ -21,8 +21,8 @@ extern Uint32 TimerCallback(unsigned int);
 
 extern SDL_Cursor *init_system_cursor(const char *image[]);
 
-int width = 640;
-int height = 480;
+int width = hres;
+int height = vres;
 
 bool Bool_Cam_RotateP = false;
 bool Bool_Cam_RotateN = false;
@@ -149,7 +149,7 @@ void setup_opengl_menu(int width, int height)
 
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	gluOrtho2D(0, 640, 0, 480);
+	gluOrtho2D(0, hres, 0, vres);
 
 	glMatrixMode(GL_MODELVIEW);	// Select The Modelview Matrix
 	glLoadIdentity();	// Reset The Modelview Matrix
@@ -165,7 +165,7 @@ void setup_opengl_game(int width, int height)
 
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	glOrtho(-320, 320, -240, 240, -640, 640);
+	glOrtho(-(hres/2.0), (hres/2.0), -(vres/2.0), (vres/2.0), -hres, hres);
 
 	glMatrixMode(GL_MODELVIEW);	// Select The Modelview Matrix
 	glLoadIdentity();	// Reset The Modelview Matrix
@@ -415,7 +415,7 @@ void process_events(void)
 				case SDLK_b:
 					{
 						if (hero->curx <= -580
-						    && hero->cury <= -640)
+						    && hero->cury <= -hres)
 							gameOver = true;
 						break;
 					}
@@ -606,7 +606,7 @@ void process_events(void)
 
 void drawObjects(GLenum mode)
 {
-	float farthestdist = 2 * (320 * 320 + 240 * 240);
+	float farthestdist = 2 * ((hres/2.0) * (hres/2.0) + (vres/2.0) * (vres/2.0));
 
 	glColor3f(1.0, 1.0, 1.0);
 
@@ -636,7 +636,7 @@ void render(void)
 	glClear(GL_DEPTH_BUFFER_BIT);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	glOrtho(-320, 320, -240, 240, -640, 640);
+	glOrtho(-(hres/2.0), (hres/2.0), -(vres/2.0), (vres/2.0), -hres, hres);
 	glMatrixMode(GL_MODELVIEW);	// Select The Modelview Matrix
 	glLoadIdentity();	// Reset The Modelview Matrix
 
@@ -656,8 +656,8 @@ void render(void)
 
 int main(void)
 {
-	int width = 640;
-	int height = 480;
+	int width = hres;
+	int height = vres;
 	int VideoFlags = 0;
 	SDL_Surface *MainWindow;
 
@@ -684,9 +684,9 @@ int main(void)
 	VideoFlags = SDL_OPENGL;
 
 	MainWindow =
-	    SDL_SetVideoMode(640, 480, 16,
+	    SDL_SetVideoMode(hres, vres, 16,
 			     SDL_FULLSCREEN | SDL_OPENGL | SDL_HWPALETTE);
-//      MainWindow = SDL_SetVideoMode(640, 480, 16, SDL_RESIZABLE | SDL_OPENGL | SDL_HWPALETTE );
+//      MainWindow = SDL_SetVideoMode(hres, vres, 16, SDL_RESIZABLE | SDL_OPENGL | SDL_HWPALETTE );
 
 	if (MainWindow == NULL)	// if window creation failed
 	{

@@ -3,8 +3,8 @@
 
 MiniMap::MiniMap()
 {
-	xconvfactor = map->length / 100;
-	yconvfactor = map->breadth / 100;
+	xconvfactor = map->length / SCR2RESX(100);
+	yconvfactor = map->breadth / SCR2RESY(100);
 
 	GenerateDisplayLists();
 }
@@ -63,7 +63,7 @@ void MiniMap::Render(void)
 {
 	glPushMatrix();
 
-	glTranslatef(565, 75, 0);
+	glTranslatef(SCR2RESX(565), SCR2RESX(75), 0);
 	glRotatef(camera->angle * 180.0 / 3.141, 0, 0, -1);
 
 	glCallList(mapbuildings);
@@ -86,7 +86,7 @@ void MiniMap::Render(void)
 		     -((camera->initz)) / yconvfactor, 0);
 	glRotatef(camera->angle * 180.0 / 3.141, 0, 0, 1);
 	float x, y;
-	camera->ConvertCoordinates(320, 240, x, y);
+	camera->ConvertCoordinates((hres/2.0), (vres/2.0), x, y);
 	glColor3f(1, 1, 1);
 	float hm = 21.33;
 	glLineWidth(1);

@@ -20,7 +20,7 @@ void Panel::Render()
 	glPushMatrix();
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	gluOrtho2D(0, 640, 0, 480);
+	gluOrtho2D(0, hres, 0, vres);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 
@@ -29,13 +29,13 @@ void Panel::Render()
 	glBindTexture(GL_TEXTURE_2D, textureId);
 	glBegin(GL_POLYGON);
 	glTexCoord2f(0, 0);
-	glVertex2f(0, 0);
+	glVertex2f(SCR2RESX(0), SCR2RESY(0));
 	glTexCoord2f(10, 0);
-	glVertex2f(640, 0);
+	glVertex2f(SCR2RESX(640), SCR2RESY(0));
 	glTexCoord2f(10, 1);
-	glVertex2f(640, 50);
+	glVertex2f(SCR2RESX(640), SCR2RESY(50));
 	glTexCoord2f(0, 1);
-	glVertex2f(0, 50);
+	glVertex2f(SCR2RESX(0), SCR2RESY(50));
 	glEnd();
 
 	glColor3f(1, 1, 1);
@@ -139,13 +139,13 @@ void Panel::drawBot()
 	glColor4f(1, 1, 1, 1.0);
 	glBegin(GL_POLYGON);
 	glTexCoord2f(0, 0);
-	glVertex2f(0, 10);
+	glVertex2f(SCR2RESX(0), SCR2RESY(10));
 	glTexCoord2f(1, 0);
-	glVertex2f(100, 10);
+	glVertex2f(SCR2RESX(100), SCR2RESY(10));
 	glTexCoord2f(1, 1);
-	glVertex2f(100, 110);
+	glVertex2f(SCR2RESX(100), SCR2RESY(110));
 	glTexCoord2f(0, 1);
-	glVertex2f(0, 110);
+	glVertex2f(SCR2RESX(0), SCR2RESY(110));
 	glEnd();
 
 	glDisable(GL_TEXTURE_2D);

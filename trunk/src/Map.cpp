@@ -127,7 +127,7 @@ void Map::Render(void)
 		}
 	}
 
-//    float farthestdist = 2 * (320 *320 + 240 *240);
+//    float farthestdist = 2 * ((hres/2.0) *(hres/2.0) + (vres/2.0) *(vres/2.0));
 //      printf("Rendering Polygons : ");
 	for (int i = 0; i < no_of_buildings; i++) {
 //              if( (buildings[i].x1 - camera->initx)*(buildings[i].x2 - camera->initx) +
