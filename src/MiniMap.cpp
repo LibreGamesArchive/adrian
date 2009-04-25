@@ -63,7 +63,7 @@ void MiniMap::Render(void)
 {
 	glPushMatrix();
 
-	glTranslatef(SCR2RESX(565), SCR2RESX(75), 0);
+	glTranslatef(SCR2RESX(565), SCR2RESY(75), 0);
 	glRotatef(camera->angle * 180.0 / 3.141, 0, 0, -1);
 
 	glCallList(mapbuildings);
@@ -88,15 +88,17 @@ void MiniMap::Render(void)
 	float x, y;
 	camera->ConvertCoordinates((hres/2.0), (vres/2.0), x, y);
 	glColor3f(1, 1, 1);
-	float hm = 21.33;
+	float hm = SCR2RESX(21.33);
+	float vm = SCR2RESY(21.33);
+//	float hm = x, vm = y;
 	glLineWidth(1);
 //	float my = -((camera->initz)) / yconvfactor;	///yconvfactor;
 	glBegin(GL_LINE_STRIP);
-	glVertex2f(-hm, -hm);
-	glVertex2f(-hm, +hm);
-	glVertex2f(+hm, +hm);
-	glVertex2f(+hm, -hm);
-	glVertex2f(-hm, -hm);
+	glVertex2f(-hm, -vm);
+	glVertex2f(-hm, +vm);
+	glVertex2f(+hm, +vm);
+	glVertex2f(+hm, -vm);
+	glVertex2f(-hm, -vm);
 	glEnd();
 
 	glPopMatrix();
@@ -108,10 +110,10 @@ void MiniMap::Render(void)
 bool MiniMap::isMouseOver(int sx, int sy, float &nx, float &ny)
 {
 	float mx, my;
-	mx = (sx - 565) * cos(camera->angle) + (sy - 405) * sin(camera->angle);
-	my = (sy - 405) * cos(camera->angle) - (sx - 565) * sin(camera->angle);
+	mx = (sx - SCR2RESX(565)) * cos(camera->angle) + (sy - SCR2RESY(405)) * sin(camera->angle);
+	my = (sy - SCR2RESY(405)) * cos(camera->angle) - (sx - SCR2RESX(565)) * sin(camera->angle);
 
-	if (mx < 50 && mx > -50 && my < 50 && my > -50) {
+	if (mx < SCR2RESX(50) && mx > -SCR2RESX(50) && my < SCR2RESY(50) && my > -SCR2RESY(50)) {
 		nx = mx;
 		ny = my;
 		return true;
