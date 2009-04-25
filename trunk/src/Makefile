@@ -19,9 +19,12 @@ OBJECT_FILES	=	Map.o			\
 					SoundSystem.o	\
 
 	
-adrian: $(OBJECT_FILES)
-	$(LINK_COMMAND) $(OBJECT_FILES) -o adrian
+adrian: $(OBJECT_FILES) Menu/menu.a
+	$(LINK_COMMAND) $(OBJECT_FILES) Menu/menu.a -o adrian
 	
+Menu/menu.a:
+	make -C Menu
+
 Menu.o: Menu.cpp Menu.h
 	$(COMPILE_COMMAND) -c Menu.cpp -o Menu.o
 
@@ -68,6 +71,7 @@ Tga.o:	tga.c tga.h
 	$(COMPILE_COMMAND) -c tga.c -o Tga.o
 	
 clean:
+	make -C Menu clean
 	-rm -f $(OBJECT_FILES) adrian
 
 c:

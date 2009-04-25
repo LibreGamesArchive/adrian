@@ -661,10 +661,6 @@ int main(void)
 	int VideoFlags = 0;
 	SDL_Surface *MainWindow;
 
-//      atexit( SDL_Quit );
-
-//      signal( SIGSEGV , SIGSEGV_HANDLER );
-
 	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER) < 0)	// try to initialize SDL video module
 	{
 		printf("SDL ERROR:%s\n", SDL_GetError());	// report error if it fails
