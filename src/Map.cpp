@@ -114,18 +114,29 @@ int Map::LoadFile(const char *filename)
 void Map::Render(void)
 {
 	glEnable(GL_TEXTURE_2D);
-//      glColor3f(.5,.5,.5);
+
+	int tilex, tiley;
+
+	const int TILE_SIZE = 300;
+	const int TILE_LOWFACTOR = 4.0;
+	const int TILE_HIGHFACTOR = 4.0;
+	int tileSzFactor = TILE_HIGHFACTOR + TILE_LOWFACTOR;
+
+	/* Render only part of the map (in tiles) which the user can see */
+	tilex = ((int)game->camera->initx / TILE_SIZE) * TILE_SIZE;
+	tiley = ((int)game->camera->initz / TILE_SIZE) * TILE_SIZE;
+
 	glColor3f(.8, .8, .8);
 	glBindTexture(GL_TEXTURE_2D, textureID);
 	glBegin(GL_POLYGON);
-	glTexCoord2f(length / 256, breadth / 256);
-	glVertex3f(-length, 0, -breadth);
-	glTexCoord2f(length / 256, 0);
-	glVertex3f(-length, 0, breadth);
+	glTexCoord2f(tileSzFactor, tileSzFactor);
+	glVertex3f((tilex - (TILE_LOWFACTOR*TILE_SIZE)), 0, (tiley - (TILE_LOWFACTOR*TILE_SIZE)));
+	glTexCoord2f(tileSzFactor, 0);
+	glVertex3f((tilex - (TILE_LOWFACTOR*TILE_SIZE)), 0, (tiley + (TILE_HIGHFACTOR*TILE_SIZE)));
 	glTexCoord2f(0, 0);
-	glVertex3f(length, 0, breadth);
-	glTexCoord2f(0, breadth / 256);
-	glVertex3f(length, 0, -breadth);
+	glVertex3f((tilex + (TILE_HIGHFACTOR*TILE_SIZE)), 0, (tiley + (TILE_HIGHFACTOR*TILE_SIZE)));
+	glTexCoord2f(0, tileSzFactor);
+	glVertex3f((tilex + (TILE_HIGHFACTOR*TILE_SIZE)), 0, (tiley - (TILE_LOWFACTOR*TILE_SIZE)));
 	glEnd();
 	glDisable(GL_TEXTURE_2D);
 
