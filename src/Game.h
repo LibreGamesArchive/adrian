@@ -24,6 +24,7 @@ class Game
 	friend class Building;
 	friend class Hero;
 	friend class Guard;
+	friend class Sprite;
 	friend class Panel;
  private:
 	bool initialized;
