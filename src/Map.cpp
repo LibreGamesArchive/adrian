@@ -25,7 +25,8 @@ void Map::Destroy(void)
 	delete sprites;
 
 	/* Remove created elements (Guards deleted in Game) */
-	delete buildings;
+	//delete buildings;
+	//TODO??
 
 	glDeleteTextures(num_textures, textureIDs);
 	free(textureIDs);
