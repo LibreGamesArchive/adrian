@@ -7,6 +7,7 @@ Map::Map(void)
 	textureID = 1;
 	blocksize = 40;
 	textureIDs = NULL;
+	sprites = NULL;
 }
 
 Map::~Map()
@@ -19,6 +20,10 @@ void Map::Initialize(void)
 
 void Map::Destroy(void)
 {
+	for (int i = 0; i < num_sprites; i++)
+		delete sprites[i];
+	delete sprites;
+
 	/* Remove created elements (Guards deleted in Game) */
 	delete buildings;
 
@@ -105,6 +110,18 @@ int Map::LoadFile(const char *filename)
 		textureIDs[i] = texid;
 	}
 
+	fscanf(f, "%d", &num_sprites);
+	sprites = new Sprite*[num_sprites];
+	for (int i = 0; i < num_sprites; i++) {
+		GLuint texid;
+		float x, z;
+		fscanf(f, "%d %f %f", &texid, &x, &z);
+		printf("Loading sprite with tex=%d x=%f z=%f\n", texid, x, z);
+
+		/* Init the sprite */
+		sprites[i] = new Sprite(texid, x, z);
+
+	}
 
 	fclose(f);
 
@@ -168,7 +185,10 @@ void Map::Render(void)
 		buildings[i].Render();
 //              }
 	}
-//      printf(" : ONLY out of %d buildings\n",no_of_buildings);
+
+	for (int i = 0; i < num_sprites; i++) {
+		sprites[i]->Render();
+	}
 
 }
 

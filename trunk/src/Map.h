@@ -8,6 +8,7 @@
 
 #include "tga.h"
 #include "Building.h"
+#include "Sprite.h"
 
 class Map {
  public:
@@ -26,6 +27,9 @@ class Map {
 	/* Texture and Render information */
 	int num_textures;
 	GLuint *textureIDs;
+
+	int num_sprites;
+	Sprite **sprites;
 
  public:
 	 Map(void);

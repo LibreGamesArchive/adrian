@@ -12,6 +12,7 @@ OBJECT_FILES	=	Map.o			\
 					Game.o			\
 					Md2.o			\
 					Tga.o			\
+					Sprite.o		\
 					Font.o			\
 					Globals.o		\
 					Cursor.o		\

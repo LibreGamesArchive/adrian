@@ -57,7 +57,7 @@ Creatures/MutantCheeta 69 900 900 900 900 .7 230
 Creatures/Ripper 71 0 -300 200 -500 1.5 270
 Creatures/Corpse 67 -50 -600 -50 -900 0.5 180
 Creatures/Hueteotl 68 -450 -900 -450 -900 0 90
-20
+21
 maps/ground.tga 1
 maps/los.tga 3
 maps/200x200building.tga 16
@@ -78,3 +78,17 @@ maps/SkelPanel.tga 68
 maps/MutantCheeta.tga 69
 maps/MutantLizard.tga 70
 maps/Ripper.tga 71
+maps/tree.tga 72
+12
+72 -1100 1100
+72 -950 1100
+72 -850 1100
+72 -750 1100
+72 -650 1100
+72 -550 1100
+72 -450 1100
+72 -1100 950
+72 -1100 850
+72 -1100 750
+72 -1100 650
+72 -1100 550
