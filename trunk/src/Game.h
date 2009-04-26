@@ -16,8 +16,6 @@
 #include <SDL/SDL.h>
 #include <SDL/SDL_mixer.h>
 
-#define		MAX_NUM_TEXTURES	256
-
 class Game
 {
 	friend class Map;
@@ -63,14 +61,9 @@ class Game
 	Panel *panel;
 	GLuint PanelBotTexId;
 
-	/* Texture and Render information */
-	GLuint textureIDs[MAX_NUM_TEXTURES];
-
 	void setupOpenGL(int width, int height);
 
 	void resetVars(void);
-	void LoadTextures(void);
-	void UnloadTextures(void);
 	void WorldCamUpdate(void);
 	void newpickObjects(int x, int y);
 	void HandleRightClick(int x, int y);
