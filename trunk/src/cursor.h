@@ -2,6 +2,7 @@
 #define __CURSOR_H__
 
 /* XPM */
+//static 
 static const char *arrow[] = {
 	/* width height num_colors chars_per_pixel */
 	"    32    32        3            1",

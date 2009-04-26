@@ -1,26 +1,19 @@
 #ifndef				__GAME_GLOBALS_H__
 #define				__GAME_GLOBALS_H__
 
-#include "Map.h"
-#include "Camera.h"
-#include "Hero.h"
-#include "Guard.h"
-#include "MiniMap.h"
-#include "Panel.h"
+//#include "Game.h"
+//#include "Menu/menu.h"
 #include "SoundSystem.h"
 #include <SDL/SDL.h>
+#include <assert.h>
 
-extern Map *map;
-extern Camera *camera;
-extern Hero *hero;
-extern Guard *guard[];
-extern int num_guards;
-extern float FontTexture[256][2];
-extern void block_convert(float &, float &, float, float);
+class Game;
+class Menu;
+
+extern Game *game;
+extern Menu *menu;
 extern void fontInit();
 extern void drawfontString(const char *, float, float, float, float);
-extern MiniMap *minimap;
-extern Panel *panel;
 extern SoundSystem *soundSystem;
 
 extern bool gameMenu;
@@ -33,12 +26,13 @@ extern bool showHelp;
 extern int hres;
 extern int vres;
 
-extern int PanelBotTexId;
-
 //cursors
-extern SDL_Cursor *cursors[4];
+extern SDL_Cursor *cursors[];
 
 #define		SCR2RESX(x)		((x)/640.0 * (hres))
 #define		SCR2RESY(y)		((y)/480.0 * (vres))
+
+/* List of Menu Callback functions */
+extern void start_game(void);
 
 #endif				/*      __GAME_GLOBALS_H__      */

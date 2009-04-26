@@ -1,8 +1,11 @@
 #include "Panel.h"
 #include "globals.h"
+#include "Game.h"
 
 #include <GL/glu.h>
 #include <GL/gl.h>
+
+#include <time.h>
 
 Panel::Panel(int texid)
 {
@@ -40,7 +43,7 @@ void Panel::Render()
 
 	glColor3f(1, 1, 1);
 	if (showHelp) {
-		drawfontString("F2 : GAME MENU", 20, 450, 15, 15);
+		drawfontString("F3 : SHOW FPS", 20, 450, 15, 15);
 		drawfontString("P  : PAUSE GAME", 20, 430, 15, 15);
 		drawfontString("A  : ROTATE CAMERA ANTICLOCKWISE", 20, 410, 15,
 			       15);
@@ -86,11 +89,11 @@ void Panel::Render()
 	if (show_fps)
 		drawfontString(fps_str, 300, 450, 15, 15);
 
-	if (!gameOver) {
+	if (!game->gameover) {
 		drawBot();
 	} else
 		drawTips("GAME OVER", "PRESS O TO MENU");
-	minimap->Render();
+	game->minimap->Render();
 	glPopMatrix();
 
 	glEnable(GL_DEPTH_TEST);
@@ -99,7 +102,7 @@ void Panel::Render()
 
 void Panel::drawBot()
 {
-	switch (PanelBotTexId) {
+	switch (game->PanelBotTexId) {
 		//hero 65 hero
 		//cheeta 66     animal1
 		//man 67 animal
@@ -134,7 +137,7 @@ void Panel::drawBot()
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glAlphaFunc(GL_GEQUAL, 0.01);
 	glEnable(GL_TEXTURE_2D);
-	glBindTexture(GL_TEXTURE_2D, PanelBotTexId);
+	glBindTexture(GL_TEXTURE_2D, game->PanelBotTexId);
 
 	glColor4f(1, 1, 1, 1.0);
 	glBegin(GL_POLYGON);

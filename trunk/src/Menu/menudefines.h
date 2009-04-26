@@ -12,8 +12,6 @@
 #define			MENUITEM_HIGHLIGHT				2
 #define			MENUITEM_ANIMATE				3
 
-#define 		FONT_TEXTURE				30
-
 // timer interval in millisec
 #define 		ANIMATION_INTERVAL			30
 

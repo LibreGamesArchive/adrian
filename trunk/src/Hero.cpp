@@ -1,6 +1,7 @@
 #include "Hero.h"
 #include "globals.h"
 #include "unistd.h"
+#include "Game.h"
 
 #define		PI		3.141
 
@@ -118,26 +119,26 @@ int Hero::NextMove(void)
 			int newbx, newby;
 
 			newbx =
-			    (int)(map->length / 2.0 + newx) / map->blocksize +
+			    (int)(game->map->length / 2.0 + newx) / game->map->blocksize +
 			    1;
 			newby =
-			    (int)(map->breadth / 2.0 + newy) / map->blocksize +
+			    (int)(game->map->breadth / 2.0 + newy) / game->map->blocksize +
 			    1;
 
 			bool collision = false;
-			for (int i = 0; i < map->no_of_buildings; i++) {
-				if ((((newbx >= map->buildings[i].bx1)
-				      && (newbx <= map->buildings[i].bx2))
-				     && ((newby == map->buildings[i].by1)
-					 || (newby == map->buildings[i].by2)))
+			for (int i = 0; i < game->map->no_of_buildings; i++) {
+				if ((((newbx >= game->map->buildings[i].bx1)
+				      && (newbx <= game->map->buildings[i].bx2))
+				     && ((newby == game->map->buildings[i].by1)
+					 || (newby == game->map->buildings[i].by2)))
 				    ||
-				    (((newby >= map->buildings[i].by1)
-				      && (newby <= map->buildings[i].by2))
-				     && ((newbx == map->buildings[i].bx1)
-					 || (newbx == map->buildings[i].bx2)))
+				    (((newby >= game->map->buildings[i].by1)
+				      && (newby <= game->map->buildings[i].by2))
+				     && ((newbx == game->map->buildings[i].bx1)
+					 || (newbx == game->map->buildings[i].bx2)))
 				    ) {
 					float tempx, tempy;
-					block_convert(tempx, tempy, curx, cury);
+					game->block_convert(tempx, tempy, curx, cury);
 					destx = x = curx = tempx;
 					desty = z = cury = tempy;
 					Stand();
@@ -163,8 +164,8 @@ bool Hero::CheckCurWithBuildings(float &x, float &y)
 	return true;
 
 	bool collision = false;
-	for (int i = 0; i < map->no_of_buildings; i++) {
-		if (map->buildings[i].isInside(x, y)) {
+	for (int i = 0; i < game->map->no_of_buildings; i++) {
+		if (game->map->buildings[i].isInside(x, y)) {
 			collision = true;
 		}
 	}
@@ -176,8 +177,8 @@ bool Hero::CheckCurWithBuildings(float &x, float &y)
 
 bool Hero::CheckCurWithWalls(float &x, float &y)
 {
-	if (((x < map->length / 2.0) && (x > -map->length / 2.0))
-	    && ((y < map->breadth / 2.0) && (y > -map->breadth / 2.0)))
+	if (((x < game->map->length / 2.0) && (x > -game->map->length / 2.0))
+	    && ((y < game->map->breadth / 2.0) && (y > -game->map->breadth / 2.0)))
 		return false;
 
 	return true;
@@ -247,22 +248,22 @@ int Hero::Compute(float &dx, float &dy, float perfectx, float perfecty)
 	//with walls
 	if (CheckCurWithWalls(dx, dy)) {
 		if (movingright) {
-			newy = dy + m * (map->length / 2 - dx);
-			newx = map->length / 2 - map->blocksize / 2;
+			newy = dy + m * (game->map->length / 2 - dx);
+			newx = game->map->length / 2 - game->map->blocksize / 2;
 		} else {
-			newy = dy - m * (dx + map->length / 2);
-			newx = -map->length / 2 + map->blocksize / 2;
+			newy = dy - m * (dx + game->map->length / 2);
+			newx = -game->map->length / 2 + game->map->blocksize / 2;
 		}
 
-		if (newy > map->breadth / 2) {
-			newx = (map->breadth / 2 - dy) / m + dx;
-			newy = map->breadth / 2 - map->blocksize / 2;
-		} else if (newy < -map->breadth / 2) {
-			newx = dx - (map->breadth / 2 + dy) / m;
-			newy = -map->breadth / 2 + map->blocksize / 2;
+		if (newy > game->map->breadth / 2) {
+			newx = (game->map->breadth / 2 - dy) / m + dx;
+			newy = game->map->breadth / 2 - game->map->blocksize / 2;
+		} else if (newy < -game->map->breadth / 2) {
+			newx = dx - (game->map->breadth / 2 + dy) / m;
+			newy = -game->map->breadth / 2 + game->map->blocksize / 2;
 		}
 
-		block_convert(dx, dy, newx, newy);
+		game->block_convert(dx, dy, newx, newy);
 
 	}
 
@@ -294,7 +295,7 @@ int Hero::Compute(float &dx, float &dy, float perfectx, float perfecty)
 	if ((perfectx != curx) && (perfecty != cury)) {
 		int corner_no = 0, building_no = 0, buildingcorner_no =
 		    0, count = 0;
-		float add = map->blocksize / 2.0;
+		float add = game->map->blocksize / 2.0;
 		float slope;
 		float tempx1, tempx2, tempy1, tempy2;
 
@@ -305,17 +306,17 @@ int Hero::Compute(float &dx, float &dy, float perfectx, float perfecty)
 		int temp, a, b, c, d;
 		float mslope;
 
-		for (int i = 0; i < map->no_of_buildings; i++) {
+		for (int i = 0; i < game->map->no_of_buildings; i++) {
 			one = two = three = four = false;
 			check1 = check2 = false;
 			temp = a = b = c = d = 0;
 
 			corner_no = 0;
 
-			tempx1 = map->buildings[i].x1 - add;
-			tempx2 = map->buildings[i].x2 + add;
-			tempy1 = map->buildings[i].y1 - add;
-			tempy2 = map->buildings[i].y2 + add;
+			tempx1 = game->map->buildings[i].x1 - add;
+			tempx2 = game->map->buildings[i].x2 + add;
+			tempy1 = game->map->buildings[i].y1 - add;
+			tempy2 = game->map->buildings[i].y2 + add;
 
 			one =
 			    ((tempy1 - cury - slope * tempx1 + slope * curx) >=
@@ -399,28 +400,28 @@ int Hero::Compute(float &dx, float &dy, float perfectx, float perfecty)
 
 			switch (buildingcorner_no) {
 			case 1:
-				dx = map->buildings[building_no].x1 -
-				    map->blocksize;
-				dy = map->buildings[building_no].y1 -
-				    map->blocksize;
+				dx = game->map->buildings[building_no].x1 -
+				    game->map->blocksize;
+				dy = game->map->buildings[building_no].y1 -
+				    game->map->blocksize;
 				break;
 			case 2:
-				dx = map->buildings[building_no].x2 +
-				    map->blocksize;
-				dy = map->buildings[building_no].y1 -
-				    map->blocksize;
+				dx = game->map->buildings[building_no].x2 +
+				    game->map->blocksize;
+				dy = game->map->buildings[building_no].y1 -
+				    game->map->blocksize;
 				break;
 			case 3:
-				dx = map->buildings[building_no].x2 +
-				    map->blocksize;
-				dy = map->buildings[building_no].y2 +
-				    map->blocksize;
+				dx = game->map->buildings[building_no].x2 +
+				    game->map->blocksize;
+				dy = game->map->buildings[building_no].y2 +
+				    game->map->blocksize;
 				break;
 			case 4:
-				dx = map->buildings[building_no].x1 -
-				    map->blocksize;
-				dy = map->buildings[building_no].y2 +
-				    map->blocksize;
+				dx = game->map->buildings[building_no].x1 -
+				    game->map->blocksize;
+				dy = game->map->buildings[building_no].y2 +
+				    game->map->blocksize;
 				break;
 			default:
 				printf

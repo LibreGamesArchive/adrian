@@ -1,5 +1,6 @@
 #include "Guard.h"
 #include "globals.h"
+#include "Game.h"
 
 #define		PI		3.141
 
@@ -8,10 +9,10 @@ Guard::Guard(char *filename, int texid, float x1, float y1, float x2, float y2,
 :Md2(filename)
 {
 	float tempx, tempy;
-	block_convert(tempx, tempy, x1, y1);
+	game->block_convert(tempx, tempy, x1, y1);
 	x1 = tempx;
 	y1 = tempy;
-	block_convert(tempx, tempy, x2, y2);
+	game->block_convert(tempx, tempy, x2, y2);
 	x2 = tempx;
 	y2 = tempy;
 
@@ -211,24 +212,24 @@ int Guard::Compute(float &dx, float &dy)
 	else
 		facingAngle = 180 + ((atan(m) * 180.0) / PI);
 
-	if (dx < -map->length / 2 || dy < -map->breadth / 2
-	    || dx > map->length / 2 || dy > map->breadth / 2) {
+	if (dx < -game->map->length / 2 || dy < -game->map->breadth / 2
+	    || dx > game->map->length / 2 || dy > game->map->breadth / 2) {
 		printf("Guard is outdise the MAP!\n");
 
 		if (movingright) {
-			newy = dy + m * (map->length / 2 - dx);
-			newx = map->length / 2;
+			newy = dy + m * (game->map->length / 2 - dx);
+			newx = game->map->length / 2;
 		} else {
-			newy = dy - m * (dx + map->length / 2);
-			newx = -map->length / 2;
+			newy = dy - m * (dx + game->map->length / 2);
+			newx = -game->map->length / 2;
 		}
 
-		if (newy > map->breadth / 2) {
-			newx = (map->breadth / 2 - dy) / m + dx;
-			newy = map->breadth / 2;
-		} else if (newy < -map->breadth / 2) {
-			newx = dx - (map->breadth / 2 + dy) / m;
-			newy = -map->breadth / 2;
+		if (newy > game->map->breadth / 2) {
+			newx = (game->map->breadth / 2 - dy) / m + dx;
+			newy = game->map->breadth / 2;
+		} else if (newy < -game->map->breadth / 2) {
+			newx = dx - (game->map->breadth / 2 + dy) / m;
+			newy = -game->map->breadth / 2;
 		}
 
 		dx = newx;
@@ -300,7 +301,7 @@ bool Guard::checkIntruder(float x, float y)
 
 	distance = tempx * tempx + tempy * tempy;
 	if (distance < fov * fov) {
-		if (distance < map->blocksize * map->blocksize)
+		if (distance < game->map->blocksize * game->map->blocksize)
 			return true;
 		if ((LineAngle > facingAngle - 30)
 		    && (LineAngle < facingAngle + 30))
@@ -326,7 +327,7 @@ bool Guard::inRange(float x, float y, float Angle)
 
 	distance = tempx * tempx + tempy * tempy;
 
-	if (distance < hero->fov * hero->fov) {
+	if (distance < game->hero->fov * game->hero->fov) {
 		if ((LineAngle > Angle - 30) && (LineAngle < Angle + 30))
 			return true;
 		else
