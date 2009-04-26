@@ -61,70 +61,6 @@ void Game::resetVars(void)
 	angle = START_ANGLE;
 }
 
-/* Loads all in-game textures */
-void Game::LoadTextures(void)
-{
-	struct __texinfo {
-		const char *tga;
-		GLuint texid;
-	} tarr[] = {
-	//Map
-		{"maps/ground.tga", 1},
-	//Line Of Sight
-		{"maps/los.tga", 3},
-	//Help
-//		{"maps/help.tga", 100},
-	//Guards
-	//next 12 id's for guard bots
-	//Buildings
-		{"maps/200x200building.tga", 16},
-		{"maps/generalsbuilding.tga", 17},
-		{"maps/wall.tga", 18},
-		{"maps/bunker.tga", 19},
-		{"maps/aircraftgun.tga", 20},
-		{"maps/barrel.tga", 21},
-		{"maps/crate.tga", 22},
-		{"maps/metal.tga", 23},
-		{"maps/font.tga", 50},
-		{"maps/wall.tga", 30},
-	//The Panel Textures
-	//Panel Bot Texture For Hero
-		{"maps/panel.tga", 62},
-		{"maps/panelhero.tga", 65},
-		{"maps/MutantManPanel.tga", 66},
-		{"maps/CorpsePanel.tga", 67},
-		{"maps/SkelPanel.tga", 68},
-		{"maps/MutantCheeta.tga", 69},
-		{"maps/MutantLizard.tga", 70},
-		{"maps/Ripper.tga", 71}
-	};
-
-	for (unsigned int i = 0; i < sizeof(tarr)/sizeof(__texinfo); i++) {
-		int err = loadTGA(tarr[i].tga, tarr[i].texid);
-		if (err != 0) {
-			printf("Unable to load Texture(%s) into %d: %d\n", tarr[i].tga, tarr[i].texid, err);
-			exit(-1);
-		}
-		printf("Loaded %s into %d\n", tarr[i].tga, tarr[i].texid);
-	}
-
-	fontInit();
-}
-
-void Game::UnloadTextures(void)
-{
-	GLuint textureIDs[] = {
-		  1,  3,/*100,*/  4,  5,  6,  7,  8,
-		  9, 10, 11, 12, 13, 14, 15, 16,
-		 17, 18, 19, 20, 21, 22, 23, 50,
-		 30, 62, 65, 66, 67, 68, 69, 70,
-		 71};
-
-	glDeleteTextures(sizeof(textureIDs)/sizeof(GLuint), textureIDs);
-
-	// font destroy
-}
-
 void Game::setupOpenGL(int width, int height)
 {
 	if (!initialized)
@@ -165,8 +101,6 @@ void Game::InitializeGame(void)
 
 	/* Basic setup of OpenGL */
 	setupOpenGL(hres, vres);
-
-	LoadTextures();
 	
 	/* Create the structures */
 	camera = new Camera;
@@ -176,6 +110,9 @@ void Game::InitializeGame(void)
 	hero = new Hero(660, 550, 270, 1);
 	minimap = new MiniMap();
 	PanelBotTexId = 65;
+
+	/* font init requires a TGA loaded by map */
+	fontInit();
 
 	hero->Initialize(-780, 780, 270, 1);
 	camera->Initialize();
@@ -199,6 +136,8 @@ void Game::LazyDestroyGame(void)
 	if (!lazy_destroy)
 		return;
 
+	map->Destroy();
+
 	delete minimap;
 	delete panel;
 	delete hero;
@@ -214,7 +153,7 @@ void Game::LazyDestroyGame(void)
 	num_guards = 0;
 	memset(guard, 0, sizeof(guard));
 
-	UnloadTextures();
+	// destroy font?
 
 	lazy_destroy = false;
 }

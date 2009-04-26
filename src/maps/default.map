@@ -57,3 +57,24 @@ Creatures/MutantCheeta 69 900 900 900 900 .7 230
 Creatures/Ripper 71 0 -300 200 -500 1.5 270
 Creatures/Corpse 67 -50 -600 -50 -900 0.5 180
 Creatures/Hueteotl 68 -450 -900 -450 -900 0 90
+20
+maps/ground.tga 1
+maps/los.tga 3
+maps/200x200building.tga 16
+maps/generalsbuilding.tga 17
+maps/wall.tga 18
+maps/bunker.tga 19
+maps/aircraftgun.tga 20
+maps/barrel.tga 21
+maps/crate.tga 22
+maps/metal.tga 23
+maps/font.tga 50
+maps/wall.tga 30
+maps/panel.tga 62
+maps/panelhero.tga 65
+maps/MutantManPanel.tga 66
+maps/CorpsePanel.tga 67
+maps/SkelPanel.tga 68
+maps/MutantCheeta.tga 69
+maps/MutantLizard.tga 70
+maps/Ripper.tga 71

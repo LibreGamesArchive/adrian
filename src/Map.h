@@ -23,10 +23,16 @@ class Map {
 	int no_blocksx, no_blocksy;
 	int blocksize;
 
+	/* Texture and Render information */
+	int num_textures;
+	GLuint *textureIDs;
+
  public:
 	 Map(void);
 	~Map();
+
 	void Initialize(void);
+	void Destroy(void);
 
 	int LoadFile(const char *filename = "maps/default.map");
 	void Render(void);

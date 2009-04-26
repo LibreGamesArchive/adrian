@@ -6,6 +6,7 @@ Map::Map(void)
 {
 	textureID = 1;
 	blocksize = 40;
+	textureIDs = NULL;
 }
 
 Map::~Map()
@@ -14,13 +15,21 @@ Map::~Map()
 
 void Map::Initialize(void)
 {
-//	for (int i = 0; i < num_guards; i++)
-//		guard[i]->Initialize();
+}
+
+void Map::Destroy(void)
+{
+	/* Remove created elements (Guards deleted in Game) */
+	delete buildings;
+
+	glDeleteTextures(num_textures, textureIDs);
+	free(textureIDs);
 }
 
 int Map::LoadFile(const char *filename)
 {
 	FILE *f;
+	char buf[256];
 
 	if ((f = fopen(filename, "r")) < 0) {
 		printf("Error Opening File : %s\n", filename);
@@ -64,15 +73,13 @@ int Map::LoadFile(const char *filename)
 	fscanf(f, "%d", &num_guards);
 	for (int i = 0; i < num_guards; i++) {
 		Guard *guard;
-		char buf[256];
 		float x[6];
 		int texid;
 		float botangle;
 		fscanf(f, "%s %d %f %f %f %f %f %f", buf, &texid, &x[0], &x[1],
 		       &x[2], &x[3], &x[4], &botangle);
-		if ((guard =
-		     new Guard(buf, texid, x[0], x[1], x[2], x[3], x[4],
-			       botangle, i)) == NULL) {
+		if ((guard = new Guard(buf, texid, x[0], x[1], x[2], x[3], x[4],
+								botangle, i)) == NULL) {
 			printf("Out of RAM!\n");
 			SDL_Quit();
 			exit(-1);
@@ -80,6 +87,24 @@ int Map::LoadFile(const char *filename)
 
 		game->addGuard(guard);
 	}
+
+	int num_textures;
+	fscanf(f, "%d", &num_textures);
+	textureIDs = new GLuint[num_textures];
+	for (int i = 0; i < num_textures; i++) {
+		GLuint texid;
+		fscanf(f, "%s %d", buf, &texid);
+
+		int err = loadTGA(buf, texid);
+		if (err != 0) {
+			printf("Unable to load Texture(%s) into %d: %d\n", buf, texid, err);
+			exit(-1);
+		}
+		printf("Loaded %s into %d\n", buf, texid);
+
+		textureIDs[i] = texid;
+	}
+
 
 	fclose(f);
 
@@ -140,3 +165,4 @@ void Map::Dump(void)
 {
 	printf("Map : ( %f , %f )\n", length, breadth);
 }
+
