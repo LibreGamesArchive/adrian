@@ -40,6 +40,7 @@ class Map {
 
 	int LoadFile(const char *filename = "maps/default.map");
 	void Render(void);
+	void TransparentRender(void);
 
 	void Dump(void);
 
