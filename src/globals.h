@@ -34,5 +34,6 @@ extern SDL_Cursor *cursors[];
 
 /* List of Menu Callback functions */
 extern void start_game(void);
+extern void end_game(void);
 
 #endif				/*      __GAME_GLOBALS_H__      */

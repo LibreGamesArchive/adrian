@@ -109,4 +109,16 @@ void start_game(void)
 
 }
 
+/* Stop the game and go back to menu */
+void end_game(void)
+{
+	/* Stop playing it */
+	game->EndGame();
+
+	/* destroy the game */
+	game->DestroyGame();
+
+	/* Init the menu */
+	menu->InitializeMenu();
+}
 
