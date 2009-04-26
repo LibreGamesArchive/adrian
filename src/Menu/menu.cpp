@@ -38,6 +38,11 @@ void Menu::InitFont(void)
 		printf("Could not load textures: %d\n", ret);
 		exit(1);
 	}
+	if ((ret = loadTGA("maps/blood_splatter.tga", 52)) != 0) {
+		printf("Could not load textures: %d\n", ret);
+		exit(1);
+	}
+
 
 	FontTexture[46][0] = .625;
 	FontTexture[46][1] = .625;
@@ -426,9 +431,10 @@ void Menu::Render(void)
 		return;
 
     glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
-	glColor3f( 1, 1, 1 );
 
 	static int linex1 = rand() * 1024;
+	glColor3f( 1, 0, 0 );
+	glLineWidth(5);
 	glBegin(GL_LINES);
 		glVertex3f(linex1++ , 0, -1.5);
 		glVertex3f(linex1++ , 768, -1.5);
@@ -439,12 +445,26 @@ void Menu::Render(void)
 	glEnd();
 
 	glBegin(GL_LINES);
-		glVertex3f(0, linex * 2, -1.5);
-		glVertex3f(1024, linex * 2, -1.5);
+		glVertex3f(0, 200 + linex * 2, -1.5);
+		glVertex3f(1024, 200 + linex * 2, -1.5);
 	glEnd();
 	glBegin(GL_LINES);
 		glVertex3f(0, linex * 3, -1.5);
 		glVertex3f(1024, linex * 3, -1.5);
+	glEnd();
+
+	glColor3f( 1, 1, 1 );
+	glEnable(GL_TEXTURE_2D);
+	glBindTexture(GL_TEXTURE_2D, 52);
+	glBegin(GL_QUADS);
+		glTexCoord2f(0 ,0);
+		glVertex3f(0, 0, -1.6);
+		glTexCoord2f(0 ,1);
+		glVertex3f(0, 768, -1.6);
+		glTexCoord2f(1 ,1);
+		glVertex3f(1024, 768, -1.6);
+		glTexCoord2f(1 ,0);
+		glVertex3f(1024, 0, -1.6);
 	glEnd();
 
 	currentMenuPage->Render();
@@ -457,7 +477,7 @@ void Menu::TimerCallback(void)
 		return;
 
 	currentMenuPage->Animate();
-    if (linex >= 500)
+    if (linex >= 400)
 		increment = -1;
 	if (linex <= 0)
 		increment = 1;
