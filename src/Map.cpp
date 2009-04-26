@@ -186,11 +186,13 @@ void Map::Render(void)
 		buildings[i].Render();
 //              }
 	}
+}
 
+void Map::TransparentRender(void)
+{
 	for (int i = 0; i < num_sprites; i++) {
 		sprites[i]->Render();
 	}
-
 }
 
 void Map::Dump(void)

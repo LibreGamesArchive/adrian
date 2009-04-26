@@ -537,6 +537,8 @@ void Game::Render(void)
 
 	drawObjects(GL_RENDER);
 
+	map->TransparentRender();
+
 	if (show_minimap)
 		panel->Render();
 }
