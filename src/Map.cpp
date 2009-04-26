@@ -1,7 +1,6 @@
 #include "Map.h"
 #include "globals.h"
-
-extern bool display_lines;
+#include "Game.h"
 
 Map::Map(void)
 {
@@ -15,8 +14,8 @@ Map::~Map()
 
 void Map::Initialize(void)
 {
-	for (int i = 0; i < num_guards; i++)
-		guard[i]->Initialize();
+//	for (int i = 0; i < num_guards; i++)
+//		guard[i]->Initialize();
 }
 
 int Map::LoadFile(const char *filename)
@@ -46,44 +45,40 @@ int Map::LoadFile(const char *filename)
 		//      fprintf(stdout,"%f %f %f %f %d %d\n",buildings[i].x1,buildings[i].y1,buildings[i].x2,buildings[i].y2, buildings[i].buildingType, buildings[i].textureID );
 
 		float tempx, tempy;
-		block_convert(tempx, tempy, buildings[i].x1, buildings[i].y1);
+		game->block_convert(tempx, tempy, buildings[i].x1, buildings[i].y1);
 		buildings[i].x1 = tempx;
 		buildings[i].y1 = tempy;
-		block_convert(tempx, tempy, buildings[i].x2, buildings[i].y2);
+		game->block_convert(tempx, tempy, buildings[i].x2, buildings[i].y2);
 		buildings[i].x2 = tempx;
 		buildings[i].y2 = tempy;
 
-		buildings[i].bx1 =
-		    (int)(map->length / 2.0 +
-			  map->buildings[i].x1) / map->blocksize + 1;
-		buildings[i].bx2 =
-		    (int)(map->length / 2.0 +
-			  map->buildings[i].x2) / map->blocksize + 1;
-		buildings[i].by1 =
-		    (int)(map->breadth / 2.0 +
-			  map->buildings[i].y1) / map->blocksize + 1;
-		buildings[i].by2 =
-		    (int)(map->breadth / 2.0 +
-			  map->buildings[i].y2) / map->blocksize + 1;
+		buildings[i].bx1 = (int)(length / 2.0 + buildings[i].x1) / blocksize + 1;
+		buildings[i].bx2 = (int)(length / 2.0 + buildings[i].x2) / blocksize + 1;
+		buildings[i].by1 = (int)(breadth / 2.0 + buildings[i].y1) / blocksize + 1;
+		buildings[i].by2 = (int)(breadth / 2.0 + buildings[i].y2) / blocksize + 1;
 
 		buildings[i].setType(buildings[i].buildingType);
 	}
 
+	int num_guards;
 	fscanf(f, "%d", &num_guards);
 	for (int i = 0; i < num_guards; i++) {
+		Guard *guard;
 		char buf[256];
 		float x[6];
 		int texid;
 		float botangle;
 		fscanf(f, "%s %d %f %f %f %f %f %f", buf, &texid, &x[0], &x[1],
 		       &x[2], &x[3], &x[4], &botangle);
-		if ((guard[i] =
+		if ((guard =
 		     new Guard(buf, texid, x[0], x[1], x[2], x[3], x[4],
 			       botangle, i)) == NULL) {
 			printf("Out of RAM!\n");
 			SDL_Quit();
 			exit(-1);
 		}
+
+		game->addGuard(guard);
 	}
 
 	fclose(f);
@@ -109,7 +104,7 @@ void Map::Render(void)
 	glEnd();
 	glDisable(GL_TEXTURE_2D);
 
-	if (display_lines) {
+	if (game->display_lines) {
 		glColor3f(1, 0, 0);
 		for (int i = 0; i < no_blocksx; i++) {
 			glBegin(GL_LINES);

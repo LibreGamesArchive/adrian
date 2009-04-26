@@ -2,9 +2,10 @@
 #include <GL/gl.h>
 #include <GL/glu.h>
 
-extern float FontTexture[256][2];
+#include "menu.h"
+#include "../globals.h"
 
-MenuItem::MenuItem(const char *text, float x, float y, void *funcPtr,
+MenuItem::MenuItem(const char *text, float x, float y, MENU_FUNC funcPtr,
 		   MenuPagePtr nextMenuPage, bool enabled, float startx,
 		   float starty, AnimationType animationType, float fontHeight,
 		   float fontWidth)
@@ -12,7 +13,7 @@ MenuItem::MenuItem(const char *text, float x, float y, void *funcPtr,
 	strncpy(this->text, text, MAX_MENU_STRING_LENGTH);
 	this->x = x;
 	this->y = y;
-	this->funcPtr = (MENU_FUNC) funcPtr;
+	this->funcPtr = funcPtr;
 	this->nextMenuPage = nextMenuPage;
 	this->enabled = enabled;
 	this->startx = startx;
@@ -62,26 +63,26 @@ void MenuItem::Render(int method, int offset)
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		glAlphaFunc(GL_GEQUAL, 0.9);
 		glEnable(GL_TEXTURE_2D);
-		glBindTexture(GL_TEXTURE_2D, 20);
+		glBindTexture(GL_TEXTURE_2D, 51);
 
 		glColor4f(.2, .4, .5, 1.5);
 
 		for (loop_var = 0; loop_var < limit; loop_var++) {
 			glBegin(GL_POLYGON);
-			glTexCoord2f(FontTexture[txtarr[loop_var]][0],
-				     FontTexture[txtarr[loop_var]][1]);
+			glTexCoord2f(menu->FontTexture[txtarr[loop_var]][0],
+				     menu->FontTexture[txtarr[loop_var]][1]);
 			glVertex3f(x + loop_var * fontWidth, y + fontHeight, 0);
 
-			glTexCoord2f(FontTexture[txtarr[loop_var]][0],
-				     FontTexture[txtarr[loop_var]][1] + add_y);
+			glTexCoord2f(menu->FontTexture[txtarr[loop_var]][0],
+				     menu->FontTexture[txtarr[loop_var]][1] + add_y);
 			glVertex3f(x + loop_var * fontWidth, y, 0);
 
-			glTexCoord2f(FontTexture[txtarr[loop_var]][0] + add_x,
-				     FontTexture[txtarr[loop_var]][1] + add_y);
+			glTexCoord2f(menu->FontTexture[txtarr[loop_var]][0] + add_x,
+				     menu->FontTexture[txtarr[loop_var]][1] + add_y);
 			glVertex3f(x + loop_var * fontWidth + fontWidth, y, 0);
 
-			glTexCoord2f(FontTexture[txtarr[loop_var]][0] + add_x,
-				     FontTexture[txtarr[loop_var]][1]);
+			glTexCoord2f(menu->FontTexture[txtarr[loop_var]][0] + add_x,
+				     menu->FontTexture[txtarr[loop_var]][1]);
 			glVertex3f(x + loop_var * fontWidth + fontWidth,
 				   y + fontHeight, 0);
 			glEnd();
@@ -107,25 +108,25 @@ void MenuItem::Render(int method, int offset)
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		glAlphaFunc(GL_GEQUAL, 0.9);
 		glEnable(GL_TEXTURE_2D);
-		glBindTexture(GL_TEXTURE_2D, 20);
+		glBindTexture(GL_TEXTURE_2D, 51);
 
 		glColor4f(.2, .4, .5, 1.5);
 		for (loop_var = 0; loop_var < limit; loop_var++) {
 			glBegin(GL_POLYGON);
-			glTexCoord2f(FontTexture[txtarr[loop_var]][0],
-				     FontTexture[txtarr[loop_var]][1]);
+			glTexCoord2f(menu->FontTexture[txtarr[loop_var]][0],
+				     menu->FontTexture[txtarr[loop_var]][1]);
 			glVertex3f(x + loop_var * fontWidth, y + fontHeight, 0);
 
-			glTexCoord2f(FontTexture[txtarr[loop_var]][0],
-				     FontTexture[txtarr[loop_var]][1] + add_y);
+			glTexCoord2f(menu->FontTexture[txtarr[loop_var]][0],
+				     menu->FontTexture[txtarr[loop_var]][1] + add_y);
 			glVertex3f(x + loop_var * fontWidth, y, 0);
 
-			glTexCoord2f(FontTexture[txtarr[loop_var]][0] + add_x,
-				     FontTexture[txtarr[loop_var]][1] + add_y);
+			glTexCoord2f(menu->FontTexture[txtarr[loop_var]][0] + add_x,
+				     menu->FontTexture[txtarr[loop_var]][1] + add_y);
 			glVertex3f(x + loop_var * fontWidth + fontWidth, y, 0);
 
-			glTexCoord2f(FontTexture[txtarr[loop_var]][0] + add_x,
-				     FontTexture[txtarr[loop_var]][1]);
+			glTexCoord2f(menu->FontTexture[txtarr[loop_var]][0] + add_x,
+				     menu->FontTexture[txtarr[loop_var]][1]);
 			glVertex3f(x + loop_var * fontWidth + fontWidth,
 				   y + fontHeight, 0);
 
@@ -148,28 +149,28 @@ void MenuItem::Render(int method, int offset)
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		glAlphaFunc(GL_GEQUAL, 0.9);
 		glEnable(GL_TEXTURE_2D);
-		glBindTexture(GL_TEXTURE_2D, 20);
+		glBindTexture(GL_TEXTURE_2D, 51);
 
 		glColor4f(.2, .4, .5, 1.5);
 
 		for (loop_var = 0; loop_var < limit; loop_var++) {
 			glBegin(GL_POLYGON);
-			glTexCoord2f(FontTexture[txtarr[loop_var]][0],
-				     FontTexture[txtarr[loop_var]][1]);
+			glTexCoord2f(menu->FontTexture[txtarr[loop_var]][0],
+				     menu->FontTexture[txtarr[loop_var]][1]);
 			glVertex3f(x + loop_var * fontWidth + offset,
 				   y + fontHeight, 0);
 
-			glTexCoord2f(FontTexture[txtarr[loop_var]][0],
-				     FontTexture[txtarr[loop_var]][1] + add_y);
+			glTexCoord2f(menu->FontTexture[txtarr[loop_var]][0],
+				     menu->FontTexture[txtarr[loop_var]][1] + add_y);
 			glVertex3f(x + loop_var * fontWidth + offset, y, 0);
 
-			glTexCoord2f(FontTexture[txtarr[loop_var]][0] + add_x,
-				     FontTexture[txtarr[loop_var]][1] + add_y);
+			glTexCoord2f(menu->FontTexture[txtarr[loop_var]][0] + add_x,
+				     menu->FontTexture[txtarr[loop_var]][1] + add_y);
 			glVertex3f(x + loop_var * fontWidth + fontWidth +
 				   offset, y, 0);
 
-			glTexCoord2f(FontTexture[txtarr[loop_var]][0] + add_x,
-				     FontTexture[txtarr[loop_var]][1]);
+			glTexCoord2f(menu->FontTexture[txtarr[loop_var]][0] + add_x,
+				     menu->FontTexture[txtarr[loop_var]][1]);
 			glVertex3f(x + loop_var * fontWidth + fontWidth +
 				   offset, y + fontHeight, 0);
 			glEnd();

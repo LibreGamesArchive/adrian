@@ -1,10 +1,11 @@
 #include "Camera.h"
 #include "globals.h"
 #include "config.h"
+#include "Game.h"
 
 Camera::Camera(void)
 {
-	Initialize();
+//	Initialize();
 }
 
 Camera::~Camera()
@@ -25,8 +26,8 @@ void Camera::Initialize(void)
 	looky = 1;
 	lookz = 0;
 
-	initx = hero->curx;
-	initz = hero->cury;
+	initx = game->hero->curx;
+	initz = game->hero->cury;
 	
 	camy = height;
 	camx = distance * sin(angle) + initx;
@@ -65,7 +66,7 @@ void Camera::MoveUp(void)
 {
 	float tmpx, tmpy;
 	ConvertCoordinates((hres/2.0), (vres/2.0), tmpx, tmpy);
-	if (tmpy > map->breadth / 2)
+	if (tmpy > game->map->breadth / 2)
 		return;
 
 	initx += sin(angle);
@@ -77,7 +78,7 @@ void Camera::MoveDown(void)
 {
 	float tmpx, tmpy;
 	ConvertCoordinates((hres/2.0), (vres/2.0), tmpx, tmpy);
-	if (tmpy < -map->breadth / 2)
+	if (tmpy < -game->map->breadth / 2)
 		return;
 
 	initx -= sin(angle);
@@ -89,7 +90,7 @@ void Camera::MoveLeft(void)
 {
 	float tmpx, tmpy;
 	ConvertCoordinates((hres/2.0), (vres/2.0), tmpx, tmpy);
-	if (tmpx > map->length / 2)
+	if (tmpx > game->map->length / 2)
 		return;
 
 	initx += cos(angle);
@@ -101,7 +102,7 @@ void Camera::MoveRight(void)
 {
 	float tmpx, tmpy;
 	ConvertCoordinates((hres/2.0), (vres/2.0), tmpx, tmpy);
-	if (tmpx < -map->length / 2)
+	if (tmpx < -game->map->length / 2)
 		return;
 
 	initx -= cos(angle);

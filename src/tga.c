@@ -162,6 +162,6 @@ int loadTGA (const char *name, int id)
 	// release our image data since it has already been uploaded
 	free (imageData);
 
-	return 1;
+	return 0;
 }
 

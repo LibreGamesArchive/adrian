@@ -1,10 +1,11 @@
 #include "menupage.h"
-
-MenuPage *currentMenuPage = NULL;
+#include "menu.h"
+#include "../globals.h"
 
 MenuPage::MenuPage(int currentSelection)
 {
 	noOfMenuItems = 0;
+	animatePercent = 100;
 	this->currentSelection = currentSelection;
 	memset(menuItemArray, 0, sizeof(menuItemArray));
 	parentMenuPage = NULL;
@@ -65,22 +66,20 @@ void MenuPage::moveDown(void)
 
 }
 
-extern void PlaySound(void);
+//extern void PlaySound(void);
 
 void MenuPage::accept(void)
 {
-	if (menuItemArray[currentSelection]->getFunc()) {
-		menuItemArray[currentSelection]->ExecuteFunc();
-	}
 	if (((MenuPage *) menuItemArray[currentSelection]->getNextMenuPage())) {
 		((MenuPage *) menuItemArray[currentSelection]->
 		 getNextMenuPage())->parentMenuPage = this;
-		currentMenuPage =
-		    (MenuPage *) menuItemArray[currentSelection]->
-		    getNextMenuPage();
-		currentMenuPage->Show();
+		menu->setCurrentMenuPage((MenuPage *) menuItemArray[currentSelection]->
+		    getNextMenuPage());
 	}
-	PlaySound();
+	if (menuItemArray[currentSelection]->getFunc()) {
+		menuItemArray[currentSelection]->ExecuteFunc();
+	}
+//	PlaySound();
 }
 
 void MenuPage::mouseAccept(int mousex, int mousey)
@@ -103,12 +102,10 @@ void MenuPage::mouseAccept(int mousex, int mousey)
 	if (((MenuPage *) menuItemArray[currentSelection]->getNextMenuPage())) {
 		((MenuPage *) menuItemArray[currentSelection]->
 		 getNextMenuPage())->parentMenuPage = this;
-		currentMenuPage =
-		    (MenuPage *) menuItemArray[currentSelection]->
-		    getNextMenuPage();
-		currentMenuPage->Show();
+		menu->setCurrentMenuPage((MenuPage *) menuItemArray[currentSelection]->
+		    getNextMenuPage());
 	}
-	PlaySound();
+//	PlaySound();
 }
 
 void MenuPage::mouseMove(int mousex, int mousey)
@@ -170,13 +167,13 @@ void MenuPage::Animate(void)
 
 void MenuPage::toPreviousMenuPage(void)
 {
-/*	if( parentMenuPage != NULL )
+	if( parentMenuPage != NULL )
 	{
 //		((MenuPage *)menuItemArray[noOfMenuItems]->getNextMenuPage())->parentMenuPage = this;
-		currentMenuPage = parentMenuPage;
-		currentMenuPage->Show();
+//		currentMenuPage = parentMenuPage;
+//		currentMenuPage->Show();
 	}
-	else*/
+	else
 	{
 		exit(0);
 	}

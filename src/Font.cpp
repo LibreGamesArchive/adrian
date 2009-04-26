@@ -2,6 +2,8 @@
 #include <GL/gl.h>
 #include <GL/glu.h>
 
+static float FontTexture[256][2];
+
 void fontInit()
 {
 	FontTexture[46][0] = .625;

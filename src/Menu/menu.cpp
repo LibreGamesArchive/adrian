@@ -4,13 +4,36 @@
 
 #include "menu.h"
 #include "../tga.h"
+#include "../globals.h"
 
-extern float FontTexture[256][2];
-
-void InitFont(void)
+Menu::Menu(void)
 {
-	if (loadTGA("font.tga", 20) != 0) {
-		printf("Could not load textures\n");
+	initialized = false;
+	lazy_destroy = false;
+}
+
+Menu::~Menu()
+{
+}
+
+void Menu::InitMenuOpenGL(int horz_res, int vert_res)
+{
+	glEnable(GL_DEPTH_TEST);
+	glClearColor(0, 0, 0, 0.0);
+	glViewport(0, 0, horz_res, vert_res);
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	glOrtho(0, horz_res, 0, vert_res, -1, 3);
+}
+
+void Menu::InitFont(void)
+{
+	int ret;
+
+//	glGenTextures(1, &fontTexID);
+	fontTexID = 51;
+	if ((ret = loadTGA("maps/font.tga", fontTexID)) != 0) {
+		printf("Could not load textures: %d\n", ret);
 		exit(1);
 	}
 
@@ -130,25 +153,36 @@ void InitFont(void)
 
 }
 
+void Menu::DestroyFont(void)
+{
+	glDeleteTextures(1, &fontTexID);
+}
+
 void exitGame(void)
 {
-//      SDL_Quit();
 	exit(0);
 }
 
-void InitializeMenu(void)
+void Menu::InitializeMenu(void)
 {
+	if (initialized)
+		return;
+
+	// Animation
+	linex = 0;
+	increment = 1;
+
 	// Main Menu
-	MenuPage *parent = new MenuPage();
+	parent = new MenuPage();
 
 	MenuItem *singlePlayerItem =
-	    new MenuItem("SINGLE PLAYER", 400, 600, NULL, NULL, true,
+	    new MenuItem("PLAY GAME", 400, 600, NULL, NULL, true,
 			 0, 600);
 	parent->addMenuItem(singlePlayerItem);
 
-	MenuItem *multiPlayerItem =
-	    new MenuItem("MULTI PLAYER", 400, 500, NULL, NULL, true, 900, 500);
-	parent->addMenuItem(multiPlayerItem);
+	MenuItem *settingsItem =
+	    new MenuItem("SETTINGS", 400, 500, NULL, NULL, true, 900, 500);
+	parent->addMenuItem(settingsItem);
 
 	// Disabled
 	MenuItem *optionsItem =
@@ -160,21 +194,21 @@ void InitializeMenu(void)
 	parent->addMenuItem(creditsItem);
 
 	MenuItem *quitItem =
-	    new MenuItem("QUIT", 400, 200, (void *)exitGame, NULL, true, 400,
+	    new MenuItem("QUIT", 400, 200, exitGame, NULL, true, 400,
 			 700);
 	parent->addMenuItem(quitItem);
 
 	currentMenuPage = parent;
 
 	// Single Player Menu
-	MenuPage *singlePlayerPage = new MenuPage();
+	singlePlayerPage = new MenuPage();
 
 	MenuItem *startSinglePlayerGameItem =
-	    new MenuItem("START GAME", 400, 500, NULL, NULL);
+	    new MenuItem("START GAME", 400, 500, start_game, NULL);
 	singlePlayerPage->addMenuItem(startSinglePlayerGameItem);
 
 	MenuItem *loadSinglePlayerGameItem =
-	    new MenuItem("LOAD GAME", 400, 400, NULL, NULL);
+	    new MenuItem("LOAD GAME", 400, 400, NULL, NULL, false);
 	singlePlayerPage->addMenuItem(loadSinglePlayerGameItem);
 
 	MenuItem *backSinglePlayerItem =
@@ -185,30 +219,68 @@ void InitializeMenu(void)
 	backSinglePlayerItem->setNextMenuPage(parent);
 
 	// Multi Player Menu
-	MenuPage *multiPlayerPage = new MenuPage();
+	settingsPage = new MenuPage();
 
-	MenuItem *startMultiPlayerServerItem =
-	    new MenuItem("START SERVER", 400, 500, NULL, NULL,
+	MenuItem *changeVideoSettingsItem =
+	    new MenuItem("VIDEO", 400, 600, NULL, NULL,
 			 true, 0, 500, ANIMATION_STRAIGHT);
-	multiPlayerPage->addMenuItem(startMultiPlayerServerItem);
+	settingsPage->addMenuItem(changeVideoSettingsItem);
 
-	MenuItem *joinMultiPlayerServerItem =
-	    new MenuItem("JOIN SERVER", 400, 400, NULL, NULL,
-			 true, 1000, 500, ANIMATION_STRAIGHT);
-	multiPlayerPage->addMenuItem(joinMultiPlayerServerItem);
+	MenuItem *changeSoundSettingsItem =
+	    new MenuItem("SOUND", 400, 500, NULL, NULL,
+			 false, 1000, 500, ANIMATION_STRAIGHT);
+	settingsPage->addMenuItem(changeSoundSettingsItem);
+
+	MenuItem *changeKbdSettingsItem =
+	    new MenuItem("KEYBOARD", 400, 400, NULL, NULL,
+			 false, 0, 500, ANIMATION_STRAIGHT);
+	settingsPage->addMenuItem(changeKbdSettingsItem);
+
+	MenuItem *changeMouseSettingsItem =
+	    new MenuItem("MOUSE", 400, 300, NULL, NULL,
+			 false, 0, 500, ANIMATION_STRAIGHT);
+	settingsPage->addMenuItem(changeMouseSettingsItem);
 
 	MenuItem *backMultiPlayerItem =
-	    new MenuItem("BACK", 400, 300, NULL, NULL, true, 400,
+	    new MenuItem("BACK", 400, 200, NULL, NULL, true, 400,
 			 0, ANIMATION_STRAIGHT);
-	multiPlayerPage->addMenuItem(backMultiPlayerItem);
+	settingsPage->addMenuItem(backMultiPlayerItem);
 
-	multiPlayerItem->setNextMenuPage(multiPlayerPage);
+	settingsItem->setNextMenuPage(settingsPage);
 	backMultiPlayerItem->setNextMenuPage(parent);
+
+
+	// Change video res
+	videoResPage = new MenuPage();
+
+	MenuItem *change_res_640_x_480 =
+	    new MenuItem("640 X 480", 400, 600, NULL, NULL,
+			 true, 0, 500, ANIMATION_STRAIGHT);
+	videoResPage->addMenuItem(change_res_640_x_480);
+	MenuItem *change_res_800_x_600 =
+	    new MenuItem("800 X 600", 400, 500, NULL, NULL,
+			 true, 0, 500, ANIMATION_STRAIGHT);
+	videoResPage->addMenuItem(change_res_800_x_600);
+	MenuItem *change_res_1024_x_768 =
+	    new MenuItem("1024 X 768", 400, 400, NULL, NULL,
+			 true, 0, 500, ANIMATION_STRAIGHT);
+	videoResPage->addMenuItem(change_res_1024_x_768);
+	MenuItem *change_res_1600_x_1200 =
+	    new MenuItem("1600 X 1200", 400, 300, NULL, NULL,
+			 true, 0, 500, ANIMATION_STRAIGHT);
+	videoResPage->addMenuItem(change_res_1600_x_1200);
+	MenuItem *backVidResItem =
+	    new MenuItem("BACK", 400, 200, NULL, NULL, true, 400,
+			 0, ANIMATION_STRAIGHT);
+	videoResPage->addMenuItem(backVidResItem);
+
+	changeVideoSettingsItem->setNextMenuPage(videoResPage);
+	backVidResItem->setNextMenuPage(settingsPage);
 
 	// Options Menu
 
 	// Credits Menu
-	MenuPage *creditsPage = new MenuPage(3);
+	creditsPage = new MenuPage(3);
 
 	// Disabled Names
 	MenuItem *bhanuItem =
@@ -231,5 +303,173 @@ void InitializeMenu(void)
 
 	parent->Dump();
 
+	InitMenuOpenGL(1024, 768);
+
 	InitFont();
+
+	currentMenuPage->Show();
+	currentMenuPage->Animate();
+
+	initialized = true;
 }
+
+/* Called from timer func - so sync with process events and render */
+void Menu::DestroyMenu(void)
+{
+	if (!initialized)
+		return;
+
+	initialized = false;
+
+	/* OK now to make sure everyone has exit their blocks */
+	lazy_destroy = true;
+}
+
+void Menu::LazyDestroyMenu(void)
+{
+	if (!lazy_destroy)
+		return;
+
+	assert(!initialized);
+
+	printf("Lazy destroying menu!\n");
+
+	DestroyFont();
+
+	currentMenuPage = NULL;
+
+	delete videoResPage; videoResPage = NULL;
+
+	delete singlePlayerPage; singlePlayerPage = NULL;
+	delete settingsPage; settingsPage = NULL;
+	delete creditsPage; creditsPage = NULL;
+
+	delete parent; parent = NULL;
+
+	lazy_destroy = false;
+}
+
+void Menu::HandleKeyDown(SDL_keysym* keysym)
+{
+	if (!initialized)
+		return;
+
+	if(keysym->sym == SDLK_ESCAPE)
+	{
+		currentMenuPage->toPreviousMenuPage();
+	}
+
+	printf("KEYDOWN = %d\n", keysym->sym);
+	switch (keysym->sym) {
+		case SDLK_UP:
+			currentMenuPage->moveUp();
+			break;
+		case SDLK_DOWN:
+			currentMenuPage->moveDown();
+			break;
+		case SDLK_RETURN:
+			currentMenuPage->accept();
+			break;
+		default:
+			break;
+	}
+}
+
+void Menu::HandleKeyUp(SDL_keysym* keysym)
+{
+	if (!initialized)
+		return;
+
+	printf("KEYUP = %d\n", keysym->sym);
+}
+
+void Menu::ProcessEvents(void)
+{
+	if (!initialized)
+		return;
+
+	SDL_Event event;
+
+	if (currentMenuPage->isAnimating())
+		return;
+
+	while (SDL_PollEvent(&event)) {
+		switch (event.type) {
+		case SDL_KEYDOWN:
+			HandleKeyDown(&event.key.keysym);
+
+		case SDL_KEYUP:
+			HandleKeyUp(&event.key.keysym);
+
+		case SDL_MOUSEMOTION:
+			currentMenuPage->mouseMove(event.motion.x,event.motion.y);
+			break;
+
+		case SDL_MOUSEBUTTONDOWN:
+			if( event.button.button == SDL_BUTTON_LEFT )
+				currentMenuPage->mouseAccept( event.motion.x , event.motion.y );
+			break;
+
+		case SDL_QUIT:
+			exit(0);
+
+		default:
+			break;
+		}
+	}
+
+	/* Check if we have any lazy destroy pending */
+	if (lazy_destroy)
+		LazyDestroyMenu();
+}
+
+void Menu::Render(void)
+{
+	if (!initialized)
+		return;
+
+    glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+	glColor3f( 1, 1, 1 );
+
+	static int linex1 = rand() * 1024;
+	glBegin(GL_LINES);
+		glVertex3f(linex1++ , 0, -1.5);
+		glVertex3f(linex1++ , 768, -1.5);
+	glEnd();
+	glBegin(GL_LINES);
+		glVertex3f(linex * 3, 0, -1.5);
+		glVertex3f(linex * 3, 768, -1.5);
+	glEnd();
+
+	glBegin(GL_LINES);
+		glVertex3f(0, linex * 2, -1.5);
+		glVertex3f(1024, linex * 2, -1.5);
+	glEnd();
+	glBegin(GL_LINES);
+		glVertex3f(0, linex * 3, -1.5);
+		glVertex3f(1024, linex * 3, -1.5);
+	glEnd();
+
+	currentMenuPage->Render();
+	glFlush();
+}
+
+void Menu::TimerCallback(void)
+{
+	if (!initialized)
+		return;
+
+	currentMenuPage->Animate();
+    if (linex >= 500)
+		increment = -1;
+	if (linex <= 0)
+		increment = 1;
+	linex += increment;
+}
+
+void Menu::setCurrentMenuPage(MenuPage *pg)
+{
+	currentMenuPage = pg;
+	currentMenuPage->Show();
+}
+

@@ -1,10 +1,11 @@
 #include "MiniMap.h"
 #include "globals.h"
+#include "Game.h"
 
 MiniMap::MiniMap()
 {
-	xconvfactor = map->length / SCR2RESX(100);
-	yconvfactor = map->breadth / SCR2RESY(100);
+	xconvfactor = game->map->length / SCR2RESX(100);
+	yconvfactor = game->map->breadth / SCR2RESY(100);
 
 	GenerateDisplayLists();
 }
@@ -20,38 +21,38 @@ int MiniMap::GenerateDisplayLists(void)
 	glNewList(mapbuildings, GL_COMPILE);
 	glColor3f(.8, .8, .8);
 	glEnable(GL_TEXTURE_2D);
-	glBindTexture(GL_TEXTURE_2D, map->textureID);
+	glBindTexture(GL_TEXTURE_2D, game->map->textureID);
 	glBegin(GL_POLYGON);
 	glTexCoord2f(0, 0);
-	glVertex2f((map->length / 2.0) / xconvfactor,
-		   (map->breadth / 2.0) / yconvfactor);
+	glVertex2f((game->map->length / 2.0) / xconvfactor,
+		   (game->map->breadth / 2.0) / yconvfactor);
 	glTexCoord2f(1, 0);
-	glVertex2f(-(map->length / 2.0) / xconvfactor,
-		   (map->breadth / 2.0) / yconvfactor);
+	glVertex2f(-(game->map->length / 2.0) / xconvfactor,
+		   (game->map->breadth / 2.0) / yconvfactor);
 	glTexCoord2f(1, 1);
-	glVertex2f(-(map->length / 2.0) / xconvfactor,
-		   -(map->breadth / 2.0) / yconvfactor);
+	glVertex2f(-(game->map->length / 2.0) / xconvfactor,
+		   -(game->map->breadth / 2.0) / yconvfactor);
 	glTexCoord2f(0, 1);
-	glVertex2f((map->length / 2.0) / xconvfactor,
-		   -(map->breadth / 2.0) / yconvfactor);
+	glVertex2f((game->map->length / 2.0) / xconvfactor,
+		   -(game->map->breadth / 2.0) / yconvfactor);
 	glEnd();
 
 	glColor3f(1, 1, 1);
-	for (int i = 0; i < map->no_of_buildings; i++) {
-//              glBindTexture( GL_TEXTURE_2D , map->buildings[i].textureID );
+	for (int i = 0; i < game->map->no_of_buildings; i++) {
+//              glBindTexture( GL_TEXTURE_2D , game->map->buildings[i].textureID );
 		glBegin(GL_POLYGON);
 //                      glTexCoord2f( .25, 0);
-		glVertex2f(map->buildings[i].x1 / xconvfactor,
-			   -map->buildings[i].y1 / yconvfactor);
+		glVertex2f(game->map->buildings[i].x1 / xconvfactor,
+			   -game->map->buildings[i].y1 / yconvfactor);
 //                      glTexCoord2f( .25, .75 );
-		glVertex2f(map->buildings[i].x1 / xconvfactor,
-			   -map->buildings[i].y2 / yconvfactor);
+		glVertex2f(game->map->buildings[i].x1 / xconvfactor,
+			   -game->map->buildings[i].y2 / yconvfactor);
 //                      glTexCoord2f( .70, .75);
-		glVertex2f(map->buildings[i].x2 / xconvfactor,
-			   -map->buildings[i].y2 / yconvfactor);
+		glVertex2f(game->map->buildings[i].x2 / xconvfactor,
+			   -game->map->buildings[i].y2 / yconvfactor);
 //                      glTexCoord2f( .70, 0);
-		glVertex2f(map->buildings[i].x2 / xconvfactor,
-			   -map->buildings[i].y1 / yconvfactor);
+		glVertex2f(game->map->buildings[i].x2 / xconvfactor,
+			   -game->map->buildings[i].y1 / yconvfactor);
 		glEnd();
 	}
 	glDisable(GL_TEXTURE_2D);
@@ -64,35 +65,35 @@ void MiniMap::Render(void)
 	glPushMatrix();
 
 	glTranslatef(SCR2RESX(565), SCR2RESY(75), 0);
-	glRotatef(camera->angle * 180.0 / 3.141, 0, 0, -1);
+	glRotatef(game->camera->angle * 180.0 / 3.141, 0, 0, -1);
 
 	glCallList(mapbuildings);
 
 	glPointSize(3);
 	glColor3f(1, 0, 0);
 	glBegin(GL_POINTS);
-	for (int i = 0; i < num_guards; i++) {
-		if (guard[i]->Alive)
-			glVertex2f(guard[i]->curx / xconvfactor,
-				   -guard[i]->cury / yconvfactor);
+	for (int i = 0; i < game->num_guards; i++) {
+		if (game->guard[i]->Alive)
+			glVertex2f(game->guard[i]->curx / xconvfactor,
+				   -game->guard[i]->cury / yconvfactor);
 	}
 	glColor3f(1, 1, 1);
-	glVertex2f(hero->curx / xconvfactor, -hero->cury / yconvfactor);
+	glVertex2f(game->hero->curx / xconvfactor, -game->hero->cury / yconvfactor);
 	glEnd();
 
 	glPushMatrix();
 
-	glTranslatef(camera->initx / xconvfactor,
-		     -((camera->initz)) / yconvfactor, 0);
-	glRotatef(camera->angle * 180.0 / 3.141, 0, 0, 1);
+	glTranslatef(game->camera->initx / xconvfactor,
+		     -((game->camera->initz)) / yconvfactor, 0);
+	glRotatef(game->camera->angle * 180.0 / 3.141, 0, 0, 1);
 	float x, y;
-	camera->ConvertCoordinates((hres/2.0), (vres/2.0), x, y);
+	game->camera->ConvertCoordinates((hres/2.0), (vres/2.0), x, y);
 	glColor3f(1, 1, 1);
 	float hm = SCR2RESX(21.33);
 	float vm = SCR2RESY(21.33);
 //	float hm = x, vm = y;
 	glLineWidth(1);
-//	float my = -((camera->initz)) / yconvfactor;	///yconvfactor;
+//	float my = -((game->camera->initz)) / yconvfactor;	///yconvfactor;
 	glBegin(GL_LINE_STRIP);
 	glVertex2f(-hm, -vm);
 	glVertex2f(-hm, +vm);
@@ -110,8 +111,8 @@ void MiniMap::Render(void)
 bool MiniMap::isMouseOver(int sx, int sy, float &nx, float &ny)
 {
 	float mx, my;
-	mx = (sx - SCR2RESX(565)) * cos(camera->angle) + (sy - SCR2RESY(405)) * sin(camera->angle);
-	my = (sy - SCR2RESY(405)) * cos(camera->angle) - (sx - SCR2RESX(565)) * sin(camera->angle);
+	mx = (sx - SCR2RESX(565)) * cos(game->camera->angle) + (sy - SCR2RESY(405)) * sin(game->camera->angle);
+	my = (sy - SCR2RESY(405)) * cos(game->camera->angle) - (sx - SCR2RESX(565)) * sin(game->camera->angle);
 
 	if (mx < SCR2RESX(50) && mx > -SCR2RESX(50) && my < SCR2RESY(50) && my > -SCR2RESY(50)) {
 		nx = mx;

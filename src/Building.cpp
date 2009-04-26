@@ -1,5 +1,6 @@
 #include "Building.h"
 #include "globals.h"
+#include "Game.h"
 #include "tga.h"
 
 Building::Building(void)
@@ -494,17 +495,17 @@ void Building::Render(void)
 			glDisable(GL_TEXTURE_2D);
 
 			bunkerpole(x1, y1);
-			bunkerpole(x1 + map->blocksize, y1);
-			bunkerpole(x1, y1 + map->blocksize);
+			bunkerpole(x1 + game->map->blocksize, y1);
+			bunkerpole(x1, y1 + game->map->blocksize);
 			bunkerpole(x2, y1);
-			bunkerpole(x2 - map->blocksize, y1);
-			bunkerpole(x2, y1 + map->blocksize);
+			bunkerpole(x2 - game->map->blocksize, y1);
+			bunkerpole(x2, y1 + game->map->blocksize);
 			bunkerpole(x2, y2);
-			bunkerpole(x2 - map->blocksize, y2);
-			bunkerpole(x2, y2 - map->blocksize);
+			bunkerpole(x2 - game->map->blocksize, y2);
+			bunkerpole(x2, y2 - game->map->blocksize);
 			bunkerpole(x1, y2);
-			bunkerpole(x1 + map->blocksize, y2);
-			bunkerpole(x1, y2 - map->blocksize);
+			bunkerpole(x1 + game->map->blocksize, y2);
+			bunkerpole(x1, y2 - game->map->blocksize);
 
 			break;
 		}

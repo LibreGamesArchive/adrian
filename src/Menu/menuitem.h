@@ -9,7 +9,7 @@
 
 typedef void *MenuPagePtr;
 
-typedef void (*MENU_FUNC) (void);
+typedef void (*MENU_FUNC)(void);
 
 typedef enum {
 	ANIMATION_STRAIGHT,
@@ -34,7 +34,7 @@ class MenuItem {
 	AnimationType animationType;
 
  public:
-	 MenuItem(const char *text, float x, float y, void *funcPtr = NULL,
+	 MenuItem(const char *text, float x, float y, MENU_FUNC funcPtr = NULL,
 		  MenuPagePtr nextMenuPage = NULL, bool enabled =
 		  true, float startx = 0, float starty =
 		  0, AnimationType animationType =

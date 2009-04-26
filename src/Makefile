@@ -9,11 +9,11 @@ OBJECT_FILES	=	Map.o			\
 					Hero.o		\
 					Guard.o		\
 					main.o			\
+					Game.o			\
 					Md2.o			\
 					Tga.o			\
 					Font.o			\
 					Globals.o		\
-					Menu.o			\
 					Cursor.o		\
 					Panel.o			\
 					SoundSystem.o	\
@@ -22,11 +22,8 @@ OBJECT_FILES	=	Map.o			\
 adrian: $(OBJECT_FILES) Menu/menu.a
 	$(LINK_COMMAND) $(OBJECT_FILES) Menu/menu.a -o adrian
 	
-Menu/menu.a:
+Menu/menu.a: Menu/*.cpp Menu/*.h
 	make -C Menu
-
-Menu.o: Menu.cpp Menu.h
-	$(COMPILE_COMMAND) -c Menu.cpp -o Menu.o
 
 Panel.o: Panel.cpp Panel.h
 	$(COMPILE_COMMAND) -c Panel.cpp -o Panel.o
@@ -48,6 +45,9 @@ Map.o:	Map.cpp Map.h
 
 MiniMap.o:	MiniMap.cpp MiniMap.h
 	$(COMPILE_COMMAND) -c MiniMap.cpp -o MiniMap.o
+
+Game.o:	Game.cpp Game.h
+	$(COMPILE_COMMAND) -c Game.cpp -o Game.o
 
 Camera.o:	Camera.cpp Camera.h
 	$(COMPILE_COMMAND) -c Camera.cpp -o Camera.o
