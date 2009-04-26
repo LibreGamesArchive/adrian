@@ -79,8 +79,10 @@ maps/MutantCheeta.tga 69
 maps/MutantLizard.tga 70
 maps/Ripper.tga 71
 maps/tree.tga 72
-6
+8
 72 -1100 1100
+72 -1050 1100
+72 -950 1100
 72 -750 1100
 72 -350 1100
 72 -1100 700

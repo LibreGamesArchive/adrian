@@ -23,6 +23,9 @@ void Sprite::Render(void)
 	float lenx = cos(ang) * imgwdth;
 	float lenz = -sin(ang) * imgwdth;
 
+	glEnable(GL_ALPHA_TEST);
+	glAlphaFunc(GL_GREATER, 0.5);
+
 	glEnable(GL_TEXTURE_2D);
 	glColor4f(1.0, 1.0, 1.0, 1.0);
 	glBindTexture(GL_TEXTURE_2D, texid);
