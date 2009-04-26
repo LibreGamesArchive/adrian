@@ -24,6 +24,8 @@ void Menu::InitMenuOpenGL(int horz_res, int vert_res)
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	glOrtho(0, horz_res, 0, vert_res, -1, 3);
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
 }
 
 void Menu::InitFont(void)
@@ -301,8 +303,6 @@ void Menu::InitializeMenu(void)
 	creditsItem->setNextMenuPage(creditsPage);
 	backCreditsItem->setNextMenuPage(parent);
 
-	parent->Dump();
-
 	InitMenuOpenGL(1024, 768);
 
 	InitFont();
@@ -359,7 +359,6 @@ void Menu::HandleKeyDown(SDL_keysym* keysym)
 		currentMenuPage->toPreviousMenuPage();
 	}
 
-	printf("KEYDOWN = %d\n", keysym->sym);
 	switch (keysym->sym) {
 		case SDLK_UP:
 			currentMenuPage->moveUp();
@@ -379,8 +378,6 @@ void Menu::HandleKeyUp(SDL_keysym* keysym)
 {
 	if (!initialized)
 		return;
-
-	printf("KEYUP = %d\n", keysym->sym);
 }
 
 void Menu::ProcessEvents(void)

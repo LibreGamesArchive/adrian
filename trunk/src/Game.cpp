@@ -15,6 +15,15 @@ extern SDL_Cursor *init_system_cursor(const char *image[]);
 Game::Game(void)
 {
 	initialized = false;
+	lazy_destroy = false;
+
+	hero = NULL;
+	camera = NULL;
+	map = NULL;
+	minimap = NULL;
+	num_guards = 0;
+	memset(guard, 0, sizeof(guard));
+
 	resetVars();
 }
 
@@ -22,6 +31,8 @@ Game::~Game()
 {
 }
 
+/* This should contain ONLY LEGAL RESET VALUES!!!
+ * For example **NEVER** NULL a pointer in this!! */
 void Game::resetVars(void)
 {
 	started = false;
@@ -48,13 +59,6 @@ void Game::resetVars(void)
 	show_minimap = true;
 
 	angle = START_ANGLE;
-
-	hero = NULL;
-	camera = NULL;
-	map = NULL;
-	minimap = NULL;
-	num_guards = 0;
-	memset(guard, 0, sizeof(guard));
 }
 
 /* Loads all in-game textures */
@@ -185,6 +189,16 @@ void Game::DestroyGame(void)
 {
 	initialized = false;
 
+	lazy_destroy = true;
+
+	resetVars();
+}
+
+void Game::LazyDestroyGame(void)
+{
+	if (!lazy_destroy)
+		return;
+
 	delete minimap;
 	delete panel;
 	delete hero;
@@ -193,9 +207,16 @@ void Game::DestroyGame(void)
 	delete map;
 	delete camera;
 
+	hero = NULL;
+	camera = NULL;
+	map = NULL;
+	minimap = NULL;
+	num_guards = 0;
+	memset(guard, 0, sizeof(guard));
+
 	UnloadTextures();
 
-	resetVars();
+	lazy_destroy = false;
 }
 
 void Game::addGuard(Guard *g)
@@ -371,15 +392,11 @@ void Game::ProcessEvents(void)
 						Bool_Cam_MvxP = true;
 						break;
 					}
-//				case SDLK_F2:
-//					{
-//						gameMenu = true;
-//						gameMenuInit = true;
-//						gameInit = false;
-//						gamePaused = false;
-//						gameOver = true;
-//						break;
-//					}
+				case SDLK_F2:
+					{
+						end_game();
+						break;
+					}
 				case SDLK_F1:
 					{
 						showHelp = !showHelp;
@@ -529,6 +546,9 @@ void Game::ProcessEvents(void)
 	}
 
 	WorldCamUpdate();
+
+	if (lazy_destroy)
+		LazyDestroyGame();
 }
 
 void Game::drawObjects(GLenum mode)
@@ -664,5 +684,6 @@ void Game::TimerCallback(void)
 			gameover = true;
 		}
 	}
+
 }
 

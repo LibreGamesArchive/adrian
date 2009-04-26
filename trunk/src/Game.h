@@ -31,6 +31,7 @@ class Game
 	bool initialized;
 	bool started;
 	bool gameover;
+	bool lazy_destroy;
 
 	/* Key event variables */
 	bool Bool_Cam_RotateP;
@@ -74,6 +75,7 @@ class Game
 	void newpickObjects(int x, int y);
 	void HandleRightClick(int x, int y);
 	void drawObjects(GLenum mode);
+	void LazyDestroyGame(void);
 
  public:
 	Game(void);

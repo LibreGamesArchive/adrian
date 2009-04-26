@@ -43,7 +43,7 @@ void Panel::Render()
 
 	glColor3f(1, 1, 1);
 	if (showHelp) {
-		drawfontString("F3 : SHOW FPS", 20, 450, 15, 15);
+		drawfontString("F2 : QUIT GAME", 20, 450, 15, 15);
 		drawfontString("P  : PAUSE GAME", 20, 430, 15, 15);
 		drawfontString("A  : ROTATE CAMERA ANTICLOCKWISE", 20, 410, 15,
 			       15);
