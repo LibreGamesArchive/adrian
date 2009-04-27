@@ -1,6 +1,6 @@
 COMPILE_COMMAND = g++ -Wall -Werror -g3
 
-LINK_COMMAND = g++ -Wall -Werror -g3 -lGL -lGLU -lm -lSDL -lSDL_image -lSDL_mixer
+LINK_COMMAND = g++ -Wall -Werror -g3 -lGL -lGLU -lm -lSDL -lSDL_image -lSDL_mixer -lSDL_ttf
 
 OBJECT_FILES	=	Map.o			\
 					MiniMap.o		\
@@ -65,11 +65,11 @@ Guard.o:	Guard.cpp Guard.h Md2.h Md2.o
 Globals.o:	globals.cpp globals.h
 	$(COMPILE_COMMAND) -c globals.cpp -o Globals.o
 	
-Cursor.o:	cursor.c cursor.h
-	$(COMPILE_COMMAND) -c cursor.c -o Cursor.o
+Cursor.o:	cursor.cpp cursor.h
+	$(COMPILE_COMMAND) -c cursor.cpp -o Cursor.o
 
-Tga.o:	tga.c tga.h
-	$(COMPILE_COMMAND) -c tga.c -o Tga.o
+Tga.o:	tga.cpp tga.h
+	$(COMPILE_COMMAND) -c tga.cpp -o Tga.o
 	
 clean:
 	make -C Menu clean

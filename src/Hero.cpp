@@ -1,6 +1,5 @@
 #include "Hero.h"
 #include "globals.h"
-//#include "unistd.h"
 #include "Game.h"
 
 #define		PI		3.141

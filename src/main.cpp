@@ -12,7 +12,6 @@
 #include <SDL/SDL.h>
 #include <SDL/SDL_mixer.h>
 #include <signal.h>
-//#include <unistd.h>
 
 #define			TIME_INTERVAL			300
 extern Uint32 TimerCallback(unsigned int);
@@ -25,7 +24,7 @@ void Quit(int val)
 	SDL_Quit();
 	exit(val);
 }
-//
+
 #ifdef WIN32
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 #else
