@@ -8,7 +8,6 @@
 #include <SDL/SDL.h>
 #include <SDL/SDL_mixer.h>
 #include <signal.h>
-//#include <unistd.h>
 
 extern SDL_Cursor *init_system_cursor(const char *image[]);
 
