@@ -110,6 +110,8 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
+				Optimization="3"
+				FavorSizeOrSpeed="1"
 				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE;"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
@@ -128,9 +130,10 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
+				AdditionalOptions="glu32.lib opengl32.lib sdl.lib sdl_mixer.lib sdl_ttf.lib sdl_image.lib"
 				LinkIncremental="2"
 				GenerateDebugInformation="true"
-				SubSystem="1"
+				SubSystem="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
 				TargetMachine="1"
