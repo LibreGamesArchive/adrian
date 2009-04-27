@@ -7,7 +7,12 @@
     Author      -- Nate 'm|d' Miller
     Contact     -- vandals1@home.com
     Web         -- http://members.home.com/vandals1
-*/  
+*/
+
+#ifdef WIN32
+#include <windows.h>
+#endif
+
 #include <time.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -21,5 +26,6 @@ typedef float vec_t;
 typedef vec_t vec2_t[2];
 typedef vec_t vec3_t[3];
 
-#endif	/*  */
+#endif	/* 
+ */
     

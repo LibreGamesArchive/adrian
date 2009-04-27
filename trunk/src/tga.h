@@ -7,7 +7,11 @@
 	Author	: Nate Miller
 	Contact	: vandals1@home.com
 */  
-    
+ 
+#ifdef WIN32
+#include <windows.h>
+#endif
+   
 // Error Codes
 // file was not found
 #define TGA_FILE_NOT_FOUND			13
@@ -22,4 +26,3 @@
     
 // id is the texture id to bind too
 int loadTGA(const char *name, int id);
-
