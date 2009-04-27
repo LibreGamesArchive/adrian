@@ -1,6 +1,6 @@
 #include "Hero.h"
 #include "globals.h"
-#include "unistd.h"
+//#include "unistd.h"
 #include "Game.h"
 
 #define		PI		3.141
@@ -60,7 +60,7 @@ void Hero::Attack(void)
 {
 	status = HERO_ATTACKING;
 	AttackFrameCount = getNumFrames(ATTACK);
-	usleep(500000);
+	//usleep(500000);
 	setAnimation(ATTACK);
 }
 

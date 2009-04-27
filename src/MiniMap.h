@@ -1,6 +1,10 @@
 #ifndef				__GAME_MINIMAP_H__
 #define				__GAME_MINIMAP_H__
 
+#ifdef WIN32
+#include <windows.h>
+#endif
+
 #include "Map.h"
 
 class MiniMap {

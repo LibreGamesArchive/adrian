@@ -1,6 +1,10 @@
 #ifndef			__GAME_MAP_H__
 #define			__GAME_MAP_H__
 
+#ifdef WIN32
+#include <windows.h>
+#endif
+
 #include <stdio.h>
 #include <string.h>
 #include <GL/gl.h>

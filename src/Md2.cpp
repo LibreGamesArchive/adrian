@@ -366,11 +366,11 @@ void CLoadMD2::CleanUp()
 // class for handling Md2 objects
 Md2::Md2(const char *filename) 
 {
-	bzero(this->filename, FILE_NAME_SIZE);
+	memset(this->filename, 0,  FILE_NAME_SIZE);
 	strcpy(this->filename, filename);
 	
 	    //strcpy( TEXTURE_NAME, texFileName );
-	    bzero(TEXTURE_NAME, 1024);
+	    memset(TEXTURE_NAME, 0, 1024);
 	strcpy(TEXTURE_NAME, filename);
 	strncat(TEXTURE_NAME, "/model.bmp", strlen("/model.bmp"));
 	strncat(this->filename, "/tris.md2", strlen("/tris.md2"));

@@ -1,10 +1,11 @@
+#include "menu.h"
+#include "../tga.h"
+#include "../globals.h"
+
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include <stdlib.h>
 
-#include "menu.h"
-#include "../tga.h"
-#include "../globals.h"
 
 Menu::Menu(void)
 {

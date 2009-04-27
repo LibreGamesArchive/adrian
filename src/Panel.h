@@ -1,6 +1,10 @@
 #ifndef __PANEL_H__
 #define __PANEL_H__
 
+#ifdef WIN32
+#include <windows.h>
+#endif
+
 class Panel {
  public:
 	int textureId;

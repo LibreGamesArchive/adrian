@@ -83,7 +83,11 @@ void Panel::Render()
 	int gap = time(NULL) - tmptime;
 	if (gap) {
 		tmptime += gap;
+#ifdef WIN32
+		sprintf_s(fps_str, 16, "FPS: %.1f", ((float)fpscounter)/(float)gap);
+#else
 		snprintf(fps_str, 16, "FPS: %.1f", ((float)fpscounter)/(float)gap);
+#endif
 		fpscounter = 0;
 	}
 	if (show_fps)

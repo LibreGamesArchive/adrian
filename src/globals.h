@@ -1,6 +1,10 @@
 #ifndef				__GAME_GLOBALS_H__
 #define				__GAME_GLOBALS_H__
 
+#ifdef WIN32
+#include <windows.h>
+#endif
+
 //#include "Game.h"
 //#include "Menu/menu.h"
 #include "SoundSystem.h"
