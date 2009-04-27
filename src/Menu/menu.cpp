@@ -316,6 +316,8 @@ void Menu::InitializeMenu(void)
 	currentMenuPage->Show();
 	currentMenuPage->Animate();
 
+	soundSystem->Play(SOUNDTYPE_MENU);
+
 	initialized = true;
 }
 
@@ -326,6 +328,8 @@ void Menu::DestroyMenu(void)
 		return;
 
 	initialized = false;
+
+	soundSystem->HaltAllChannels();
 
 	/* OK now to make sure everyone has exit their blocks */
 	lazy_destroy = true;
