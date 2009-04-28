@@ -35,7 +35,10 @@ MenuItem *MenuPage::getCurrentMenuItem(void)
 
 void MenuPage::setCurrentMenuItem(int currentMenuIndex)
 {
-	currentSelection = currentMenuIndex;
+	if (currentSelection != currentMenuIndex) {
+		currentSelection = currentMenuIndex;
+		soundSystem->Play(SOUNDTYPE_MENU_TING);
+	}
 }
 
 void MenuPage::addMenuItem(MenuItem * mi)
@@ -47,26 +50,29 @@ void MenuPage::addMenuItem(MenuItem * mi)
 // Keyboard Functions
 void MenuPage::moveUp(void)
 {
- NEXT:	currentSelection--;
-	if (currentSelection < 0)
-		currentSelection = noOfMenuItems - 1;
+	int sel = currentSelection;
+ NEXT:	sel--;
+	if (sel < 0)
+		sel = noOfMenuItems - 1;
 
-	if (!menuItemArray[currentSelection]->isEnabled())
+	if (!menuItemArray[sel]->isEnabled())
 		goto NEXT;
+
+	setCurrentMenuItem(sel);
 }
 
 void MenuPage::moveDown(void)
 {
- NEXT:	currentSelection++;
-	if (currentSelection >= noOfMenuItems)
-		currentSelection = 0;
+	int sel = currentSelection;
+ NEXT:	sel++;
+	if (sel >= noOfMenuItems)
+		sel = 0;
 
-	if (!menuItemArray[currentSelection]->isEnabled())
+	if (!menuItemArray[sel]->isEnabled())
 		goto NEXT;
 
+	setCurrentMenuItem(sel);
 }
-
-//extern void PlaySound(void);
 
 void MenuPage::accept(void)
 {
@@ -79,7 +85,6 @@ void MenuPage::accept(void)
 	if (menuItemArray[currentSelection]->getFunc()) {
 		menuItemArray[currentSelection]->ExecuteFunc();
 	}
-//	PlaySound();
 }
 
 void MenuPage::mouseAccept(int mousex, int mousey)
@@ -105,7 +110,6 @@ void MenuPage::mouseAccept(int mousex, int mousey)
 		menu->setCurrentMenuPage((MenuPage *) menuItemArray[currentSelection]->
 		    getNextMenuPage());
 	}
-//	PlaySound();
 }
 
 void MenuPage::mouseMove(int mousex, int mousey)
@@ -113,7 +117,7 @@ void MenuPage::mouseMove(int mousex, int mousey)
 	for (int i = 0; i < noOfMenuItems; i++) {
 		if (menuItemArray[i]->isEnabled()
 		    && menuItemArray[i]->isInside(mousex, mousey)) {
-			currentSelection = i;
+				setCurrentMenuItem(i);
 		}
 	}
 }

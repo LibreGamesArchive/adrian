@@ -75,11 +75,10 @@ int SoundSystem::Play(SoundType s)
 				return -1;
 			}
 		}
-		PlaySound(SOUNDTYPE_ALARM, 4);
+		PlaySound(SOUNDTYPE_ALARM, 3);
 		return 0;
 
 	case SOUNDTYPE_BACKGROUND:
-		HaltAllChannels();
 		if (!sounds[SOUNDTYPE_BACKGROUND]) {
 			if ((sounds[SOUNDTYPE_BACKGROUND] = Mix_LoadWAV("wavs/background.wav")) == NULL) {
 				printf("Cannot load wavs/background.wav\n");
@@ -90,7 +89,6 @@ int SoundSystem::Play(SoundType s)
 //                      Mix_FadeOutChannel( channels[SOUNDTYPE_BACKGROUND] , 10000 );
 		return 0;
 	case SOUNDTYPE_MENU:
-		HaltAllChannels();
 		if (sounds[SOUNDTYPE_MENU] == NULL) {
 			if ((sounds[SOUNDTYPE_MENU] =
 			     Mix_LoadWAV("wavs/menu.wav")) == NULL) {
@@ -99,6 +97,16 @@ int SoundSystem::Play(SoundType s)
 			}
 		}
 		PlaySound(SOUNDTYPE_MENU, -1);
+		return 0;
+	case SOUNDTYPE_MENU_TING:
+		if (sounds[SOUNDTYPE_MENU_TING] == NULL) {
+			if ((sounds[SOUNDTYPE_MENU_TING] =
+			     Mix_LoadWAV("wavs/ting.wav")) == NULL) {
+				printf("Cannot load wavs/ting.wav\n");
+				return -1;
+			}
+		}
+		PlaySound(SOUNDTYPE_MENU_TING, 0);
 		return 0;
 	case SOUNDTYPE_SHOOT:
 		if (!sounds[SOUNDTYPE_SHOOT]) {
