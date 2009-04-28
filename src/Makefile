@@ -50,6 +50,9 @@ MiniMap.o:	MiniMap.cpp MiniMap.h
 Game.o:	Game.cpp Game.h
 	$(COMPILE_COMMAND) -c Game.cpp -o Game.o
 
+Sprite.o:	Sprite.cpp Sprite.h
+	$(COMPILE_COMMAND) -c Sprite.cpp -o Sprite.o
+
 Camera.o:	Camera.cpp Camera.h
 	$(COMPILE_COMMAND) -c Camera.cpp -o Camera.o
 
