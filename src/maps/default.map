@@ -88,3 +88,7 @@ maps/tree.tga 72
 72 -1100 700
 72 -1100 300
 72 -1100 -100
+3
+wavs/background.wav 1 -1
+wavs/laser.wav 2 0
+wavs/alarm.wav 3 3

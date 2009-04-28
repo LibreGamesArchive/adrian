@@ -13,11 +13,11 @@
 extern void ChannelFadeCallback(int channel);
 
 typedef enum {
-	SOUNDTYPE_ALARM = 1,
-	SOUNDTYPE_BACKGROUND,
-	SOUNDTYPE_MENU,
-	SOUNDTYPE_MENU_TING,
-	SOUNDTYPE_SHOOT
+	SOUNDTYPE_BACKGROUND = 1,
+	SOUNDTYPE_MENU = 1,
+	SOUNDTYPE_MENU_TING = 2,
+	SOUNDTYPE_SHOOT = 2,
+	SOUNDTYPE_ALARM = 3,
 } SoundType;
 
 class SoundSystem {
@@ -28,18 +28,21 @@ class SoundSystem {
 	~SoundSystem();
 
 	int Initialize(void);
-	int LoadWavs(void);
+	void Destroy(void);
 
-	int Play(SoundType);
+	int Load(const char *wavfile, int idx, int defaultRepeat);
+	void UnloadAll(void);
 
 	void HaltAllChannels(void);
 
+	bool PlaySound(SoundType s);
 	bool PlaySound(SoundType s, int loop);
 
  private:
 	 bool initialized;
 
 	Mix_Chunk *sounds[MAX_SOUNDS];
+	int repeatCount[MAX_SOUNDS];
 	int channels[MAX_SOUNDS];
 	bool channelFadeStatus[MAX_SOUNDS];
 

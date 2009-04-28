@@ -20,6 +20,8 @@ void Map::Initialize(void)
 
 void Map::Destroy(void)
 {
+	soundSystem->UnloadAll();
+
 	for (int i = 0; i < num_sprites; i++)
 		delete sprites[i];
 	delete sprites;
@@ -122,6 +124,17 @@ int Map::LoadFile(const char *filename)
 		/* Init the sprite */
 		sprites[i] = new Sprite(texid, x, z);
 
+	}
+
+	int num_sounds;
+	fscanf(f, "%d", &num_sounds);
+	for (int i = 0; i < num_sounds; i++) {
+		char buf[256];
+		int id, loop;
+		fscanf(f, "%s %d %d", buf, &id, &loop);
+		printf("Loading Sound File: %s with id=%d loop=%d\n", buf, id, loop);
+
+		soundSystem->Load(buf, id, loop);
 	}
 
 	fclose(f);

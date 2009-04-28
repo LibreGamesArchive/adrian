@@ -37,7 +37,7 @@ void MenuPage::setCurrentMenuItem(int currentMenuIndex)
 {
 	if (currentSelection != currentMenuIndex) {
 		currentSelection = currentMenuIndex;
-		soundSystem->Play(SOUNDTYPE_MENU_TING);
+		soundSystem->PlaySound(SOUNDTYPE_MENU_TING);
 	}
 }
 
@@ -84,6 +84,9 @@ void MenuPage::accept(void)
 	}
 	if (menuItemArray[currentSelection]->getFunc()) {
 		menuItemArray[currentSelection]->ExecuteFunc();
+	} else {
+		/* We dont want sounds while executing something serious! */
+		soundSystem->PlaySound(SOUNDTYPE_MENU_TING);
 	}
 }
 
@@ -103,6 +106,8 @@ void MenuPage::mouseAccept(int mousex, int mousey)
 
 	if (menuItemArray[currentSelection]->getFunc()) {
 		menuItemArray[currentSelection]->ExecuteFunc();
+	} else {
+		soundSystem->PlaySound(SOUNDTYPE_MENU_TING);
 	}
 	if (((MenuPage *) menuItemArray[currentSelection]->getNextMenuPage())) {
 		((MenuPage *) menuItemArray[currentSelection]->
@@ -110,6 +115,7 @@ void MenuPage::mouseAccept(int mousex, int mousey)
 		menu->setCurrentMenuPage((MenuPage *) menuItemArray[currentSelection]->
 		    getNextMenuPage());
 	}
+
 }
 
 void MenuPage::mouseMove(int mousex, int mousey)
