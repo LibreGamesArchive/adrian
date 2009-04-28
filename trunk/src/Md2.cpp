@@ -280,7 +280,7 @@ void CLoadMD2::ConvertDataStructures(t3DModel * pModel)
 			currentFrame.pVerts[j].z =
 			    m_pFrames[i].pVertices[j].vertex[2];
 			}
-		delete m_pFrames[i].pVertices;
+		delete[] m_pFrames[i].pVertices;
 		
 		    // Check if we are past the first key frame
 		    if (i > 0)
@@ -355,11 +355,11 @@ void CLoadMD2::CleanUp()
 	if (m_pSkins)
 		delete[]m_pSkins;	// Free the skins data
 	if (m_pTexCoords)
-		delete m_pTexCoords;	// Free the texture coord data
+		delete[]m_pTexCoords;	// Free the texture coord data
 	if (m_pTriangles)
-		delete m_pTriangles;	// Free the triangle face data
+		delete[]m_pTriangles;	// Free the triangle face data
 	if (m_pFrames)
-		delete m_pFrames;	// Free the frames of animation
+		delete[]m_pFrames;	// Free the frames of animation
 }
 
 
