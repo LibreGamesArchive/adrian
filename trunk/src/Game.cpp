@@ -116,7 +116,7 @@ void Game::InitializeGame(void)
 	hero->Initialize(-780, 780, 270, 1);
 	camera->Initialize();
 	map->Initialize();
-	soundSystem->Play(SOUNDTYPE_BACKGROUND);
+	soundSystem->PlaySound(SOUNDTYPE_BACKGROUND);
 
 	initialized = true;
 }
@@ -571,7 +571,7 @@ void Game::HandleRightClick(int x, int y)
 					guard[i]->inRange(hero->curx, hero->cury, hero->facingAngle)) 
 				{
 					if (guard[i]->status != DEAD) {
-						soundSystem->Play(SOUNDTYPE_SHOOT);
+						soundSystem->PlaySound(SOUNDTYPE_SHOOT);
 						hero->Attack();
 						guard[i]->Death();
 						printf("GUARD DESTROYED %d\n", i);
@@ -610,7 +610,7 @@ void Game::TimerCallback(void)
 			guard[i]->inRange(hero->curx, hero->cury, hero->facingAngle))
 		{
 			if (guard[i]->status != DEAD) {
-				soundSystem->Play(SOUNDTYPE_SHOOT);
+				soundSystem->PlaySound(SOUNDTYPE_SHOOT);
 				hero->Attack();
 				guard[i]->Death();
 				printf("GUARD DESTROYED %d\n", i);
@@ -619,7 +619,8 @@ void Game::TimerCallback(void)
 		if (guard[i]->Alive &&
 			guard[i]->checkIntruder(hero->curx, hero->cury))
 		{
-			soundSystem->Play(SOUNDTYPE_ALARM);
+			soundSystem->HaltAllChannels();
+			soundSystem->PlaySound(SOUNDTYPE_ALARM);
 			guard[i]->showbeam = true;
 			hero->Stand();
 			started = false;

@@ -22,105 +22,57 @@ SoundSystem::SoundSystem(void)
 
 SoundSystem::~SoundSystem()
 {
-	if (!initialized)
-		return;
-	Mix_HaltChannel(-1);
 }
 
 int SoundSystem::Initialize(void)
 {
-	if (SDL_InitSubSystem(SDL_INIT_AUDIO) < 0)
-	{
+	if (SDL_InitSubSystem(SDL_INIT_AUDIO) < 0) {
 		printf("Error Initializing Sound SubSystem\nSound will be Disabled\n");
 		return -1;
 	}
 
-	if (Mix_OpenAudio
-	    (audio_rate, audio_format, audio_channels, audio_buffers)) {
+	if (Mix_OpenAudio(audio_rate, audio_format, audio_channels, audio_buffers)) {
 		printf("Unable to open audio!\n");
 		return -1;
 	}
 
 	initialized = true;
 
-	if (LoadWavs() < 0) {
-		return -1;
-	}
-
 	return 0;
 }
 
-int SoundSystem::LoadWavs(void)
+void SoundSystem::Destroy(void)
+{
+	UnloadAll();
+	Mix_CloseAudio();
+	SDL_QuitSubSystem(SDL_INIT_AUDIO);
+}
+
+void SoundSystem::UnloadAll(void)
+{
+	if (!initialized)
+		return;
+
+	for (int i = 0; i < MAX_SOUNDS; i++) {
+		if (sounds[i]) {
+			printf("Unloading Sound in Channel: %d\n", i);
+			Mix_FreeChunk(sounds[i]);
+		}
+	}
+}
+
+int SoundSystem::Load(const char *wavfile, int idx, int defaultRepeat)
 {
 	if (!initialized)
 		return -1;
 
-	sounds[SOUNDTYPE_SHOOT] = Mix_LoadWAV("wavs/laser.wav");
-	sounds[SOUNDTYPE_BACKGROUND] = Mix_LoadWAV("wavs/background.wav");
+	if ((sounds[idx] = Mix_LoadWAV(wavfile)) == NULL) {
+		printf("Cannot Load %s into %d channel\n", wavfile, idx);
+		return -1;
+	}
+	repeatCount[idx] = defaultRepeat;
 
 	return 0;
-}
-
-int SoundSystem::Play(SoundType s)
-{
-	if (!initialized)
-		return -1;
-
-	switch (s) {
-	case SOUNDTYPE_ALARM:
-		HaltAllChannels();
-		if (!sounds[SOUNDTYPE_ALARM]) {
-			if ((sounds[SOUNDTYPE_ALARM] = Mix_LoadWAV("wavs/alarm.wav")) == NULL) {
-				printf("Cannot Load wavs/alarm.wav\n");
-				return -1;
-			}
-		}
-		PlaySound(SOUNDTYPE_ALARM, 3);
-		return 0;
-
-	case SOUNDTYPE_BACKGROUND:
-		if (!sounds[SOUNDTYPE_BACKGROUND]) {
-			if ((sounds[SOUNDTYPE_BACKGROUND] = Mix_LoadWAV("wavs/background.wav")) == NULL) {
-				printf("Cannot load wavs/background.wav\n");
-				return -1;
-			}
-		}
-		PlaySound(SOUNDTYPE_BACKGROUND, -1);
-//                      Mix_FadeOutChannel( channels[SOUNDTYPE_BACKGROUND] , 10000 );
-		return 0;
-	case SOUNDTYPE_MENU:
-		if (sounds[SOUNDTYPE_MENU] == NULL) {
-			if ((sounds[SOUNDTYPE_MENU] =
-			     Mix_LoadWAV("wavs/menu.wav")) == NULL) {
-				printf("Cannot load wavs/menu.wav\n");
-				return -1;
-			}
-		}
-		PlaySound(SOUNDTYPE_MENU, -1);
-		return 0;
-	case SOUNDTYPE_MENU_TING:
-		if (sounds[SOUNDTYPE_MENU_TING] == NULL) {
-			if ((sounds[SOUNDTYPE_MENU_TING] =
-			     Mix_LoadWAV("wavs/ting.wav")) == NULL) {
-				printf("Cannot load wavs/ting.wav\n");
-				return -1;
-			}
-		}
-		PlaySound(SOUNDTYPE_MENU_TING, 0);
-		return 0;
-	case SOUNDTYPE_SHOOT:
-		if (!sounds[SOUNDTYPE_SHOOT]) {
-			if ((sounds[SOUNDTYPE_SHOOT] =
-			     Mix_LoadWAV("wavs/laser.wav")) == NULL) {
-				printf("Cannot load wavs/laser.wav\n");
-				return -1;
-			}
-		}
-		PlaySound(SOUNDTYPE_SHOOT, 1);
-		return 0;
-	}
-
-	return -1;
 }
 
 void SoundSystem::HaltAllChannels(void)
@@ -133,10 +85,15 @@ void SoundSystem::HaltAllChannels(void)
 bool SoundSystem::PlaySound(SoundType s, int loop)
 {
 	if ((channels[s] = Mix_PlayChannel(s, sounds[s], loop)) < 0) {
-		printf("Unable to play sound %d\n", SOUNDTYPE_MENU);
+		printf("Unable to play sound %d\n", s);
 		return false;
 	}
 	return true;
+}
+
+bool SoundSystem::PlaySound(SoundType s)
+{
+	return PlaySound(s, repeatCount[s]);
 }
 
 /*void ChannelFadeCallback( int channel )

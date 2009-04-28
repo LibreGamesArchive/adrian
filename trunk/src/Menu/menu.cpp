@@ -316,7 +316,10 @@ void Menu::InitializeMenu(void)
 	currentMenuPage->Show();
 	currentMenuPage->Animate();
 
-	soundSystem->Play(SOUNDTYPE_MENU);
+	soundSystem->Load("wavs/menu.wav", SOUNDTYPE_MENU, -1);
+	soundSystem->Load("wavs/ting.wav", SOUNDTYPE_MENU_TING, 0);
+
+	soundSystem->PlaySound(SOUNDTYPE_MENU);
 
 	initialized = true;
 }
@@ -329,7 +332,7 @@ void Menu::DestroyMenu(void)
 
 	initialized = false;
 
-	soundSystem->HaltAllChannels();
+	soundSystem->UnloadAll();
 
 	/* OK now to make sure everyone has exit their blocks */
 	lazy_destroy = true;
