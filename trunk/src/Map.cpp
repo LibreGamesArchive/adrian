@@ -77,6 +77,25 @@ int Map::LoadFile(const char *filename)
 		buildings[i].setType(buildings[i].buildingType);
 	}
 
+	int num_textures;
+	fscanf(f, "%d", &num_textures);
+	textureIDs = new GLuint[num_textures];
+	for (int i = 0; i < num_textures; i++) {
+		GLuint texid;
+		fscanf(f, "%s %d", buf, &texid);
+
+		int err = loadTGA(buf, texid);
+		if (err != 0) {
+			printf("Unable to load Texture(%s) into %d: %d\n", buf, texid, err);
+			exit(-1);
+		}
+		printf("Loaded %s into %d\n", buf, texid);
+
+		textureIDs[i] = texid;
+	}
+
+	/* Load the guards at the LAST! since otherwise
+	 * their textures will be overwritten */
 	int num_guards;
 	fscanf(f, "%d", &num_guards);
 	for (int i = 0; i < num_guards; i++) {
@@ -94,23 +113,6 @@ int Map::LoadFile(const char *filename)
 		}
 
 		game->addGuard(guard);
-	}
-
-	int num_textures;
-	fscanf(f, "%d", &num_textures);
-	textureIDs = new GLuint[num_textures];
-	for (int i = 0; i < num_textures; i++) {
-		GLuint texid;
-		fscanf(f, "%s %d", buf, &texid);
-
-		int err = loadTGA(buf, texid);
-		if (err != 0) {
-			printf("Unable to load Texture(%s) into %d: %d\n", buf, texid, err);
-			exit(-1);
-		}
-		printf("Loaded %s into %d\n", buf, texid);
-
-		textureIDs[i] = texid;
 	}
 
 	fscanf(f, "%d", &num_sprites);
