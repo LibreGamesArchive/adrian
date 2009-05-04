@@ -16,7 +16,7 @@ class Texture {
 		Texture(const char *fn);
 		~Texture();
 
-		int Load(void);
+		int Load(int texid = INVALID_TEXID);
 		int Unload(void);
 
 		int SetTexID(GLuint texid);
