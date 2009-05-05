@@ -3,8 +3,8 @@ COMPILE_COMMAND = g++ -Wall -Werror -g3
 LINK_COMMAND = g++ -Wall -Werror -g3 -lGL -lGLU -lm -lSDL -lSDL_image -lSDL_mixer
 
 OBJECT_FILES	=	menuitem.o			\
-					menupage.o		\
-					menu.o
+					menupage.o			\
+					menu.o				\
 
 TGT	=	menu.a
 	

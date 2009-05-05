@@ -2,8 +2,8 @@
 #include <string.h>
 #include <SDL/SDL_image.h>
 #include <ctype.h>
-#include "tga.h"
- static void swap(unsigned char &a, unsigned char &b) 
+
+static void swap(unsigned char &a, unsigned char &b) 
 {
 	unsigned char temp;
 	temp = a;

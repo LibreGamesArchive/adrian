@@ -1,7 +1,6 @@
 #include "Building.h"
 #include "globals.h"
 #include "Game.h"
-#include "tga.h"
 
 Building::Building(void)
 {

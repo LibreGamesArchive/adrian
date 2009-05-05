@@ -10,7 +10,7 @@
 #include <GL/gl.h>
 #include <GL/glu.h>
 
-#include "tga.h"
+#include "texture.h"
 #include "Building.h"
 #include "Sprite.h"
 
@@ -30,7 +30,7 @@ class Map {
 
 	/* Texture and Render information */
 	int num_textures;
-	GLuint *textureIDs;
+	Texture **textures;
 
 	int num_sprites;
 	Sprite **sprites;

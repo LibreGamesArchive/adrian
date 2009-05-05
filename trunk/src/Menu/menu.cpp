@@ -1,5 +1,5 @@
 #include "menu.h"
-#include "../tga.h"
+#include "../texture.h"
 #include "../globals.h"
 
 #include <GL/gl.h>
@@ -11,6 +11,8 @@ Menu::Menu(void)
 {
 	initialized = false;
 	lazy_destroy = false;
+	fontTex = NULL;
+	textures = NULL;
 }
 
 Menu::~Menu()
@@ -33,17 +35,12 @@ void Menu::InitFont(void)
 {
 	int ret;
 
-//	glGenTextures(1, &fontTexID);
 	fontTexID = 51;
-	if ((ret = loadTGA("maps/font.tga", fontTexID)) != 0) {
+	fontTex = new Texture("maps/font.tga");
+	if ((ret = fontTex->Load(fontTexID)) < 0) {
 		printf("Could not load textures: %d\n", ret);
 		exit(1);
 	}
-	if ((ret = loadTGA("maps/blood_splatter.tga", 52)) != 0) {
-		printf("Could not load textures: %d\n", ret);
-		exit(1);
-	}
-
 
 	FontTexture[46][0] = .625;
 	FontTexture[46][1] = .625;
@@ -163,7 +160,8 @@ void Menu::InitFont(void)
 
 void Menu::DestroyFont(void)
 {
-	glDeleteTextures(1, &fontTexID);
+	delete fontTex;
+	fontTex = NULL;
 }
 
 void exitGame(void)
@@ -313,6 +311,14 @@ void Menu::InitializeMenu(void)
 
 	InitFont();
 
+	num_textures = 1;
+	textures = new Texture*[num_textures];
+	textures[0] = new Texture("maps/blood_splatter.jpg");
+	textures[0]->Load(52);
+
+//	tahoma = new TTFFont("tahoma.ttf");
+//	tahoma->renderText("ASS", 1,1,1);
+
 	currentMenuPage->Show();
 	currentMenuPage->Animate();
 
@@ -347,6 +353,12 @@ void Menu::LazyDestroyMenu(void)
 
 	printf("Lazy destroying menu!\n");
 
+	for (int i = 0; i < num_textures; i++)
+		delete textures[i];
+	delete[] textures;
+	textures = NULL;
+
+//	delete tahoma;
 	DestroyFont();
 
 	currentMenuPage = NULL;
