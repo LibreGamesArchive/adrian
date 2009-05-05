@@ -44,6 +44,7 @@ int SoundSystem::Initialize(void)
 void SoundSystem::Destroy(void)
 {
 	UnloadAll();
+	initialized = false;
 	Mix_CloseAudio();
 	SDL_QuitSubSystem(SDL_INIT_AUDIO);
 }
@@ -57,6 +58,7 @@ void SoundSystem::UnloadAll(void)
 		if (sounds[i]) {
 			printf("Unloading Sound in Channel: %d\n", i);
 			Mix_FreeChunk(sounds[i]);
+			sounds[i] = NULL;
 		}
 	}
 }

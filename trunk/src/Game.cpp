@@ -127,7 +127,7 @@ void Game::DestroyGame(void)
 
 	lazy_destroy = true;
 
-	soundSystem->HaltAllChannels();
+	soundSystem->UnloadAll();
 
 	resetVars();
 }
