@@ -38,7 +38,7 @@ class Map {
 	void Initialize(void);
 	void Destroy(void);
 
-	int LoadFile(const char *filename = "maps/default/main.map");
+	int LoadFile(const char *mapdir = "maps/default");
 	void Render(void);
 	void TransparentRender(void);
 

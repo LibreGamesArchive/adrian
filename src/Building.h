@@ -6,9 +6,13 @@
 #include <GL/glu.h>
 
 class Building {
+ private:
+	char filepath[256];
  public:
 	int buildingID;
 	int buildingType;
+
+	GLuint dlist;
 
 	float x1;
 	float x2;
@@ -23,8 +27,11 @@ class Building {
 
 	int textureID;
 
+ public:
 	 Building(void);
 	~Building();
+
+	int Load(const char *fn);
 
 	bool isInside(float x, float y);
 	void setType(int);
