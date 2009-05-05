@@ -5,7 +5,7 @@
 #define		PI		3.141
 
 Guard::Guard(char *filename, int texid, float x1, float y1, float x2, float y2,
-	     float speed, float botangle, int no)
+	     float speed, GLuint fovTexID, float botangle, int no)
 :Md2(filename)
 {
 	float tempx, tempy;
@@ -32,7 +32,7 @@ Guard::Guard(char *filename, int texid, float x1, float y1, float x2, float y2,
 		fovInterval = (PI / 2.0 - PI * fovAngle / 180.0) / 10.0;
 		fovEnd = PI * fovAngle / 180.0;
 		fovStart = 2 * fovEnd;
-		fovID = 3;
+		fovID = fovTexID;
 	}
 
 	PanelTexId = texid;

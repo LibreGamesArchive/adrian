@@ -180,7 +180,7 @@ void Menu::InitializeMenu(void)
 	num_textures = 1;
 	textures = new Texture*[num_textures];
 	textures[0] = new Texture("textures/menu/blood_splatter.jpg");
-	textures[0]->Load(52);
+	textures[0]->Load();
 
 	currentMenuPage->Show();
 	currentMenuPage->Animate();
@@ -317,7 +317,7 @@ void Menu::Render(void)
 
 	glColor3f( 1, 1, 1 );
 	glEnable(GL_TEXTURE_2D);
-	glBindTexture(GL_TEXTURE_2D, 52);
+	glBindTexture(GL_TEXTURE_2D, textures[0]->GetTexID());
 	glBegin(GL_QUADS);
 		glTexCoord2f(0 ,1);
 		glVertex3f(0, 0, -1.6);
