@@ -94,7 +94,7 @@ void Game::setupOpenGL(int width, int height)
 
 }
 
-void Game::InitializeGame(void)
+void Game::InitializeGame(const char *gamefile)
 {
 	resetVars();
 
@@ -104,8 +104,8 @@ void Game::InitializeGame(void)
 	/* Create the structures */
 	camera = new Camera;
 	map = new Map;
-	if (map->LoadFile() < 0) {
-		fprintf(stderr, "Unable to load default map file\n");
+	if (map->LoadFile(gamefile) < 0) {
+		fprintf(stderr, "Unable to load map file: %s\n", gamefile);
 		exit(-1);
 	}
 	panel = new Panel(62);
@@ -331,7 +331,7 @@ void Game::ProcessEvents(void)
 					}
 				case SDLK_F2:
 					{
-						flag_end_game();
+						flag_end_game(NULL);
 						break;
 					}
 				case SDLK_F1:

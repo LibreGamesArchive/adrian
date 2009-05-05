@@ -76,7 +76,7 @@ class Game
 	void addGuard(Guard *g);
 	void block_convert(float &newx, float &newy, float x, float y);
 
-	void InitializeGame(void);
+	void InitializeGame(const char *gamefile);
 	void DestroyGame(void);
 
 	void ProcessEvents(void);

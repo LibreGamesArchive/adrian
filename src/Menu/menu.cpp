@@ -30,7 +30,7 @@ void Menu::InitMenuOpenGL(int horz_res, int vert_res)
 	glLoadIdentity();
 }
 
-void exitGame(void)
+void exitGame(void *ign)
 {
 	exit(0);
 }
@@ -52,25 +52,25 @@ void Menu::InitializeMenu(void)
 	parent = new MenuPage();
 
 	MenuItem *singlePlayerItem =
-	    new MenuItem("PLAY GAME", itemfont, 400, 600, NULL, NULL, true,
+	    new MenuItem("PLAY GAME", itemfont, 400, 600, NULL, NULL, NULL, true,
 			 0, 600);
 	parent->addMenuItem(singlePlayerItem);
 
 	MenuItem *settingsItem =
-	    new MenuItem("SETTINGS", itemfont, 400, 500, NULL, NULL, true, 900, 500);
+	    new MenuItem("SETTINGS", itemfont, 400, 500, NULL, NULL, NULL, true, 900, 500);
 	parent->addMenuItem(settingsItem);
 
 	// Disabled
 	MenuItem *optionsItem =
-	    new MenuItem("OPTIONS", itemfont, 400, 400, NULL, NULL, false, 0, 0);
+	    new MenuItem("OPTIONS", itemfont, 400, 400, NULL, NULL, NULL, false, 0, 0);
 	parent->addMenuItem(optionsItem);
 
 	MenuItem *creditsItem =
-	    new MenuItem("CREDITS", itemfont, 400, 300, NULL, NULL, true, 400, 0);
+	    new MenuItem("CREDITS", itemfont, 400, 300, NULL, NULL, NULL, true, 400, 0);
 	parent->addMenuItem(creditsItem);
 
 	MenuItem *quitItem =
-	    new MenuItem("QUIT", itemfont, 400, 200, exitGame, NULL, true, 400,
+	    new MenuItem("QUIT", itemfont, 400, 200, exitGame, NULL, NULL, true, 400,
 			 700);
 	parent->addMenuItem(quitItem);
 
@@ -80,15 +80,15 @@ void Menu::InitializeMenu(void)
 	singlePlayerPage = new MenuPage();
 
 	MenuItem *startSinglePlayerGameItem =
-	    new MenuItem("START GAME", itemfont, 400, 500, flag_load_game, NULL);
+	    new MenuItem("START GAME", itemfont, 400, 500, flag_load_game, (void*)"maps/default", NULL);
 	singlePlayerPage->addMenuItem(startSinglePlayerGameItem);
 
 	MenuItem *loadSinglePlayerGameItem =
-	    new MenuItem("LOAD GAME", itemfont, 400, 400, NULL, NULL, false);
+	    new MenuItem("LOAD GAME", itemfont, 400, 400, flag_load_game, (void*)"maps/snow", NULL);
 	singlePlayerPage->addMenuItem(loadSinglePlayerGameItem);
 
 	MenuItem *backSinglePlayerItem =
-	    new MenuItem("BACK", itemfont, 400, 300, NULL, NULL);
+	    new MenuItem("BACK", itemfont, 400, 300, NULL, NULL, NULL);
 	singlePlayerPage->addMenuItem(backSinglePlayerItem);
 
 	singlePlayerItem->setNextMenuPage(singlePlayerPage);
@@ -98,27 +98,27 @@ void Menu::InitializeMenu(void)
 	settingsPage = new MenuPage();
 
 	MenuItem *changeVideoSettingsItem =
-	    new MenuItem("VIDEO", itemfont, 400, 600, NULL, NULL,
+	    new MenuItem("VIDEO", itemfont, 400, 600, NULL, NULL, NULL,
 			 true, 0, 500, ANIMATION_STRAIGHT);
 	settingsPage->addMenuItem(changeVideoSettingsItem);
 
 	MenuItem *changeSoundSettingsItem =
-	    new MenuItem("SOUND", itemfont, 400, 500, NULL, NULL,
+	    new MenuItem("SOUND", itemfont, 400, 500, NULL, NULL, NULL,
 			 false, 1000, 500, ANIMATION_STRAIGHT);
 	settingsPage->addMenuItem(changeSoundSettingsItem);
 
 	MenuItem *changeKbdSettingsItem =
-	    new MenuItem("KEYBOARD", itemfont, 400, 400, NULL, NULL,
+	    new MenuItem("KEYBOARD", itemfont, 400, 400, NULL, NULL, NULL,
 			 false, 0, 500, ANIMATION_STRAIGHT);
 	settingsPage->addMenuItem(changeKbdSettingsItem);
 
 	MenuItem *changeMouseSettingsItem =
-	    new MenuItem("MOUSE", itemfont, 400, 300, NULL, NULL,
+	    new MenuItem("MOUSE", itemfont, 400, 300, NULL, NULL, NULL,
 			 false, 0, 500, ANIMATION_STRAIGHT);
 	settingsPage->addMenuItem(changeMouseSettingsItem);
 
 	MenuItem *backMultiPlayerItem =
-	    new MenuItem("BACK", itemfont, 400, 200, NULL, NULL, true, 400,
+	    new MenuItem("BACK", itemfont, 400, 200, NULL, NULL, NULL, true, 400,
 			 0, ANIMATION_STRAIGHT);
 	settingsPage->addMenuItem(backMultiPlayerItem);
 
@@ -130,23 +130,23 @@ void Menu::InitializeMenu(void)
 	videoResPage = new MenuPage();
 
 	MenuItem *change_res_640_x_480 =
-	    new MenuItem("640 X 480", itemfont, 400, 600, NULL, NULL,
+	    new MenuItem("640 X 480", itemfont, 400, 600, NULL, NULL, NULL,
 			 true, 0, 500, ANIMATION_STRAIGHT);
 	videoResPage->addMenuItem(change_res_640_x_480);
 	MenuItem *change_res_800_x_600 =
-	    new MenuItem("800 X 600", itemfont, 400, 500, NULL, NULL,
+	    new MenuItem("800 X 600", itemfont, 400, 500, NULL, NULL, NULL,
 			 true, 0, 500, ANIMATION_STRAIGHT);
 	videoResPage->addMenuItem(change_res_800_x_600);
 	MenuItem *change_res_1024_x_768 =
-	    new MenuItem("1024 X 768", itemfont, 400, 400, NULL, NULL,
+	    new MenuItem("1024 X 768", itemfont, 400, 400, NULL, NULL, NULL,
 			 true, 0, 500, ANIMATION_STRAIGHT);
 	videoResPage->addMenuItem(change_res_1024_x_768);
 	MenuItem *change_res_1600_x_1200 =
-	    new MenuItem("1600 X 1200", itemfont, 400, 300, NULL, NULL,
+	    new MenuItem("1600 X 1200", itemfont, 400, 300, NULL, NULL, NULL,
 			 true, 0, 500, ANIMATION_STRAIGHT);
 	videoResPage->addMenuItem(change_res_1600_x_1200);
 	MenuItem *backVidResItem =
-	    new MenuItem("BACK", itemfont, 400, 200, NULL, NULL, true, 400,
+	    new MenuItem("BACK", itemfont, 400, 200, NULL, NULL, NULL, true, 400,
 			 0, ANIMATION_STRAIGHT);
 	videoResPage->addMenuItem(backVidResItem);
 
@@ -160,18 +160,18 @@ void Menu::InitializeMenu(void)
 
 	// Disabled Names
 	MenuItem *bhanuItem =
-	    new MenuItem("BHANU KALYAN", itemfont, 400, 600, NULL, NULL, false);
+	    new MenuItem("BHANU KALYAN", itemfont, 400, 600, NULL, NULL, NULL, false);
 	creditsPage->addMenuItem(bhanuItem);
 
 	MenuItem *vamsiItem =
-	    new MenuItem("VAMSI KRISHNA", itemfont, 400, 500, NULL, NULL, false);
+	    new MenuItem("VAMSI KRISHNA", itemfont, 400, 500, NULL, NULL, NULL, false);
 	creditsPage->addMenuItem(vamsiItem);
 
 	MenuItem *swamyItem =
-	    new MenuItem("SWAMY SUMAN", itemfont, 400, 400, NULL, NULL, false);
+	    new MenuItem("SWAMY SUMAN", itemfont, 400, 400, NULL, NULL, NULL, false);
 	creditsPage->addMenuItem(swamyItem);
 
-	MenuItem *backCreditsItem = new MenuItem("BACK", itemfont, 400, 300, NULL, NULL);
+	MenuItem *backCreditsItem = new MenuItem("BACK", itemfont, 400, 300, NULL, NULL, NULL);
 	creditsPage->addMenuItem(backCreditsItem);
 
 	creditsItem->setNextMenuPage(creditsPage);

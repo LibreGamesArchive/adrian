@@ -14,6 +14,7 @@
 #include <signal.h>
 
 bool load_game = false;
+const char *next_game_map = NULL;
 bool end_game_show_menu = false;
 
 #define			TIME_INTERVAL			300
@@ -108,9 +109,10 @@ Uint32 TimerCallback(unsigned int)
 }
 
 /* Flag the Start of the game */
-void flag_load_game(void)
+void flag_load_game(void *ptr)
 {
 	load_game = true;
+	next_game_map = (const char *)ptr;
 }
 
 /* Start the game */
@@ -120,7 +122,7 @@ void start_game(void)
 	menu->DestroyMenu();
 
 	/* setup the game */
-	game->InitializeGame();
+	game->InitializeGame(next_game_map);
 
 	/* start the game too */
 	game->StartGame();
@@ -129,7 +131,7 @@ void start_game(void)
 }
 
 /* Stop the game and go back to menu */
-void flag_end_game(void)
+void flag_end_game(void *ign)
 {
 	end_game_show_menu = true;
 }

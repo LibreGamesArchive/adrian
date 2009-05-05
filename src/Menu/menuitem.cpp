@@ -5,15 +5,17 @@
 #include "menu.h"
 #include "../globals.h"
 
-MenuItem::MenuItem(const char *text, TTFFont *itemfont, float x, float y, MENU_FUNC funcPtr,
-		   MenuPagePtr nextMenuPage, bool enabled, float startx,
-		   float starty, AnimationType animationType, float fontHeight,
-		   float fontWidth)
+MenuItem::MenuItem(const char *text, TTFFont *itemfont,
+				   float x, float y, MENU_FUNC funcPtr, void *funcArg,
+				   MenuPagePtr nextMenuPage, bool enabled, float startx,
+				   float starty, AnimationType animationType, float fontHeight,
+				   float fontWidth)
 {
 	strncpy(this->text, text, MAX_MENU_STRING_LENGTH);
 	this->x = x;
 	this->y = y;
 	this->funcPtr = funcPtr;
+	this->funcArg = funcArg;
 	this->nextMenuPage = nextMenuPage;
 	this->enabled = enabled;
 	this->startx = startx;
