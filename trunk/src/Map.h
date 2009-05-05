@@ -42,7 +42,7 @@ class Map {
 	void Initialize(void);
 	void Destroy(void);
 
-	int LoadFile(const char *filename = "maps/default.map");
+	int LoadFile(const char *filename = "maps/default/main.map");
 	void Render(void);
 	void TransparentRender(void);
 

@@ -179,7 +179,7 @@ void Menu::InitializeMenu(void)
 
 	num_textures = 1;
 	textures = new Texture*[num_textures];
-	textures[0] = new Texture("maps/blood_splatter.jpg");
+	textures[0] = new Texture("textures/menu/blood_splatter.jpg");
 	textures[0]->Load(52);
 
 	currentMenuPage->Show();

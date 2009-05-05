@@ -40,7 +40,7 @@ int Map::LoadFile(const char *filename)
 	FILE *f;
 	char buf[256];
 
-	if ((f = fopen(filename, "r")) < 0) {
+	if ((f = fopen(filename, "r")) == NULL) {
 		printf("Error Opening File : %s\n", filename);
 		return -1;
 	}

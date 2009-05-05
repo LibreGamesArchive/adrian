@@ -23,7 +23,7 @@ MenuItem::MenuItem(const char *text, TTFFont *itemfont, float x, float y, MENU_F
 	this->fontWidth = fontWidth;
 
 	txob = new TextObject(itemfont);
-	txob->setColor(0, 1, 0);
+	txob->setColor(1, 0, 0);
 	txob->setText(text);
 }
 
@@ -117,7 +117,7 @@ void MenuItem::Render(int method, int offset)
 	case MENUITEM_HIGHLIGHT:
 		//highlighted white color
 
-		glColor3f(0, 1, 0);
+		glColor3f(1, 1, 1);
 		glEnable(GL_TEXTURE_2D);
 		glBindTexture(GL_TEXTURE_2D, txob->texid);
 		glBegin(GL_POLYGON);
