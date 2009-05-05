@@ -164,13 +164,13 @@ void Map::Render(void)
 	glColor3f(.8, .8, .8);
 	glBindTexture(GL_TEXTURE_2D, textureID);
 	glBegin(GL_POLYGON);
-	glTexCoord2f(tileSzFactor, tileSzFactor);
-	glVertex3f((tilex - (TILE_LOWFACTOR*TILE_SIZE)), 0, (tiley - (TILE_LOWFACTOR*TILE_SIZE)));
 	glTexCoord2f(tileSzFactor, 0);
+	glVertex3f((tilex - (TILE_LOWFACTOR*TILE_SIZE)), 0, (tiley - (TILE_LOWFACTOR*TILE_SIZE)));
+	glTexCoord2f(tileSzFactor, tileSzFactor);
 	glVertex3f((tilex - (TILE_LOWFACTOR*TILE_SIZE)), 0, (tiley + (TILE_HIGHFACTOR*TILE_SIZE)));
-	glTexCoord2f(0, 0);
-	glVertex3f((tilex + (TILE_HIGHFACTOR*TILE_SIZE)), 0, (tiley + (TILE_HIGHFACTOR*TILE_SIZE)));
 	glTexCoord2f(0, tileSzFactor);
+	glVertex3f((tilex + (TILE_HIGHFACTOR*TILE_SIZE)), 0, (tiley + (TILE_HIGHFACTOR*TILE_SIZE)));
+	glTexCoord2f(0, 0);
 	glVertex3f((tilex + (TILE_HIGHFACTOR*TILE_SIZE)), 0, (tiley - (TILE_LOWFACTOR*TILE_SIZE)));
 	glEnd();
 	glDisable(GL_TEXTURE_2D);

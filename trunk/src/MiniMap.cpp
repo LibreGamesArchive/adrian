@@ -23,34 +23,29 @@ int MiniMap::GenerateDisplayLists(void)
 	glEnable(GL_TEXTURE_2D);
 	glBindTexture(GL_TEXTURE_2D, game->map->textureID);
 	glBegin(GL_POLYGON);
-	glTexCoord2f(0, 0);
+	glTexCoord2f(0, 1);
 	glVertex2f((game->map->length / 2.0) / xconvfactor,
-		   (game->map->breadth / 2.0) / yconvfactor);
-	glTexCoord2f(1, 0);
-	glVertex2f(-(game->map->length / 2.0) / xconvfactor,
 		   (game->map->breadth / 2.0) / yconvfactor);
 	glTexCoord2f(1, 1);
 	glVertex2f(-(game->map->length / 2.0) / xconvfactor,
+		   (game->map->breadth / 2.0) / yconvfactor);
+	glTexCoord2f(1, 0);
+	glVertex2f(-(game->map->length / 2.0) / xconvfactor,
 		   -(game->map->breadth / 2.0) / yconvfactor);
-	glTexCoord2f(0, 1);
+	glTexCoord2f(0, 0);
 	glVertex2f((game->map->length / 2.0) / xconvfactor,
 		   -(game->map->breadth / 2.0) / yconvfactor);
 	glEnd();
 
 	glColor3f(1, 1, 1);
 	for (int i = 0; i < game->map->no_of_buildings; i++) {
-//              glBindTexture( GL_TEXTURE_2D , game->map->buildings[i].textureID );
 		glBegin(GL_POLYGON);
-//                      glTexCoord2f( .25, 0);
 		glVertex2f(game->map->buildings[i].x1 / xconvfactor,
 			   -game->map->buildings[i].y1 / yconvfactor);
-//                      glTexCoord2f( .25, .75 );
 		glVertex2f(game->map->buildings[i].x1 / xconvfactor,
 			   -game->map->buildings[i].y2 / yconvfactor);
-//                      glTexCoord2f( .70, .75);
 		glVertex2f(game->map->buildings[i].x2 / xconvfactor,
 			   -game->map->buildings[i].y2 / yconvfactor);
-//                      glTexCoord2f( .70, 0);
 		glVertex2f(game->map->buildings[i].x2 / xconvfactor,
 			   -game->map->buildings[i].y1 / yconvfactor);
 		glEnd();
