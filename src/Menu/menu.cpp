@@ -174,6 +174,10 @@ void Menu::InitializeMenu(void)
 	if (initialized)
 		return;
 
+	InitMenuOpenGL(1024, 768);
+
+	itemfont = new TTFFont("fonts/font.ttf", 64);
+
 	// Animation
 	linex = 0;
 	increment = 1;
@@ -182,25 +186,25 @@ void Menu::InitializeMenu(void)
 	parent = new MenuPage();
 
 	MenuItem *singlePlayerItem =
-	    new MenuItem("PLAY GAME", 400, 600, NULL, NULL, true,
+	    new MenuItem("PLAY GAME", itemfont, 400, 600, NULL, NULL, true,
 			 0, 600);
 	parent->addMenuItem(singlePlayerItem);
 
 	MenuItem *settingsItem =
-	    new MenuItem("SETTINGS", 400, 500, NULL, NULL, true, 900, 500);
+	    new MenuItem("SETTINGS", itemfont, 400, 500, NULL, NULL, true, 900, 500);
 	parent->addMenuItem(settingsItem);
 
 	// Disabled
 	MenuItem *optionsItem =
-	    new MenuItem("OPTIONS", 400, 400, NULL, NULL, false, 0, 0);
+	    new MenuItem("OPTIONS", itemfont, 400, 400, NULL, NULL, false, 0, 0);
 	parent->addMenuItem(optionsItem);
 
 	MenuItem *creditsItem =
-	    new MenuItem("CREDITS", 400, 300, NULL, NULL, true, 400, 0);
+	    new MenuItem("CREDITS", itemfont, 400, 300, NULL, NULL, true, 400, 0);
 	parent->addMenuItem(creditsItem);
 
 	MenuItem *quitItem =
-	    new MenuItem("QUIT", 400, 200, exitGame, NULL, true, 400,
+	    new MenuItem("QUIT", itemfont, 400, 200, exitGame, NULL, true, 400,
 			 700);
 	parent->addMenuItem(quitItem);
 
@@ -210,15 +214,15 @@ void Menu::InitializeMenu(void)
 	singlePlayerPage = new MenuPage();
 
 	MenuItem *startSinglePlayerGameItem =
-	    new MenuItem("START GAME", 400, 500, start_game, NULL);
+	    new MenuItem("START GAME", itemfont, 400, 500, start_game, NULL);
 	singlePlayerPage->addMenuItem(startSinglePlayerGameItem);
 
 	MenuItem *loadSinglePlayerGameItem =
-	    new MenuItem("LOAD GAME", 400, 400, NULL, NULL, false);
+	    new MenuItem("LOAD GAME", itemfont, 400, 400, NULL, NULL, false);
 	singlePlayerPage->addMenuItem(loadSinglePlayerGameItem);
 
 	MenuItem *backSinglePlayerItem =
-	    new MenuItem("BACK", 400, 300, NULL, NULL);
+	    new MenuItem("BACK", itemfont, 400, 300, NULL, NULL);
 	singlePlayerPage->addMenuItem(backSinglePlayerItem);
 
 	singlePlayerItem->setNextMenuPage(singlePlayerPage);
@@ -228,27 +232,27 @@ void Menu::InitializeMenu(void)
 	settingsPage = new MenuPage();
 
 	MenuItem *changeVideoSettingsItem =
-	    new MenuItem("VIDEO", 400, 600, NULL, NULL,
+	    new MenuItem("VIDEO", itemfont, 400, 600, NULL, NULL,
 			 true, 0, 500, ANIMATION_STRAIGHT);
 	settingsPage->addMenuItem(changeVideoSettingsItem);
 
 	MenuItem *changeSoundSettingsItem =
-	    new MenuItem("SOUND", 400, 500, NULL, NULL,
+	    new MenuItem("SOUND", itemfont, 400, 500, NULL, NULL,
 			 false, 1000, 500, ANIMATION_STRAIGHT);
 	settingsPage->addMenuItem(changeSoundSettingsItem);
 
 	MenuItem *changeKbdSettingsItem =
-	    new MenuItem("KEYBOARD", 400, 400, NULL, NULL,
+	    new MenuItem("KEYBOARD", itemfont, 400, 400, NULL, NULL,
 			 false, 0, 500, ANIMATION_STRAIGHT);
 	settingsPage->addMenuItem(changeKbdSettingsItem);
 
 	MenuItem *changeMouseSettingsItem =
-	    new MenuItem("MOUSE", 400, 300, NULL, NULL,
+	    new MenuItem("MOUSE", itemfont, 400, 300, NULL, NULL,
 			 false, 0, 500, ANIMATION_STRAIGHT);
 	settingsPage->addMenuItem(changeMouseSettingsItem);
 
 	MenuItem *backMultiPlayerItem =
-	    new MenuItem("BACK", 400, 200, NULL, NULL, true, 400,
+	    new MenuItem("BACK", itemfont, 400, 200, NULL, NULL, true, 400,
 			 0, ANIMATION_STRAIGHT);
 	settingsPage->addMenuItem(backMultiPlayerItem);
 
@@ -260,23 +264,23 @@ void Menu::InitializeMenu(void)
 	videoResPage = new MenuPage();
 
 	MenuItem *change_res_640_x_480 =
-	    new MenuItem("640 X 480", 400, 600, NULL, NULL,
+	    new MenuItem("640 X 480", itemfont, 400, 600, NULL, NULL,
 			 true, 0, 500, ANIMATION_STRAIGHT);
 	videoResPage->addMenuItem(change_res_640_x_480);
 	MenuItem *change_res_800_x_600 =
-	    new MenuItem("800 X 600", 400, 500, NULL, NULL,
+	    new MenuItem("800 X 600", itemfont, 400, 500, NULL, NULL,
 			 true, 0, 500, ANIMATION_STRAIGHT);
 	videoResPage->addMenuItem(change_res_800_x_600);
 	MenuItem *change_res_1024_x_768 =
-	    new MenuItem("1024 X 768", 400, 400, NULL, NULL,
+	    new MenuItem("1024 X 768", itemfont, 400, 400, NULL, NULL,
 			 true, 0, 500, ANIMATION_STRAIGHT);
 	videoResPage->addMenuItem(change_res_1024_x_768);
 	MenuItem *change_res_1600_x_1200 =
-	    new MenuItem("1600 X 1200", 400, 300, NULL, NULL,
+	    new MenuItem("1600 X 1200", itemfont, 400, 300, NULL, NULL,
 			 true, 0, 500, ANIMATION_STRAIGHT);
 	videoResPage->addMenuItem(change_res_1600_x_1200);
 	MenuItem *backVidResItem =
-	    new MenuItem("BACK", 400, 200, NULL, NULL, true, 400,
+	    new MenuItem("BACK", itemfont, 400, 200, NULL, NULL, true, 400,
 			 0, ANIMATION_STRAIGHT);
 	videoResPage->addMenuItem(backVidResItem);
 
@@ -290,24 +294,22 @@ void Menu::InitializeMenu(void)
 
 	// Disabled Names
 	MenuItem *bhanuItem =
-	    new MenuItem("BHANU KALYAN", 400, 600, NULL, NULL, false);
+	    new MenuItem("BHANU KALYAN", itemfont, 400, 600, NULL, NULL, false);
 	creditsPage->addMenuItem(bhanuItem);
 
 	MenuItem *vamsiItem =
-	    new MenuItem("VAMSI KRISHNA", 400, 500, NULL, NULL, false);
+	    new MenuItem("VAMSI KRISHNA", itemfont, 400, 500, NULL, NULL, false);
 	creditsPage->addMenuItem(vamsiItem);
 
 	MenuItem *swamyItem =
-	    new MenuItem("SWAMY SUMAN", 400, 400, NULL, NULL, false);
+	    new MenuItem("SWAMY SUMAN", itemfont, 400, 400, NULL, NULL, false);
 	creditsPage->addMenuItem(swamyItem);
 
-	MenuItem *backCreditsItem = new MenuItem("BACK", 400, 300, NULL, NULL);
+	MenuItem *backCreditsItem = new MenuItem("BACK", itemfont, 400, 300, NULL, NULL);
 	creditsPage->addMenuItem(backCreditsItem);
 
 	creditsItem->setNextMenuPage(creditsPage);
 	backCreditsItem->setNextMenuPage(parent);
-
-	InitMenuOpenGL(1024, 768);
 
 	InitFont();
 
@@ -315,9 +317,6 @@ void Menu::InitializeMenu(void)
 	textures = new Texture*[num_textures];
 	textures[0] = new Texture("maps/blood_splatter.jpg");
 	textures[0]->Load(52);
-
-//	tahoma = new TTFFont("tahoma.ttf");
-//	tahoma->renderText("ASS", 1,1,1);
 
 	currentMenuPage->Show();
 	currentMenuPage->Animate();
@@ -358,7 +357,7 @@ void Menu::LazyDestroyMenu(void)
 	delete[] textures;
 	textures = NULL;
 
-//	delete tahoma;
+	delete itemfont;
 	DestroyFont();
 
 	currentMenuPage = NULL;

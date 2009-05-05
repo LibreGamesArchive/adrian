@@ -9,6 +9,8 @@
 #include <string.h>
 #include <math.h>
 
+#include "../TextObject.h"
+
 #include "menudefines.h"
 
 typedef void *MenuPagePtr;
@@ -29,6 +31,8 @@ class MenuItem {
 	float fontHeight;
 	float fontWidth;
 
+	TextObject *txob;
+
 	MENU_FUNC funcPtr;
 
 	MenuPagePtr nextMenuPage;
@@ -38,7 +42,7 @@ class MenuItem {
 	AnimationType animationType;
 
  public:
-	 MenuItem(const char *text, float x, float y, MENU_FUNC funcPtr = NULL,
+	 MenuItem(const char *text, TTFFont *itemfont, float x, float y, MENU_FUNC funcPtr = NULL,
 		  MenuPagePtr nextMenuPage = NULL, bool enabled =
 		  true, float startx = 0, float starty =
 		  0, AnimationType animationType =
@@ -46,6 +50,7 @@ class MenuItem {
 		  DEFAULT_FONT_HEIGHT, float fontWidth = DEFAULT_FONT_WIDTH);
 
 	~MenuItem();
+	void Initialize(void);
 
 	// Animation Variables
  private:

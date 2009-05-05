@@ -13,7 +13,8 @@
 #include "../texture.h"
 #include "menuitem.h"
 #include "menupage.h"
-//#include "TTFFont.h"
+#include "../TTFFont.h"
+#include "../TextObject.h"
 
 class Menu 
 {
@@ -22,6 +23,8 @@ class Menu
 	volatile bool lazy_destroy;
 
 	MenuPage *currentMenuPage;
+
+	TTFFont *itemfont;
 
 	GLuint fontTexID;
 	Texture *fontTex;
@@ -50,7 +53,7 @@ class Menu
 	Texture **textures;
 
  public:
-//	TTFFont *tahoma;
+	TTFFont *tahoma;
 
 	Menu(void);
 	~Menu();
