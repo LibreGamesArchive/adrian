@@ -1,10 +1,6 @@
 #ifndef __COMMON_H__
 #define __COMMON_H__
 
-#ifdef WIN32
-#include <windows.h>
-#endif
-
 # include <string>
 # include <vector>
 #include <GL/gl.h>

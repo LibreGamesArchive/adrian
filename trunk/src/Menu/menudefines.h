@@ -1,10 +1,6 @@
 #ifndef			__MENU_DEFINES_H__
 #define			__MENU_DEFINES_H__
 
-#ifdef WIN32
-#include <windows.h>
-#endif
-
 #define			MAX_MENU_STRING_LENGTH			64
 
 #define			MAX_MENU_ITEMS_PER_PAGE			24
