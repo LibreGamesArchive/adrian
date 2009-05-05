@@ -11,7 +11,7 @@
 
 typedef void *MenuPagePtr;
 
-typedef void (*MENU_FUNC)(void);
+typedef void (*MENU_FUNC)(void*);
 
 typedef enum {
 	ANIMATION_STRAIGHT,
@@ -30,6 +30,7 @@ class MenuItem {
 	TextObject *txob;
 
 	MENU_FUNC funcPtr;
+	void *funcArg;
 
 	MenuPagePtr nextMenuPage;
 
@@ -38,12 +39,13 @@ class MenuItem {
 	AnimationType animationType;
 
  public:
-	 MenuItem(const char *text, TTFFont *itemfont, float x, float y, MENU_FUNC funcPtr = NULL,
-		  MenuPagePtr nextMenuPage = NULL, bool enabled =
-		  true, float startx = 0, float starty =
-		  0, AnimationType animationType =
-		  ANIMATION_SPIRAL, float fontHeight =
-		  DEFAULT_FONT_HEIGHT, float fontWidth = DEFAULT_FONT_WIDTH);
+	 MenuItem(const char *text, TTFFont *itemfont,
+			  float x, float y, MENU_FUNC funcPtr = NULL,
+			  void *funcArg = NULL, MenuPagePtr nextMenuPage = NULL,
+			  bool enabled = true, float startx = 0, float starty = 0,
+			  AnimationType animationType = ANIMATION_SPIRAL,
+			  float fontHeight = DEFAULT_FONT_HEIGHT,
+			  float fontWidth = DEFAULT_FONT_WIDTH);
 
 	~MenuItem();
 	void Initialize(void);
@@ -79,7 +81,7 @@ class MenuItem {
 
 	void ExecuteFunc(void) {
 		if (funcPtr)
-			(*funcPtr) ();
+			(*funcPtr) (funcArg);
 	}
 
 	MENU_FUNC getFunc(void) {
