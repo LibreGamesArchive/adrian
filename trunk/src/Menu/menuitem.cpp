@@ -29,6 +29,7 @@ MenuItem::MenuItem(const char *text, TTFFont *itemfont, float x, float y, MENU_F
 
 MenuItem::~MenuItem()
 {
+	delete txob;
 }
 
 // Accesor Functions

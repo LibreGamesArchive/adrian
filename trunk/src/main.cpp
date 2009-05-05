@@ -13,6 +13,9 @@
 #include <SDL/SDL_mixer.h>
 #include <signal.h>
 
+bool load_game = false;
+bool end_game_show_menu = false;
+
 #define			TIME_INTERVAL			300
 extern Uint32 TimerCallback(unsigned int);
 
@@ -62,7 +65,7 @@ int main(int argc, char **argv)
 		printf("Failed to Create Window : %s\n", SDL_GetError());	// report error
 		Quit(0);
 	}
-	SDL_WM_SetCaption("SDL Rendering", "SDL Rendering.");
+	SDL_WM_SetCaption("A D R I A N", "A D R I A N");
 	//SDL_ShowCursor( SDL_DISABLE );
 
 	//cursor kelking...
@@ -85,6 +88,12 @@ int main(int argc, char **argv)
 		SDL_GL_SwapBuffers();
 		menu->ProcessEvents();
 		game->ProcessEvents();
+
+		if (load_game)
+			start_game();
+
+		if (end_game_show_menu)
+			end_game();
 	}
 
 	return 0;
@@ -96,6 +105,12 @@ Uint32 TimerCallback(unsigned int)
 	game->TimerCallback();
 
 	return 1;
+}
+
+/* Flag the Start of the game */
+void flag_load_game(void)
+{
+	load_game = true;
 }
 
 /* Start the game */
@@ -110,6 +125,13 @@ void start_game(void)
 	/* start the game too */
 	game->StartGame();
 
+	load_game = false;
+}
+
+/* Stop the game and go back to menu */
+void flag_end_game(void)
+{
+	end_game_show_menu = true;
 }
 
 /* Stop the game and go back to menu */
@@ -123,5 +145,7 @@ void end_game(void)
 
 	/* Init the menu */
 	menu->InitializeMenu();
+
+	end_game_show_menu = false;
 }
 

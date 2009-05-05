@@ -1,6 +1,7 @@
 #include "menu.h"
 #include "../texture.h"
 #include "../globals.h"
+#include "../main.h"
 
 #include <GL/gl.h>
 #include <GL/glu.h>
@@ -10,8 +11,6 @@
 Menu::Menu(void)
 {
 	initialized = false;
-	lazy_destroy = false;
-	fontTex = NULL;
 	textures = NULL;
 }
 
@@ -29,139 +28,6 @@ void Menu::InitMenuOpenGL(int horz_res, int vert_res)
 	glOrtho(0, horz_res, 0, vert_res, -1, 3);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
-}
-
-void Menu::InitFont(void)
-{
-	int ret;
-
-	fontTexID = 51;
-	fontTex = new Texture("maps/font.tga");
-	if ((ret = fontTex->Load(fontTexID)) < 0) {
-		printf("Could not load textures: %d\n", ret);
-		exit(1);
-	}
-
-	FontTexture[46][0] = .625;
-	FontTexture[46][1] = .625;
-
-	FontTexture[63][0] = .742;
-	FontTexture[63][1] = .875;
-
-	FontTexture[35][0] = .25;
-	FontTexture[35][1] = .5;
-
-	FontTexture[32][0] = .875;
-	FontTexture[32][1] = .875;
-
-	FontTexture[48][0] = .875;
-	FontTexture[48][1] = .625;
-
-	FontTexture[49][0] = 0;
-	FontTexture[49][1] = .75;
-
-	FontTexture[50][0] = .117;
-	FontTexture[50][1] = .75;
-
-	FontTexture[51][0] = .25;
-	FontTexture[51][1] = .75;
-
-	FontTexture[52][0] = .367;
-	FontTexture[52][1] = .75;
-
-	FontTexture[53][0] = .5;
-	FontTexture[53][1] = .75;
-
-	FontTexture[54][0] = .625;
-	FontTexture[54][1] = .75;
-
-	FontTexture[55][0] = .742;
-	FontTexture[55][1] = .75;
-
-	FontTexture[56][0] = .875;
-	FontTexture[56][1] = .75;
-
-	FontTexture[57][0] = 0;
-	FontTexture[57][1] = .875;
-
-	FontTexture[58][0] = .125;
-	FontTexture[58][1] = .875;
-
-	FontTexture[65][0] = 0;
-	FontTexture[65][1] = 0;
-
-	FontTexture[66][0] = .117;
-	FontTexture[66][1] = 0;
-
-	FontTexture[67][0] = .25;
-	FontTexture[67][1] = 0;
-
-	FontTexture[68][0] = .367;
-	FontTexture[68][1] = 0;
-
-	FontTexture[69][0] = .5;
-	FontTexture[69][1] = 0;
-
-	FontTexture[70][0] = .625;
-	FontTexture[70][1] = 0;
-
-	FontTexture[71][0] = .742;
-	FontTexture[71][1] = 0;
-
-	FontTexture[72][0] = .875;
-	FontTexture[72][1] = 0;
-
-	FontTexture[73][0] = 0;
-	FontTexture[73][1] = .125;
-
-	FontTexture[74][0] = .117;
-	FontTexture[74][1] = .125;
-
-	FontTexture[75][0] = .25;
-	FontTexture[75][1] = .125;
-
-	FontTexture[76][0] = .367;
-	FontTexture[76][1] = .125;
-
-	FontTexture[77][0] = .5;
-	FontTexture[77][1] = .125;
-
-	FontTexture[78][0] = .625;
-	FontTexture[78][1] = .125;
-
-	FontTexture[79][0] = .742;
-	FontTexture[79][1] = .125;
-
-	FontTexture[80][0] = .875;
-	FontTexture[80][1] = .125;
-
-	FontTexture[81][0] = 0;
-	FontTexture[81][1] = .25;
-	FontTexture[82][0] = .117;
-	FontTexture[82][1] = .25;
-	FontTexture[83][0] = .25;
-	FontTexture[83][1] = .25;
-	FontTexture[84][0] = .367;
-	FontTexture[84][1] = .25;
-	FontTexture[85][0] = .5;
-	FontTexture[85][1] = .25;
-	FontTexture[86][0] = .625;
-	FontTexture[86][1] = .25;
-	FontTexture[87][0] = .742;
-	FontTexture[87][1] = .25;
-	FontTexture[88][0] = .875;
-	FontTexture[88][1] = .25;
-	FontTexture[89][0] = 0;
-	FontTexture[89][1] = .375;
-	FontTexture[90][0] = .117;
-	FontTexture[90][1] = .375;
-
-}
-
-void Menu::DestroyFont(void)
-{
-	delete fontTex;
-	fontTex = NULL;
 }
 
 void exitGame(void)
@@ -214,7 +80,7 @@ void Menu::InitializeMenu(void)
 	singlePlayerPage = new MenuPage();
 
 	MenuItem *startSinglePlayerGameItem =
-	    new MenuItem("START GAME", itemfont, 400, 500, start_game, NULL);
+	    new MenuItem("START GAME", itemfont, 400, 500, flag_load_game, NULL);
 	singlePlayerPage->addMenuItem(startSinglePlayerGameItem);
 
 	MenuItem *loadSinglePlayerGameItem =
@@ -311,8 +177,6 @@ void Menu::InitializeMenu(void)
 	creditsItem->setNextMenuPage(creditsPage);
 	backCreditsItem->setNextMenuPage(parent);
 
-	InitFont();
-
 	num_textures = 1;
 	textures = new Texture*[num_textures];
 	textures[0] = new Texture("maps/blood_splatter.jpg");
@@ -338,27 +202,12 @@ void Menu::DestroyMenu(void)
 	initialized = false;
 
 	soundSystem->UnloadAll();
-
-	/* OK now to make sure everyone has exit their blocks */
-	lazy_destroy = true;
-}
-
-void Menu::LazyDestroyMenu(void)
-{
-	if (!lazy_destroy)
-		return;
-
-	assert(!initialized);
-
-	printf("Lazy destroying menu!\n");
-
 	for (int i = 0; i < num_textures; i++)
 		delete textures[i];
 	delete[] textures;
 	textures = NULL;
 
 	delete itemfont;
-	DestroyFont();
 
 	currentMenuPage = NULL;
 
@@ -369,8 +218,6 @@ void Menu::LazyDestroyMenu(void)
 	delete creditsPage; creditsPage = NULL;
 
 	delete parent; parent = NULL;
-
-	lazy_destroy = false;
 }
 
 void Menu::HandleKeyDown(SDL_keysym* keysym)
@@ -438,10 +285,6 @@ void Menu::ProcessEvents(void)
 			break;
 		}
 	}
-
-	/* Check if we have any lazy destroy pending */
-	if (lazy_destroy)
-		LazyDestroyMenu();
 }
 
 void Menu::Render(void)

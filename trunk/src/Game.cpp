@@ -1,5 +1,6 @@
 #include "Game.h"
 #include "config.h"
+#include "main.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -14,7 +15,6 @@ extern SDL_Cursor *init_system_cursor(const char *image[]);
 Game::Game(void)
 {
 	initialized = false;
-	lazy_destroy = false;
 
 	hero = NULL;
 	camera = NULL;
@@ -125,17 +125,9 @@ void Game::DestroyGame(void)
 {
 	initialized = false;
 
-	lazy_destroy = true;
-
 	soundSystem->UnloadAll();
 
 	resetVars();
-}
-
-void Game::LazyDestroyGame(void)
-{
-	if (!lazy_destroy)
-		return;
 
 	map->Destroy();
 
@@ -154,9 +146,7 @@ void Game::LazyDestroyGame(void)
 	num_guards = 0;
 	memset(guard, 0, sizeof(guard));
 
-	// destroy font?
 
-	lazy_destroy = false;
 }
 
 void Game::addGuard(Guard *g)
@@ -334,7 +324,7 @@ void Game::ProcessEvents(void)
 					}
 				case SDLK_F2:
 					{
-						end_game();
+						flag_end_game();
 						break;
 					}
 				case SDLK_F1:
@@ -486,9 +476,6 @@ void Game::ProcessEvents(void)
 	}
 
 	WorldCamUpdate();
-
-	if (lazy_destroy)
-		LazyDestroyGame();
 }
 
 void Game::drawObjects(GLenum mode)

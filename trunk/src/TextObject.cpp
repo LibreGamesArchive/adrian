@@ -43,10 +43,6 @@ void TextObject::setText(const char *s)
 			free(str);
 
 		len = strlen(s) + 1;
-		if (len <= 1) {
-			printf("EMPTY STRING!\n");
-			str = NULL;
-		}
 		str = (char *)malloc(len);
 		strcpy(str, s);
 
