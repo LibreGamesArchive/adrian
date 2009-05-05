@@ -35,13 +35,16 @@ void Map::Destroy(void)
 	textures = NULL;
 }
 
-int Map::LoadFile(const char *filename)
+int Map::LoadFile(const char *mapdir)
 {
 	FILE *f;
 	char buf[256];
+	char mainfn[256];
 
-	if ((f = fopen(filename, "r")) == NULL) {
-		printf("Error Opening File : %s\n", filename);
+	sprintf(mainfn, "%s/main.map", mapdir);
+
+	if ((f = fopen(mainfn, "r")) == NULL) {
+		printf("Error Opening File : %s\n", mainfn);
 		return -1;
 	}
 
@@ -52,14 +55,35 @@ int Map::LoadFile(const char *filename)
 
 	no_blocksx = (int)length / blocksize;
 	no_blocksy = (int)breadth / blocksize;
+	
+	fscanf(f, "%d", &num_textures);
+	textures = new Texture*[num_textures];
+	for (int i = 0; i < num_textures; i++) {
+		GLuint texid;
+		fscanf(f, "%s %d", buf, &texid);
+
+		Texture *t = new Texture(buf);
+		if (t->Load(texid) < 0) {
+			printf("Unable to load Texture(%s) into %d\n", buf, texid);
+			exit(-1);
+		}
+		printf("Loaded %s into %d\n", buf, texid);
+
+		textures[i] = t;
+	}
 
 	fscanf(f, "%d", &no_of_buildings);
 	buildings = new Building[no_of_buildings];
 	for (int i = 0; i < no_of_buildings; i++) {
+		char fn[256];
+		char path[256];
 		buildings[i].buildingID = i;
-		fscanf(f, "%f %f %f %f %d %d", &buildings[i].x1,
+		if (fscanf(f, "%f %f %f %f %d %d %s", &buildings[i].x1,
 		       &buildings[i].y1, &buildings[i].x2, &buildings[i].y2,
-		       &buildings[i].buildingType, &buildings[i].textureID);
+		       &buildings[i].buildingType, &buildings[i].textureID, fn) != 7) {
+			fprintf(stderr, "Invalid map file format (loading building): %s", mainfn);
+			exit(-1);
+		}
 		//      fprintf(stdout,"%f %f %f %f %d %d\n",buildings[i].x1,buildings[i].y1,buildings[i].x2,buildings[i].y2, buildings[i].buildingType, buildings[i].textureID );
 
 		float tempx, tempy;
@@ -75,23 +99,13 @@ int Map::LoadFile(const char *filename)
 		buildings[i].by1 = (int)(breadth / 2.0 + buildings[i].y1) / blocksize + 1;
 		buildings[i].by2 = (int)(breadth / 2.0 + buildings[i].y2) / blocksize + 1;
 
-		buildings[i].setType(buildings[i].buildingType);
-	}
-
-	fscanf(f, "%d", &num_textures);
-	textures = new Texture*[num_textures];
-	for (int i = 0; i < num_textures; i++) {
-		GLuint texid;
-		fscanf(f, "%s %d", buf, &texid);
-
-		Texture *t = new Texture(buf);
-		if (t->Load(texid) < 0) {
-			printf("Unable to load Texture(%s) into %d\n", buf, texid);
+		sprintf(path, "%s/%s", mapdir, fn);
+		if (buildings[i].Load(path) < 0) {
+			fprintf(stderr, "Unable to load building info file: %s", path);
 			exit(-1);
 		}
-		printf("Loaded %s into %d\n", buf, texid);
 
-		textures[i] = t;
+//		buildings[i].setType(buildings[i].buildingType);
 	}
 
 	/* Load the guards at the LAST! since otherwise
