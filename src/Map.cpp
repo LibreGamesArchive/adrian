@@ -7,6 +7,7 @@ Map::Map(void)
 	textureID = 1;
 	blocksize = 40;
 	textures = NULL;
+	num_textures = 0;
 	sprites = NULL;
 }
 
@@ -20,8 +21,6 @@ void Map::Initialize(void)
 
 void Map::Destroy(void)
 {
-	soundSystem->UnloadAll();
-
 	for (int i = 0; i < num_sprites; i++)
 		delete sprites[i];
 	delete sprites;
@@ -79,7 +78,6 @@ int Map::LoadFile(const char *filename)
 		buildings[i].setType(buildings[i].buildingType);
 	}
 
-	int num_textures;
 	fscanf(f, "%d", &num_textures);
 	textures = new Texture*[num_textures];
 	for (int i = 0; i < num_textures; i++) {
