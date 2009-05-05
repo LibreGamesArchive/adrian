@@ -144,6 +144,26 @@ int Map::LoadFile(const char *filename)
 	return 0;
 }
 
+GLuint Map::getTextureID(const char *fn)
+{
+	for (int i = 0; i < num_textures; i++) {
+		Texture *t = textures[i];
+		if (t->isTextureSame(fn))
+			return t->GetTexID();
+	}
+	return INVALID_TEXTURE_ID;
+}
+
+const char * Map::getTextureFn(GLuint tid)
+{
+	for (int i = 0; i < num_textures; i++) {
+		Texture *t = textures[i];
+		if (t->GetTexID() == tid)
+			return t->GetFn();
+	}
+	return NULL;
+}
+
 void Map::Render(void)
 {
 	glEnable(GL_TEXTURE_2D);

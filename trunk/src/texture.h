@@ -21,7 +21,16 @@ class Texture {
 		int Load(GLuint tid = INVALID_TEXTURE_ID);
 		int Unload(void);
 
-		int GetTexID(void);
+		inline GLuint GetTexID(void)
+		{
+			return texid;
+		}
+		inline const char *GetFn(void)
+		{
+			return fn;
+		}
+
+		bool isTextureSame(const char *path);
 
 };
 
