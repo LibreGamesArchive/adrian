@@ -477,13 +477,13 @@ void Menu::Render(void)
 	glEnable(GL_TEXTURE_2D);
 	glBindTexture(GL_TEXTURE_2D, 52);
 	glBegin(GL_QUADS);
-		glTexCoord2f(0 ,0);
-		glVertex3f(0, 0, -1.6);
 		glTexCoord2f(0 ,1);
+		glVertex3f(0, 0, -1.6);
+		glTexCoord2f(0 ,0);
 		glVertex3f(0, 768, -1.6);
-		glTexCoord2f(1 ,1);
-		glVertex3f(1024, 768, -1.6);
 		glTexCoord2f(1 ,0);
+		glVertex3f(1024, 768, -1.6);
+		glTexCoord2f(1 ,1);
 		glVertex3f(1024, 0, -1.6);
 	glEnd();
 
