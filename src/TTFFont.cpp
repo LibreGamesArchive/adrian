@@ -57,7 +57,7 @@ int TTFFont::createTexture(GLuint texid, const char *str, SDL_Color *color, floa
 	/* Convert the rendered text to a known format */
 	w = nextpoweroftwo(txtSDLSurface->w);
 	h = nextpoweroftwo(txtSDLSurface->h);
-
+	
 	*texx = ((float)txtSDLSurface->w) / w;
 	*texy = ((float)txtSDLSurface->h) / h;
 
@@ -65,6 +65,13 @@ int TTFFont::createTexture(GLuint texid, const char *str, SDL_Color *color, floa
 		    0x00ff0000, 0x0000ff00, 0x000000ff, 0xff000000);
 
     SDL_BlitSurface(txtSDLSurface, 0, intermediary, 0);
+
+	for (int i = 0; i < w*h; i++) {
+		unsigned int x = 0xFF000000;
+		if ((*((unsigned int*)(intermediary->pixels) + i) & 0x000000FF) != 0x00000000)
+			*((unsigned int*)intermediary->pixels + i) |= x;
+	}
+
 //	SDL_SetAlpha
 	/* Tell GL about our new texture */
 	glBindTexture(GL_TEXTURE_2D, texid);
