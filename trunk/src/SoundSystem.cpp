@@ -79,6 +79,9 @@ int SoundSystem::Load(const char *wavfile, int idx, int defaultRepeat)
 
 void SoundSystem::HaltAllChannels(void)
 {
+	if (!initialized)
+		return;
+
 	Mix_HaltChannel(-1);
 	for (int i = 0; i < MAX_SOUNDS; i++)
 		channels[i] = -1;
@@ -86,6 +89,9 @@ void SoundSystem::HaltAllChannels(void)
 
 bool SoundSystem::PlaySound(SoundType s, int loop)
 {
+	if (!initialized)
+		return false;
+
 	if ((channels[s] = Mix_PlayChannel(s, sounds[s], loop)) < 0) {
 		printf("Unable to play sound %d\n", s);
 		return false;

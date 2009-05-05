@@ -470,7 +470,9 @@ void Md2::render(void)
 	AnimateMD2Model(&g_3DModel);
 	glPopMatrix();
 	glDisable(GL_TEXTURE_2D);
-} void Md2::AnimateMD2Model(t3DModel * pModel) 
+}
+
+void Md2::AnimateMD2Model(t3DModel * pModel) 
 {
 	
 	    // Make sure we have valid objects just in case. (size() is in the vector class)
@@ -637,7 +639,9 @@ void Md2::createTexture(unsigned int textureArray[], char *strFileName,
 	
 	    // Now we need to free the bitmap data that we loaded since openGL stored it as a texture
 	    SDL_FreeSurface(pBitmap[0]);	// Free the texture data we dont need it anymore
-} float Md2::ReturnCurrentTime(t3DModel * pModel, int nextFrame) 
+}
+
+float Md2::ReturnCurrentTime(t3DModel * pModel, int nextFrame) 
 {
 	float elapsedTime = 0.0f;
 	
