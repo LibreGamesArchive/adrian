@@ -104,7 +104,10 @@ void Game::InitializeGame(void)
 	/* Create the structures */
 	camera = new Camera;
 	map = new Map;
-	map->LoadFile();	//only once
+	if (map->LoadFile() < 0) {
+		fprintf(stderr, "Unable to load default map file\n");
+		exit(-1);
+	}
 	panel = new Panel(62);
 	hero = new Hero(660, 550, 270, 1);
 	minimap = new MiniMap();
