@@ -34,13 +34,13 @@ void Sprite::Render(void)
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); 
 
 	glBegin(GL_QUADS);
-		glTexCoord2f(0.0, 0.0);
+		glTexCoord2f(1.0, 1.0);
 		glVertex3f(centx - lenx, 0, centz - lenz);
-		glTexCoord2f(0.0, 1);
+		glTexCoord2f(1.0, 0);
 		glVertex3f(centx - lenx, 150, centz - lenz);
-		glTexCoord2f(1, 1);
+		glTexCoord2f(0, 0);
 		glVertex3f(centx + lenx, 150, centz + lenz);
-		glTexCoord2f(1, 0.0);
+		glTexCoord2f(0, 1.0);
 		glVertex3f(centx + lenx, 0, centz + lenz);
 	glEnd();
 }

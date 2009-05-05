@@ -11,7 +11,7 @@ OBJECT_FILES	=	Map.o			\
 					main.o			\
 					Game.o			\
 					Md2.o			\
-					Tga.o			\
+					texture.o		\
 					Sprite.o		\
 					Font.o			\
 					Globals.o		\
@@ -71,8 +71,8 @@ Globals.o:	globals.cpp globals.h
 Cursor.o:	cursor.cpp cursor.h
 	$(COMPILE_COMMAND) -c cursor.cpp -o Cursor.o
 
-Tga.o:	tga.cpp tga.h
-	$(COMPILE_COMMAND) -c tga.cpp -o Tga.o
+texture.o:	texture.cpp texture.h
+	$(COMPILE_COMMAND) -c texture.cpp -o texture.o
 	
 clean:
 	make -C Menu clean

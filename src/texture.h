@@ -2,24 +2,25 @@
 #define		__TEXTURE_H__
 
 #include <SDL/SDL_image.h>
-#include <gl/gl.h>
-#include <gl/glu.h>
+#include <GL/gl.h>
+#include <GL/glu.h>
 
 #define	MAX_IMG_PATH_LEN	256
-
+#define	INVALID_TEXTURE_ID	(0xFFFFFFFF)
 class Texture {
 	private:
 		char fn[MAX_IMG_PATH_LEN];
+		char *extension;
 		bool loaded;
+		GLuint texid;
 
 	public:
 		Texture(const char *fn);
 		~Texture();
 
-		int Load(int texid = INVALID_TEXID);
+		int Load(GLuint tid = INVALID_TEXTURE_ID);
 		int Unload(void);
 
-		int SetTexID(GLuint texid);
 		int GetTexID(void);
 
 };

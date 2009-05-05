@@ -6,7 +6,7 @@ Map::Map(void)
 {
 	textureID = 1;
 	blocksize = 40;
-	textureIDs = NULL;
+	textures = NULL;
 	sprites = NULL;
 }
 
@@ -30,8 +30,10 @@ void Map::Destroy(void)
 	//delete buildings;
 	//TODO??
 
-	glDeleteTextures(num_textures, textureIDs);
-	free(textureIDs);
+	for (int i = 0; i < num_textures; i++)
+		delete textures[i];
+	delete[] textures;
+	textures = NULL;
 }
 
 int Map::LoadFile(const char *filename)
@@ -79,19 +81,19 @@ int Map::LoadFile(const char *filename)
 
 	int num_textures;
 	fscanf(f, "%d", &num_textures);
-	textureIDs = new GLuint[num_textures];
+	textures = new Texture*[num_textures];
 	for (int i = 0; i < num_textures; i++) {
 		GLuint texid;
 		fscanf(f, "%s %d", buf, &texid);
 
-		int err = loadTGA(buf, texid);
-		if (err != 0) {
-			printf("Unable to load Texture(%s) into %d: %d\n", buf, texid, err);
+		Texture *t = new Texture(buf);
+		if (t->Load(texid) < 0) {
+			printf("Unable to load Texture(%s) into %d\n", buf, texid);
 			exit(-1);
 		}
 		printf("Loaded %s into %d\n", buf, texid);
 
-		textureIDs[i] = texid;
+		textures[i] = t;
 	}
 
 	/* Load the guards at the LAST! since otherwise

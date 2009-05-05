@@ -10,8 +10,10 @@
 #include <GL/gl.h>
 #include <SDL/SDL.h>
 
+#include "../texture.h"
 #include "menuitem.h"
 #include "menupage.h"
+//#include "TTFFont.h"
 
 class Menu 
 {
@@ -22,6 +24,7 @@ class Menu
 	MenuPage *currentMenuPage;
 
 	GLuint fontTexID;
+	Texture *fontTex;
 
 	void HandleKeyDown(SDL_keysym* keysym);
 	void HandleKeyUp(SDL_keysym* keysym);
@@ -42,7 +45,13 @@ class Menu
 	float linex;
 	float increment;
 
+	/* Misc textures */
+	int num_textures;
+	Texture **textures;
+
  public:
+//	TTFFont *tahoma;
+
 	Menu(void);
 	~Menu();
 
