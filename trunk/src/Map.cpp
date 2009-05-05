@@ -113,14 +113,14 @@ int Map::LoadFile(const char *mapdir)
 	int num_guards;
 	fscanf(f, "%d", &num_guards);
 	for (int i = 0; i < num_guards; i++) {
+		char paneltexfn[256];
 		Guard *guard;
 		float x[6];
-		int texid;
 		float botangle;
-		fscanf(f, "%s %d %f %f %f %f %f %f", buf, &texid, &x[0], &x[1],
-		       &x[2], &x[3], &x[4], &botangle);
-		if ((guard = new Guard(buf, texid, x[0], x[1], x[2], x[3], x[4],
-								botangle, i)) == NULL) {
+		int type;
+		fscanf(f, "%s %d %f %f %f %f %f %f %s", buf, &type, &x[0], &x[1],
+		       &x[2], &x[3], &x[4], &botangle, paneltexfn);
+		if ((guard = new Guard(buf, type, x[0], x[1], x[2], x[3], x[4], getTextureID("textures/misc/los.tga"), botangle, i)) == NULL) {
 			printf("Out of RAM!\n");
 			SDL_Quit();
 			exit(-1);

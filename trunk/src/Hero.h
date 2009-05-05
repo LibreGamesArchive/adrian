@@ -44,9 +44,9 @@ class Hero:public Md2 {
 	bool selected;
 
  public:
-	 Hero(float, float, float, float);
+	 Hero(float, float, float, float, GLuint fovTexID, GLuint panelTexID);
 	~Hero();
-	void Initialize(float, float, float, float);
+	void Initialize(float, float, float, float, GLuint, GLuint);
 
 	void Run(float x, float y, float perfectx, float perfecty);
 	void Stand(void);

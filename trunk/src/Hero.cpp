@@ -4,17 +4,17 @@
 
 #define		PI		3.141
 
-Hero::Hero(float x, float y, float f, float s)
+Hero::Hero(float x, float y, float f, float s, GLuint fovTexID, GLuint panelTexID)
 :Md2("Creatures/Rhino")
 {
-	Initialize(x, y, f, s);
+	Initialize(x, y, f, s, fovTexID, panelTexID);
 }
 
 Hero::~Hero()
 {
 }
 
-void Hero::Initialize(float x, float y, float f, float s)
+void Hero::Initialize(float x, float y, float f, float s, GLuint fovTexID, GLuint panelTexID)
 {
 	Md2::x = curx = x;
 	Md2::z = cury = y;
@@ -34,9 +34,9 @@ void Hero::Initialize(float x, float y, float f, float s)
 		fovInterval = (PI / 2.0 - PI * fovAngle / 180.0) / 10.0;
 		fovEnd = PI * fovAngle / 180.0;
 		fovStart = 2 * fovEnd;
-		fovID = 3;
+		fovID = fovTexID;
 	}
-	PanelTexId = 65;
+	PanelTexId = panelTexID;
 }
 
 void Hero::Run(float dx, float dy, float perfectx, float perfecty)

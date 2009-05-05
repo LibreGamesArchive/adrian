@@ -47,7 +47,7 @@ class Guard:public Md2 {
 
  public:
 	 Guard(char *filename, int texid, float x1, float y1, float x2,
-	       float y2, float speed, float botangle = 0, int no = 0);
+	       float y2, float speed, GLuint fovTexID, float botangle = 0, int no = 0);
 	~Guard();
 	void Initialize();
 
