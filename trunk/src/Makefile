@@ -11,6 +11,8 @@ OBJECT_FILES	=	Map.o			\
 					main.o			\
 					Game.o			\
 					Md2.o			\
+					TTFFont.o		\
+					TextObject.o		\
 					texture.o		\
 					Sprite.o		\
 					Font.o			\
@@ -68,6 +70,12 @@ Guard.o:	Guard.cpp Guard.h Md2.h Md2.o
 Globals.o:	globals.cpp globals.h
 	$(COMPILE_COMMAND) -c globals.cpp -o Globals.o
 	
+TextObject.o:	TextObject.cpp TextObject.h
+	$(COMPILE_COMMAND) -c TextObject.cpp -o TextObject.o
+
+TTFFont.o:	TTFFont.cpp TTFFont.h
+	$(COMPILE_COMMAND) -c TTFFont.cpp -o TTFFont.o
+
 Cursor.o:	cursor.cpp cursor.h
 	$(COMPILE_COMMAND) -c cursor.cpp -o Cursor.o
 
