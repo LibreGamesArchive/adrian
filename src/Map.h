@@ -42,6 +42,9 @@ class Map {
 	void Render(void);
 	void TransparentRender(void);
 
+	GLuint getTextureID(const char *fn);
+	const char * getTextureFn(GLuint tid);
+
 	void Dump(void);
 
 };

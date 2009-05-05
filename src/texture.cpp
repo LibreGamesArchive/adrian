@@ -81,8 +81,8 @@ int Texture::Unload(void)
 	return 0;
 }
 
-int Texture::GetTexID(void)
+bool Texture::isTextureSame(const char *path)
 {
-	return texid;
+	return (!strcmp(path, fn));
 }
 
