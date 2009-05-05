@@ -1,10 +1,6 @@
 #ifndef				__GAME_BUILDING_H__
 #define				__GAME_BUILDING_H__
 
-#ifdef WIN32
-#include <windows.h>
-#endif
-
 #include <stdio.h>
 #include <GL/gl.h>
 #include <GL/glu.h>

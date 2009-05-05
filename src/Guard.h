@@ -1,10 +1,6 @@
 #ifndef			__GAME_GUARD_H__
 #define			__GAME_GUARD_H__
 
-#ifdef WIN32
-#include <windows.h>
-#endif
-
 #include "Md2.h"
 
 typedef enum {

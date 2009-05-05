@@ -9,10 +9,6 @@
     Web         -- http://members.home.com/vandals1
 */
 
-#ifdef WIN32
-#include <windows.h>
-#endif
-
 #include <time.h>
 #include <stdio.h>
 #include <stdlib.h>

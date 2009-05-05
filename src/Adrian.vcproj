@@ -47,6 +47,7 @@
 				WarningLevel="1"
 				Detect64BitPortabilityProblems="false"
 				DebugInformationFormat="4"
+				ForcedIncludeFiles="windows.h"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -118,6 +119,7 @@
 				WarningLevel="1"
 				Detect64BitPortabilityProblems="false"
 				DebugInformationFormat="3"
+				ForcedIncludeFiles="windows.h"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -250,7 +252,15 @@
 				>
 			</File>
 			<File
-				RelativePath=".\tga.h"
+				RelativePath=".\TextObject.h"
+				>
+			</File>
+			<File
+				RelativePath=".\texture.h"
+				>
+			</File>
+			<File
+				RelativePath=".\TTFFont.h"
 				>
 			</File>
 		</Filter>
@@ -338,7 +348,15 @@
 				>
 			</File>
 			<File
-				RelativePath=".\tga.cpp"
+				RelativePath=".\TextObject.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\texture.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\TTFFont.cpp"
 				>
 			</File>
 		</Filter>

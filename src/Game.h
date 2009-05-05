@@ -1,8 +1,6 @@
 #ifndef		__GAME_H__
 #define		__GAME_H__
-#ifdef WIN32
-#include <windows.h>
-#endif
+
 #include "Map.h"
 #include "Camera.h"
 #include "Md2.h"

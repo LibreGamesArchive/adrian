@@ -1,10 +1,6 @@
 #ifndef				__MENU_H__
 #define				__MENU_H__
 
-#ifdef WIN32
-#include <windows.h>
-#endif
-
 #include <stdio.h>
 
 #include <GL/gl.h>
