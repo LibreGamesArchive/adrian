@@ -20,20 +20,14 @@ class Menu
 {
  private:
 	bool initialized;
-	volatile bool lazy_destroy;
 
 	MenuPage *currentMenuPage;
 
 	TTFFont *itemfont;
 
-	GLuint fontTexID;
-	Texture *fontTex;
-
 	void HandleKeyDown(SDL_keysym* keysym);
 	void HandleKeyUp(SDL_keysym* keysym);
 
-	void InitFont(void);
-	void DestroyFont(void);
 	void InitMenuOpenGL(int resx, int resy);
 
 	/* Pages in the Menu */
@@ -62,7 +56,6 @@ class Menu
 
 	void InitializeMenu(void);
 	void DestroyMenu(void);
-	void LazyDestroyMenu(void);
 
 	void ProcessEvents(void);
 	void Render(void);
