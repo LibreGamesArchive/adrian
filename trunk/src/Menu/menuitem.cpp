@@ -25,7 +25,7 @@ MenuItem::MenuItem(const char *text, TTFFont *itemfont,
 	this->fontWidth = fontWidth;
 
 	txob = new TextObject(itemfont);
-	txob->setColor(1, 0, 0);
+	txob->setColor(0.5, 0.5, 0.5);
 	txob->setText(text);
 }
 
@@ -56,6 +56,12 @@ void MenuItem::Render(int method, int offset)
 
 	switch (method) {
 	case MENUITEM_ORDINARY:
+
+		glEnable(GL_ALPHA_TEST);
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		glAlphaFunc(GL_GEQUAL, 0.0);
+
 		//normal grey color
 		glEnable(GL_TEXTURE_2D);
 		glBindTexture(GL_TEXTURE_2D, txob->texid);
@@ -119,6 +125,11 @@ void MenuItem::Render(int method, int offset)
 	case MENUITEM_HIGHLIGHT:
 		//highlighted white color
 
+		glEnable(GL_ALPHA_TEST);
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		glAlphaFunc(GL_GEQUAL, 0.0);
+
 		glColor3f(1, 1, 1);
 		glEnable(GL_TEXTURE_2D);
 		glBindTexture(GL_TEXTURE_2D, txob->texid);
@@ -137,6 +148,11 @@ void MenuItem::Render(int method, int offset)
 		break;
 
 	case MENUITEM_ANIMATE:
+		glEnable(GL_ALPHA_TEST);
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		glAlphaFunc(GL_GEQUAL, 0.0);
+
 		glColor3f(1, 1, 0);
 		glEnable(GL_TEXTURE_2D);
 		glBindTexture(GL_TEXTURE_2D, txob->texid);
