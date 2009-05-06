@@ -96,6 +96,12 @@ void Guard::Attack(float x, float y)
 
 int Guard::NextMove(void)
 {
+	if (game->gameover && Alive) {
+		status = STANDING;
+		setAnimation(STAND);
+		return 0;
+	}
+
 	switch (status) {
 	case STANDING:
 		return 0;
@@ -292,6 +298,9 @@ bool Guard::checkIntruder(float x, float y)
 	float tempx = curx - x, tempy = cury - y;
 	float m;
 	float LineAngle;
+
+	if (cheat_code_invisible_enabled)
+		return false;
 
 	m = (y - cury) / (x - curx);
 	LineAngle = atan(m) * 180 / PI;

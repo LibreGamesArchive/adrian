@@ -37,6 +37,7 @@ void Game::resetVars(void)
 	started = false;
 	gameover = false;
 
+	stop_all_animation = false;
 //	width = hres;
 //	height = vres;
 
@@ -379,9 +380,12 @@ void Game::ProcessEvents(void)
 					}
 				case SDLK_b:
 					{
-//						if (hero->curx <= -580
-//						    && hero->cury <= -hres)
-//							gameOver = true;
+						if (hero->curx <= -580
+						    && hero->cury <= -640) {
+							started = false;
+							gameover = true;
+							stop_all_animation = true;
+						}
 						break;
 					}
 				case SDLK_s:
@@ -412,6 +416,20 @@ void Game::ProcessEvents(void)
 							camera->camx = camera->distance * sin(angle) + camera->initx;
 							camera->camz = camera->distance * cos(angle) + camera->initz;
 						}
+						break;
+					}
+				case SDLK_i:
+					{
+						cheat_code_invisible_enabled = !cheat_code_invisible_enabled;
+						fprintf(stderr, "%sabled Invisibility Cheat Code\n",
+								(cheat_code_invisible_enabled) ? "En" : "Dis");
+						break;
+					}
+				case SDLK_u:
+					{
+						cheat_code_nowalls_enabled = !cheat_code_nowalls_enabled;
+						fprintf(stderr, "%sabled No Walls Cheat Code\n",
+								(cheat_code_nowalls_enabled) ? "En" : "Dis");
 						break;
 					}
 				default:
@@ -587,8 +605,14 @@ void Game::TimerCallback(void)
 	if (!initialized)
 		return;
 
-	if (!started)
+	if (!started) {
+		if (gameover) {
+			/* Rotate the camera! */
+			angle += 0.009;
+			camera->Rotate(angle);
+		}
 		return;
+	}
 
 	/* Move the hero & creatures */
 	hero->NextMove();
@@ -617,6 +641,7 @@ void Game::TimerCallback(void)
 			hero->Stand();
 			started = false;
 			gameover = true;
+			stop_all_animation = true;
 		}
 	}
 

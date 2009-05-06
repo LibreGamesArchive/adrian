@@ -29,6 +29,10 @@ extern int vres;
 //cursors
 extern SDL_Cursor *cursors[];
 
+/* Cheat Codes */
+extern bool cheat_code_invisible_enabled;
+extern bool cheat_code_nowalls_enabled;
+
 #define		SCR2RESX(x)		((x)/640.0 * (hres))
 #define		SCR2RESY(y)		((y)/480.0 * (vres))
 
