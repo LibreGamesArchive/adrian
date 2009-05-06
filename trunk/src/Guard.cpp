@@ -299,7 +299,7 @@ bool Guard::checkIntruder(float x, float y)
 	float m;
 	float LineAngle;
 
-	if (cheat_code_invisible_enabled)
+	if (game->cheat_code_invisible_enabled)
 		return false;
 
 	m = (y - cury) / (x - curx);

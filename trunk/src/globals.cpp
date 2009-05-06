@@ -22,7 +22,3 @@ int hres = 1024;
 int vres = 768;
 #endif
 
-/* Cheat Codes */
-bool cheat_code_invisible_enabled = false;
-bool cheat_code_nowalls_enabled = false;
-
