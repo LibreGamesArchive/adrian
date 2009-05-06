@@ -42,7 +42,7 @@ void Menu::InitializeMenu(void)
 
 	InitMenuOpenGL(1024, 768);
 
-	itemfont = new TTFFont("fonts/font.ttf", 64);
+	itemfont = new TTFFont("fonts/font.ttf", 64, TTF_STYLE_BOLD);
 
 	// Animation
 	linex = 0;

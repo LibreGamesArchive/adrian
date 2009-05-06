@@ -46,7 +46,7 @@ int TTFFont::createTexture(GLuint texid, const char *str, SDL_Color *color, floa
 
 	printf("Creating TextTexture for %s at TexID:%d\n", str, texid);
 
-	txtSDLSurface = TTF_RenderText_Blended(font, str, *color);
+	txtSDLSurface = TTF_RenderText_Solid(font, str, *color);
 	if (txtSDLSurface == NULL) {
 		printf("TTF_RenderText_Blended: %s\n", SDL_GetError());
 		exit(-1);
@@ -66,13 +66,6 @@ int TTFFont::createTexture(GLuint texid, const char *str, SDL_Color *color, floa
 
     SDL_BlitSurface(txtSDLSurface, 0, intermediary, 0);
 
-	for (int i = 0; i < w*h; i++) {
-		unsigned int x = 0xFF000000;
-		if ((*((unsigned int*)(intermediary->pixels) + i) & 0x000000FF) != 0x00000000)
-			*((unsigned int*)intermediary->pixels + i) |= x;
-	}
-
-//	SDL_SetAlpha
 	/* Tell GL about our new texture */
 	glBindTexture(GL_TEXTURE_2D, texid);
 
