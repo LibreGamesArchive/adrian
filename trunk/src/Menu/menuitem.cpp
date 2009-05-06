@@ -25,7 +25,7 @@ MenuItem::MenuItem(const char *text, TTFFont *itemfont,
 	this->fontWidth = fontWidth;
 
 	txob = new TextObject(itemfont);
-	txob->setColor(0.5, 0.5, 0.5);
+	txob->setColor(1.0, 0, 0);
 	txob->setText(text);
 }
 
