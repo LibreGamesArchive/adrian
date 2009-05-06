@@ -42,6 +42,8 @@ class Menu
 	int num_textures;
 	Texture **textures;
 
+	void LoadAvailMaps(MenuItem *singlePlayerItem);
+
  public:
 	TTFFont *tahoma;
 

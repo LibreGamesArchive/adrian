@@ -7,6 +7,7 @@
 #include <GL/glu.h>
 #include <stdlib.h>
 
+#include <dirent.h>
 
 Menu::Menu(void)
 {
@@ -33,6 +34,55 @@ void Menu::InitMenuOpenGL(int horz_res, int vert_res)
 void exitGame(void *ign)
 {
 	exit(0);
+}
+
+void Menu::LoadAvailMaps(MenuItem *singlePlayerItem)
+{
+	int nextloc = 600;
+	// Single Player Menu
+	singlePlayerPage = new MenuPage();
+
+	DIR *d = opendir("maps");
+	struct dirent *dent;
+	while ((dent = readdir(d))) {
+		char buf[256];
+		sprintf(buf, "maps/%s/info", dent->d_name);
+		FILE *f;
+		f = fopen(buf, "r");
+		if (f) {
+			char name[512];
+			if (fgets(name, 512, f) > 0) {
+				char *n = name + 5;
+				for (int i = 0; name[i]; i++) 
+					if (name[i] == '\n' || name[i] == '\r')
+						name[i] = '\0';
+
+				sprintf(buf, "maps/%s", dent->d_name);
+				singlePlayerPage->addMenuItem(new
+						MenuItem(n, itemfont, 400, nextloc, flag_load_game, (void*)strdup(buf), NULL));
+				nextloc -= 100;
+			}
+			fclose(f);
+		}
+	}
+	closedir(d);
+
+/*	MenuItem *startSinglePlayerGameItem =
+	    new MenuItem("START GAME", itemfont, 400, 500, flag_load_game, (void*)"maps/default", NULL);
+	singlePlayerPage->addMenuItem(startSinglePlayerGameItem);
+
+	MenuItem *loadSinglePlayerGameItem =
+	    new MenuItem("LOAD GAME", itemfont, 400, 400, flag_load_game, (void*)"maps/snow", NULL);
+	singlePlayerPage->addMenuItem(loadSinglePlayerGameItem);*/
+
+	MenuItem *backSinglePlayerItem =
+	    new MenuItem("BACK", itemfont, 400, nextloc, NULL, NULL, NULL);
+	singlePlayerPage->addMenuItem(backSinglePlayerItem);
+
+	singlePlayerItem->setNextMenuPage(singlePlayerPage);
+	backSinglePlayerItem->setNextMenuPage(parent);
+
+
 }
 
 void Menu::InitializeMenu(void)
@@ -76,23 +126,8 @@ void Menu::InitializeMenu(void)
 
 	currentMenuPage = parent;
 
-	// Single Player Menu
-	singlePlayerPage = new MenuPage();
-
-	MenuItem *startSinglePlayerGameItem =
-	    new MenuItem("START GAME", itemfont, 400, 500, flag_load_game, (void*)"maps/default", NULL);
-	singlePlayerPage->addMenuItem(startSinglePlayerGameItem);
-
-	MenuItem *loadSinglePlayerGameItem =
-	    new MenuItem("LOAD GAME", itemfont, 400, 400, flag_load_game, (void*)"maps/snow", NULL);
-	singlePlayerPage->addMenuItem(loadSinglePlayerGameItem);
-
-	MenuItem *backSinglePlayerItem =
-	    new MenuItem("BACK", itemfont, 400, 300, NULL, NULL, NULL);
-	singlePlayerPage->addMenuItem(backSinglePlayerItem);
-
-	singlePlayerItem->setNextMenuPage(singlePlayerPage);
-	backSinglePlayerItem->setNextMenuPage(parent);
+	/* Basically check the list of available maps first */
+	LoadAvailMaps(singlePlayerItem);
 
 	// Multi Player Menu
 	settingsPage = new MenuPage();
