@@ -71,6 +71,8 @@ class Game
 	void drawObjects(GLenum mode);
 
  public:
+	bool stop_all_animation;
+
 	Game(void);
 	~Game();
 

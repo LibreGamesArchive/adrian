@@ -15,21 +15,25 @@ Panel::Panel(GLuint texid)
 	font = new TTFFont("fonts/font.ttf", 64, 0);
 
 	fps = new TextObject(font);
+	gameOver = NULL;
+	gameOver2 = NULL;
 }
 
 Panel::~Panel()
 {
+	if (gameOver2) delete gameOver2;
+	if (gameOver) delete gameOver;
 	delete fps;
 	delete font;
 }
 
-void Panel::RenderTextObject(TextObject *tob, float x, float y)
+void Panel::RenderTextObject(TextObject *tob, float x, float y, float w, float h)
 {
 	float x1 = SCR2RESX(x);
 	float y1 = SCR2RESY(y);
 
-	float x2 = x1 + tob->getLen() * SCR2RESX(15);
-	float y2 = y1 + SCR2RESY(20);
+	float x2 = x1 + tob->getLen() * SCR2RESX(w);
+	float y2 = y1 + SCR2RESY(h);
 
 	glEnable(GL_ALPHA_TEST);
     glEnable(GL_BLEND);
@@ -131,8 +135,19 @@ void Panel::Render()
 
 	if (!game->gameover) {
 		drawBot();
-	} else
-		drawTips("GAME OVER", "PRESS O TO MENU");
+	} else {
+		if (gameOver == NULL) {
+			gameOver = new TextObject(font);
+			gameOver->setColor(1, 0, 0);
+			gameOver->setText("GAME OVER");
+			gameOver2 = new TextObject(font);
+			gameOver2->setText("Press F2 to exit to Main Menu");
+		}
+		
+		RenderTextObject(gameOver, 200, 220, 40, 50);
+		RenderTextObject(gameOver2, 100, 280, 20, 30);
+		//drawTips("GAME OVER", "PRESS O TO MENU");
+	}
 	game->minimap->Render();
 	glPopMatrix();
 

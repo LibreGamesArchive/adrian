@@ -1,4 +1,6 @@
 #include "Md2.h"
+#include "Game.h"
+#include "globals.h"
 #include <string.h>
 #include <SDL/SDL_image.h>
 #include <ctype.h>
@@ -643,6 +645,9 @@ void Md2::createTexture(unsigned int textureArray[], char *strFileName,
 
 float Md2::ReturnCurrentTime(t3DModel * pModel, int nextFrame) 
 {
+	if (game->stop_all_animation)
+		return 0;
+
 	float elapsedTime = 0.0f;
 	
 //    float lastTime     = 0.0f;

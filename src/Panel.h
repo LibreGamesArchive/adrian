@@ -9,6 +9,8 @@ class Panel {
 	TTFFont *font;
 
 	TextObject *fps;
+	TextObject *gameOver;
+	TextObject *gameOver2;
 
  public:
 	int textureId;
@@ -19,7 +21,7 @@ class Panel {
 	void drawBot();
 	void drawTips(const char *, const char *);
 
-	void RenderTextObject(TextObject*, float, float);
+	void RenderTextObject(TextObject*, float, float, float w = 15, float h = 20);
 };
 
 #endif				// __PANEL_H__

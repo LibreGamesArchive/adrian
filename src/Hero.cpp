@@ -136,6 +136,9 @@ int Hero::NextMove(void)
 				     && ((newbx == game->map->buildings[i].bx1)
 					 || (newbx == game->map->buildings[i].bx2)))
 				    ) {
+					if (cheat_code_nowalls_enabled)
+						break;
+			
 					float tempx, tempy;
 					game->block_convert(tempx, tempy, curx, cury);
 					destx = x = curx = tempx;
@@ -147,6 +150,7 @@ int Hero::NextMove(void)
 					break;
 				}
 			}
+
 			if (!collision) {
 				curx = newx;
 				cury = newy;
