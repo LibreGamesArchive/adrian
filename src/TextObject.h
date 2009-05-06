@@ -23,6 +23,11 @@ class TextObject
 	TextObject(TTFFont *font, GLuint tid = INVALID_TEXTURE_ID);
 	~TextObject();
 
+	inline int getLen(void)
+	{
+		return len;
+	}
+
 	void setText(const char *s = NULL);
 	void setColor(float red, float green, float blue);
 

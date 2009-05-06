@@ -100,7 +100,7 @@ void Game::InitializeGame(const char *gamefile)
 
 	/* Basic setup of OpenGL */
 	setupOpenGL(hres, vres);
-	
+
 	/* Create the structures */
 	camera = new Camera;
 	map = new Map;

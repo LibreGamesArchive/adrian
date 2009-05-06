@@ -10,6 +10,7 @@
 #include "Panel.h"
 #include "MiniMap.h"
 #include "config.h"
+#include "TTFFont.h"
 
 #include <GL/gl.h>
 #include <GL/glu.h>
