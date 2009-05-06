@@ -24,10 +24,11 @@ int Texture::Load(GLuint tid)
 	if (loaded) {
 		fprintf(stderr, "Warning: Texture object is already loaded: %d\n", texid);
 	}
-
-	if (!strcasestr(extension, "tga"))
+//somehow this is not required on the windows os
+#ifndef WIN32
+	if (strstr(extension, "tga"))
 		reversed_rgb = true;
-
+#endif
 	/* Load the SDL Image into memory */
 	surface = IMG_Load(fn);
 	if (surface == NULL) {
