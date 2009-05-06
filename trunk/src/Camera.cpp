@@ -46,8 +46,6 @@ void Camera::Rotate(float a)
 
 	pointx = initx;
 	pointz = initz;
-
-	Update();
 }
 
 void Camera::Move(void)
@@ -58,8 +56,6 @@ void Camera::Move(void)
 
 	pointx = initx;
 	pointz = initz;
-
-	Update();
 }
 
 void Camera::MoveUp(void)
@@ -118,9 +114,6 @@ void Camera::Zoom(float d)
 
 	camx = distance * sin(angle) + initx;
 	camz = distance * cos(angle) + initz;
-
-	Update();
-
 }
 
 int Camera::ConvertCoordinates(int x, int y, float &x3, float &y3)

@@ -29,7 +29,7 @@ void Panel::RenderTextObject(TextObject *tob, float x, float y)
 	float y1 = SCR2RESY(y);
 
 	float x2 = x1 + tob->getLen() * SCR2RESX(15);
-	float y2 = y1 + SCR2RESY(15);
+	float y2 = y1 + SCR2RESY(20);
 
 	glEnable(GL_ALPHA_TEST);
     glEnable(GL_BLEND);

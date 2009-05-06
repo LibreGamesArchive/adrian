@@ -481,8 +481,6 @@ void Game::ProcessEvents(void)
 			}
 		}
 	}
-
-	WorldCamUpdate();
 }
 
 void Game::drawObjects(GLenum mode)
@@ -622,5 +620,6 @@ void Game::TimerCallback(void)
 		}
 	}
 
+	WorldCamUpdate();
 }
 
