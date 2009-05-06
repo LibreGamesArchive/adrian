@@ -136,7 +136,7 @@ int Hero::NextMove(void)
 				     && ((newbx == game->map->buildings[i].bx1)
 					 || (newbx == game->map->buildings[i].bx2)))
 				    ) {
-					if (cheat_code_nowalls_enabled)
+					if (game->cheat_code_nowalls_enabled)
 						break;
 			
 					float tempx, tempy;

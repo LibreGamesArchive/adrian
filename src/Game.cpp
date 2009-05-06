@@ -38,6 +38,10 @@ void Game::resetVars(void)
 	gameover = false;
 
 	stop_all_animation = false;
+
+	/* Disable Cheat codes */
+	cheat_code_invisible_enabled = false;
+	cheat_code_nowalls_enabled = false;
 //	width = hres;
 //	height = vres;
 

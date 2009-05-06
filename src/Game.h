@@ -73,6 +73,10 @@ class Game
  public:
 	bool stop_all_animation;
 
+	/* Cheat Codes */
+	bool cheat_code_invisible_enabled;
+	bool cheat_code_nowalls_enabled;
+
 	Game(void);
 	~Game();
 
