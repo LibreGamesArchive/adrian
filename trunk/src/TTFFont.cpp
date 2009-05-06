@@ -58,8 +58,8 @@ int TTFFont::createTexture(GLuint texid, const char *str, SDL_Color *color, floa
 	w = nextpoweroftwo(txtSDLSurface->w);
 	h = nextpoweroftwo(txtSDLSurface->h);
 	
-	*texx = ((float)txtSDLSurface->w) / w;
-	*texy = ((float)txtSDLSurface->h) / h;
+	*texx = ((float)txtSDLSurface->w + 1.0) / w;
+	*texy = ((float)txtSDLSurface->h + 1.0) / h;
 
 	intermediary = SDL_CreateRGBSurface(0, w, h, 32,
 		    0x00ff0000, 0x0000ff00, 0x000000ff, 0xff000000);

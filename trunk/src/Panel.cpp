@@ -7,14 +7,47 @@
 
 #include <time.h>
 
-Panel::Panel(int texid)
+Panel::Panel(GLuint texid)
 {
 	textureId = texid;
 	show_fps = false;
+
+	font = new TTFFont("fonts/font.ttf", 64, 0);
+
+	fps = new TextObject(font);
 }
 
 Panel::~Panel()
 {
+	delete fps;
+	delete font;
+}
+
+void Panel::RenderTextObject(TextObject *tob, float x, float y)
+{
+	float x1 = SCR2RESX(x);
+	float y1 = SCR2RESY(y);
+
+	float x2 = x1 + tob->getLen() * SCR2RESX(15);
+	float y2 = y1 + SCR2RESY(15);
+
+	glEnable(GL_ALPHA_TEST);
+    glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glAlphaFunc(GL_GEQUAL, 0.0);
+
+	glEnable(GL_TEXTURE_2D);
+	glBindTexture(GL_TEXTURE_2D, tob->texid);
+	glBegin(GL_QUADS);
+		glTexCoord2f(1, 0);
+		glVertex2f(x2, y2);
+		glTexCoord2f(1, 1);
+		glVertex2f(x2, y1);
+		glTexCoord2f(0, 1);
+		glVertex2f(x1, y1);
+		glTexCoord2f(0, 0);
+		glVertex2f(x1, y2);
+	glEnd();
 }
 
 void Panel::Render()
@@ -90,8 +123,11 @@ void Panel::Render()
 #endif
 		fpscounter = 0;
 	}
-	if (show_fps)
-		drawfontString(fps_str, 300, 450, 15, 15);
+	if (show_fps) {
+		fps->setText(fps_str);
+		RenderTextObject(fps, 300, 450);
+//drawfontString(fps_str, 300, 450, 15, 15);
+	}
 
 	if (!game->gameover) {
 		drawBot();
