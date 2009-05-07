@@ -1,6 +1,7 @@
 #include "platform.h"
 
 #include <stdio.h>
+#include <string.h>
 
 #ifndef WIN32
 #include <dirent.h>
@@ -8,11 +9,11 @@
 
 int get_list_of_files_in_dir(const char *dirname, int *num_files, char *dname[])
 {
+   int i = 0;
 #ifdef  WIN32
    WIN32_FIND_DATA ffd;
    HANDLE hFind = INVALID_HANDLE_VALUE;
    DWORD dwError = 0;
-   int i = 0;
    char buf[256];
    sprintf_s(buf, 256, "%s\\*", dirname);
 
@@ -44,15 +45,17 @@ int get_list_of_files_in_dir(const char *dirname, int *num_files, char *dname[])
    }
    FindClose(hFind);
 
-   *num_files = i;
-
 #else   /* Linux */
 	DIR *d = opendir("maps");
 	struct dirent *dent;
-	while ((dent = readdir(d))) {
-
+	while (((dent = readdir(d)) != NULL) && i < *num_files) {
+		dname[i] = strdup(dent->d_name);
+		i++;
     }
+	closedir(d);
 #endif
+   *num_files = i;
+
     return 0;
 }
 
