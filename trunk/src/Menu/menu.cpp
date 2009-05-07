@@ -7,8 +7,6 @@
 #include <GL/glu.h>
 #include <stdlib.h>
 
-#include <dirent.h>
-
 Menu::Menu(void)
 {
 	initialized = false;
@@ -36,36 +34,43 @@ void exitGame(void *ign)
 	exit(0);
 }
 
+#define     MAX_NUM_MAPS_IN_MENU    10
+
 void Menu::LoadAvailMaps(MenuItem *singlePlayerItem)
 {
 	int nextloc = 600;
+    int num_files = MAX_NUM_MAPS_IN_MENU;
+    char *arr[MAX_NUM_MAPS_IN_MENU];
 	// Single Player Menu
 	singlePlayerPage = new MenuPage();
 
-	DIR *d = opendir("maps");
-	struct dirent *dent;
-	while ((dent = readdir(d))) {
+    if (get_list_of_files_in_dir("maps", &num_files, arr) < 0) {
+        fprintf(stderr, "Unable to get list of files from maps\n");
+        exit(-1);
+    }
+
+    for (int i = 0; i < num_files; i++) {
 		char buf[256];
-		sprintf(buf, "maps/%s/info", dent->d_name);
+		sprintf(buf, "maps/%s/info", arr[i]);
 		FILE *f;
 		f = fopen(buf, "r");
 		if (f) {
 			char name[512];
 			if (fgets(name, 512, f) > 0) {
 				char *n = name + 5;
-				for (int i = 0; name[i]; i++) 
-					if (name[i] == '\n' || name[i] == '\r')
-						name[i] = '\0';
+				for (int j = 0; name[j]; j++) 
+					if (name[j] == '\n' || name[j] == '\r')
+						name[j] = '\0';
 
-				sprintf(buf, "maps/%s", dent->d_name);
+				sprintf(buf, "maps/%s", arr[i]);
 				singlePlayerPage->addMenuItem(new
 						MenuItem(n, itemfont, 400, nextloc, flag_load_game, (void*)strdup(buf), NULL));
 				nextloc -= 100;
 			}
 			fclose(f);
 		}
+        free(arr[i]);
 	}
-	closedir(d);
 
 /*	MenuItem *startSinglePlayerGameItem =
 	    new MenuItem("START GAME", itemfont, 400, 500, flag_load_game, (void*)"maps/default", NULL);
