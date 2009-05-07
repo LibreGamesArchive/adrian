@@ -7,6 +7,8 @@
 #include <SDL/SDL.h>
 #include <assert.h>
 
+#include "platform.h"
+
 class Game;
 class Menu;
 
