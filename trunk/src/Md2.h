@@ -77,6 +77,7 @@ struct tAnimationInfo {
 // the current animation.  As of now, the current animation will continue to loop
 // from it's start from to it's end frame until we right click and change animations.
 struct t3DModel {
+public:
 	int numOfObjects;	// The number of objects in the model
 	int numOfMaterials;	// The number of materials for the model
 	int numOfAnimations;	// The number of animations in this model (NEW)
@@ -85,6 +86,11 @@ struct t3DModel {
 	 vector < tAnimationInfo > pAnimations;	// The list of animations (NEW)
 	 vector < tMaterialInfo > pMaterials;	// The list of material information (Textures and colors)
 	 vector < t3DObject > pObject;	// The object list for our model
+
+     /* Initialize ONLY integers, vectors are initalized by their constructors! */
+     t3DModel(void) {
+        numOfObjects = numOfMaterials = numOfAnimations = currentAnim = currentFrame = 0;
+     }
 };
 
 #endif				//__COMMON_H__

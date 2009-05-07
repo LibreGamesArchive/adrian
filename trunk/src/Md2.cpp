@@ -246,10 +246,10 @@ void CLoadMD2::ConvertDataStructures(t3DModel * pModel)
 {
 	int j = 0, i = 0;
 	
-	    // Initialize the model structure first before assigning data to it
-	    memset(pModel, 0, sizeof(t3DModel));
-	
-	    // Set the number of objects to our number of frames since pObjects will
+        /* NEVER MEMSET a structure with C++ class compositions! Their constructors
+         * would have done something which memset will mess up! */
+
+        // Set the number of objects to our number of frames since pObjects will
 	    // hold the key frames
 	    pModel->numOfObjects = m_Header.numFrames;
 	
