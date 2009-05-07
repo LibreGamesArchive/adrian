@@ -34,7 +34,8 @@ int Texture::Load(GLuint tid)
 	/* Load the SDL Image into memory */
 	surface = IMG_Load(fn);
 	if (surface == NULL) {
-		fprintf(stderr, "Warning: Unable to load texture: %s\n", fn);
+        fprintf(stderr, "Warning: Unable to load texture(%s): %s\n",
+                fn, IMG_GetError());
 		return -1;
 	}
 
