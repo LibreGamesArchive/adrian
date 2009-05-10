@@ -1,8 +1,11 @@
-COMPILE_COMMAND = g++ -Wall -Werror -g3
-#COMPILE_COMMAND = g++ -Wall -Werror -O3
+COMPILE_COMMAND = g++ -Wall -Werror -O3
 
-LINK_COMMAND = g++ -Wall -Werror -O3 -lGL -lGLU -lm -lSDL -lSDL_image -lSDL_mixer -lSDL_ttf
-#LINK_COMMAND = g++ -Wall -Werror -g3 -lGL -lGLU -lm -lSDL -lSDL_image -lSDL_mixer -lSDL_ttf
+STATIC_LIBS		=	libs/linux-x86_64/libSDL_image.so	\
+					libs/linux-x86_64/libSDL_mixer-1.2.so.0	\
+					libs/linux-x86_64/libSDL_sound-1.0.so.1	\
+					libs/linux-x86_64/libSDL_ttf.so
+
+LINK_COMMAND = g++ -Wall -Werror -O3 -lGL -lGLU -lm -lSDL $(STATIC_LIBS)
 
 OBJECT_FILES	=	Map.o			\
 					MiniMap.o		\
