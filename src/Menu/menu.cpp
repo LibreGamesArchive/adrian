@@ -154,18 +154,18 @@ void Menu::InitializeMenu(void)
 
 	// Disabled Names
 	MenuItem *bhanuItem =
-	    new MenuItem("BHANU KALYAN", itemfont, 400, 600, NULL, NULL, NULL, false);
+	    new MenuItem("BHANU KALYAN", itemfont, 400, 500, NULL, NULL, NULL, false);
 	creditsPage->addMenuItem(bhanuItem);
 
 	MenuItem *vamsiItem =
-	    new MenuItem("VAMSI KRISHNA", itemfont, 400, 500, NULL, NULL, NULL, false);
+	    new MenuItem("VAMSI KRISHNA", itemfont, 400, 400, NULL, NULL, NULL, false);
 	creditsPage->addMenuItem(vamsiItem);
 
 	MenuItem *swamyItem =
-	    new MenuItem("SWAMY SUMAN", itemfont, 400, 400, NULL, NULL, NULL, false);
+	    new MenuItem("SWAMY SUMAN", itemfont, 400, 300, NULL, NULL, NULL, false);
 	creditsPage->addMenuItem(swamyItem);
 
-	MenuItem *backCreditsItem = new MenuItem("BACK", itemfont, 400, 300, NULL, NULL, NULL);
+	MenuItem *backCreditsItem = new MenuItem("BACK", itemfont, 400, 200, NULL, NULL, NULL);
 	creditsPage->addMenuItem(backCreditsItem);
 
 	creditsItem->setNextMenuPage(creditsPage);
@@ -173,7 +173,7 @@ void Menu::InitializeMenu(void)
 
 	num_textures = 1;
 	textures = new Texture*[num_textures];
-	textures[0] = new Texture("textures/menu/blood_splatter.jpg");
+	textures[0] = new Texture("textures/menu/blood_splatter.tga");
 	textures[0]->Load();
 
 	currentMenuPage->Show();
