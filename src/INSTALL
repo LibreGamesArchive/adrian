@@ -1,0 +1,26 @@
+NOTE: We do not have enough variety of systems to test all configurations, so if you face issues, please consider dropping an email at adrian.game.3d@gmail.com . We do this just as a hobby on the side, so kindly do not mind if there is a delay in response.
+
+Linux:
+======
+- To compile the game, you need to have the following dependencies installed
+
+SDL_image
+SDL_ttf
+SDL_mixer
+SDL_sound
+
+	On Fedora, just run this to download and install the dependencies
+
+	yum install SDL_image SDL_ttf SDL_sound SDL_mixer
+
+- Enter make in the src directory to build the executable - adrian
+
+
+Win32:
+======
+
+
+
+
+- Bhanu Chetlapalli
+
