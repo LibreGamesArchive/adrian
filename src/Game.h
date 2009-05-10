@@ -31,6 +31,7 @@ class Game
 	bool initialized;
 	bool started;
 	bool gameover;
+	bool gamewon;
 
 	/* Key event variables */
 	bool Bool_Cam_RotateP;

@@ -29,9 +29,6 @@ class Menu
 	/* Pages in the Menu */
 	MenuPage *parent;
 	MenuPage *singlePlayerPage;
-	MenuPage *settingsPage;
-	MenuPage *videoResPage;
-	MenuPage *videoSettingsPage;
 	MenuPage *creditsPage;
 
 	/* Animation */
