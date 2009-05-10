@@ -11,6 +11,7 @@ class Panel {
 	TextObject *fps;
 	TextObject *gameOver;
 	TextObject *gameOver2;
+	TextObject *gameRes;
 
  public:
 	int textureId;

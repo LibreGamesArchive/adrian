@@ -17,10 +17,12 @@ Panel::Panel(GLuint texid)
 	fps = new TextObject(font);
 	gameOver = NULL;
 	gameOver2 = NULL;
+	gameRes = NULL;
 }
 
 Panel::~Panel()
 {
+	if (gameRes) delete gameRes;
 	if (gameOver2) delete gameOver2;
 	if (gameOver) delete gameOver;
 	delete fps;
@@ -142,10 +144,19 @@ void Panel::Render()
 			gameOver->setText("GAME OVER");
 			gameOver2 = new TextObject(font);
 			gameOver2->setText("Press F2 to exit to Main Menu");
+			gameRes = new TextObject(font);
+			if (game->gamewon) {
+				gameRes->setColor(0, 1, 0);
+				gameRes->setText("You Win!!");
+			} else {
+				gameRes->setColor(1, 0, 0);
+				gameRes->setText("You Lost!");
+			}
 		}
 		
 		RenderTextObject(gameOver, 200, 220, 40, 50);
 		RenderTextObject(gameOver2, 100, 280, 20, 30);
+		RenderTextObject(gameRes, 250, 340, 32, 40);
 		//drawTips("GAME OVER", "PRESS O TO MENU");
 	}
 	game->minimap->Render();

@@ -130,6 +130,17 @@ void MenuItem::Render(int method, int offset)
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		glAlphaFunc(GL_GEQUAL, 0.0);
 
+		/* Draw a pointer */
+		glDisable(GL_TEXTURE_2D);
+		glBegin(GL_POLYGON);
+			glColor4f(1, 0, 0, 1);
+			glVertex3f(x - 5, y + fontHeight/2, -1);
+			glColor4f(1, .5, .5, 0);
+			glVertex3f(x - 25, y, -1);
+			glColor4f(1, .5, .5, 0);
+			glVertex3f(x - 25, y + fontHeight, -1);
+		glEnd();
+
 		glColor3f(1, 1, 1);
 		glEnable(GL_TEXTURE_2D);
 		glBindTexture(GL_TEXTURE_2D, txob->texid);

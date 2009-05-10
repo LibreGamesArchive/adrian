@@ -36,6 +36,7 @@ void Game::resetVars(void)
 {
 	started = false;
 	gameover = false;
+	gamewon = false;
 
 	stop_all_animation = false;
 
@@ -389,6 +390,7 @@ void Game::ProcessEvents(void)
 							started = false;
 							gameover = true;
 							stop_all_animation = true;
+							gamewon = true;
 						}
 						break;
 					}
