@@ -20,6 +20,7 @@
 #include "Map.h"
 #include "globals.h"
 #include "Game.h"
+#include "staticloader.h"
 
 Map::Map(void)
 {
@@ -170,6 +171,17 @@ int Map::LoadFile(const char *mapdir)
 		printf("Loading Sound File: %s with id=%d loop=%d\n", buf, id, loop);
 
 		soundSystem->Load(buf, id, loop);
+	}
+
+	int num_models;
+	fscanf(f, "%d", &num_models);
+	for (int i = 0; i < num_models; i++) {
+		char buf[256];
+		int id;
+		fscanf(f, "%s %d", buf, &id);
+		printf("Loading Model File: %s with id=%d\n", buf, id);
+
+		LoadStaticModel(buf);
 	}
 
 	fclose(f);
