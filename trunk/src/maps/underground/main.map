@@ -1,6 +1,6 @@
 2000.0 2000.0
-21
-textures/buildings/road.tga 1
+20
+textures/buildings/concrete.tga 1
 textures/misc/los.tga 3
 textures/buildings/200x200building.tga 16
 textures/buildings/generalsbuilding.tga 17
@@ -11,7 +11,6 @@ textures/buildings/barrel.tga 21
 textures/buildings/crate.tga 22
 textures/buildings/metal.tga 23
 textures/buildings/font.tga 50
-textures/buildings/wall.tga 30
 textures/panel/panel.tga 62
 textures/panel/panelhero.tga 65
 textures/panel/MutantManPanel.tga 66
@@ -92,3 +91,5 @@ Creatures/Hueteotl 68 -450 -900 -450 -900 0 90 textures/panel/SkelPanel.tga
 wavs/background.wav 1 -1
 wavs/laser.wav 2 0
 wavs/alarm.wav 3 3
+1
+models/static/FighterJet.dae 1 800 0 800 90

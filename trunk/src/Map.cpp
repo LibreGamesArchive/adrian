@@ -20,7 +20,6 @@
 #include "Map.h"
 #include "globals.h"
 #include "Game.h"
-#include "staticloader.h"
 
 Map::Map(void)
 {
@@ -173,15 +172,21 @@ int Map::LoadFile(const char *mapdir)
 		soundSystem->Load(buf, id, loop);
 	}
 
-	int num_models;
-	fscanf(f, "%d", &num_models);
-	for (int i = 0; i < num_models; i++) {
+	fscanf(f, "%d", &num_smodels);
+	smodels = (SModel**)malloc(sizeof(SModel*) * num_smodels);
+	for (int i = 0; i < num_smodels; i++) {
 		char buf[256];
 		int id;
-		fscanf(f, "%s %d", buf, &id);
+		smodels[i] = new SModel;
+		if (fscanf(f, "%s %d %f %f %f %f", buf, &id, 
+				   &smodels[i]->x, &smodels[i]->y, &smodels[i]->z,
+				   &smodels[i]->angle) != 6) {
+			printf("Invalid map file format!\n");
+			exit(0);
+		}
 		printf("Loading Model File: %s with id=%d\n", buf, id);
 
-		LoadStaticModel(buf);
+		smodels[i]->Load(buf);
 	}
 
 	fclose(f);
@@ -212,7 +217,6 @@ const char * Map::getTextureFn(GLuint tid)
 void Map::Render(void)
 {
 	glEnable(GL_TEXTURE_2D);
-
 	int tilex, tiley;
 
 	const int TILE_SIZE = 300;
@@ -266,6 +270,9 @@ void Map::Render(void)
 		buildings[i].Render();
 //              }
 	}
+
+	for (int i = 0; i < num_smodels; i++)
+		smodels[i]->Render();
 }
 
 void Map::TransparentRender(void)

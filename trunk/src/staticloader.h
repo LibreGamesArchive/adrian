@@ -5,7 +5,23 @@
 #include <aiScene.h>       // Output data structure
 #include <aiPostProcess.h> // Post processing flags
 
-extern void LoadStaticModel(const char *fn);
+class SModel
+{
+ private:
+	const aiScene *scene;
+
+ public:
+	float x, y, z;
+	float angle;
+
+	SModel(void);
+	~SModel();
+
+	int Load(const char *fn);
+
+	void Render(void);
+
+};
 
 #endif	/*	__STATICLOADER_H__	*/
 
