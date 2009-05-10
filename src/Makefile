@@ -1,7 +1,9 @@
-COMPILE_COMMAND = g++ -Wall -Werror -g3
+COMPILE_COMMAND = g++ -Wall -Werror -g3 -I../vendor/assimp/include 
 #COMPILE_COMMAND = g++ -Wall -Werror -O3
 
-LINK_COMMAND = g++ -Wall -Werror -O3 -lGL -lGLU -lm -lSDL -lSDL_image -lSDL_mixer -lSDL_ttf
+LINKER_LIBRARIES = ../vendor/assimp/bin/gcc/libassimp.so
+
+LINK_COMMAND = g++ -Wall -Werror -g3 $(LINKER_LIBRARIES) -lGL -lGLU -lm -lSDL -lSDL_image -lSDL_mixer -lSDL_ttf
 #LINK_COMMAND = g++ -Wall -Werror -g3 -lGL -lGLU -lm -lSDL -lSDL_image -lSDL_mixer -lSDL_ttf
 
 OBJECT_FILES	=	Map.o			\
@@ -23,6 +25,7 @@ OBJECT_FILES	=	Map.o			\
 					Panel.o			\
 					SoundSystem.o	\
 					platform.o		\
+					staticloader.o	\
 
 	
 adrian: $(OBJECT_FILES) Menu/menu.a
@@ -84,6 +87,9 @@ Cursor.o:	cursor.cpp cursor.h
 
 texture.o:	texture.cpp texture.h
 	$(COMPILE_COMMAND) -c texture.cpp -o texture.o
+	
+staticloader.o:	staticloader.cpp staticloader.h
+	$(COMPILE_COMMAND) -c staticloader.cpp -o staticloader.o
 	
 platform.o:	platform.cpp platform.h
 	$(COMPILE_COMMAND) -c platform.cpp -o platform.o
