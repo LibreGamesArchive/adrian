@@ -91,5 +91,6 @@ Creatures/Hueteotl 68 -450 -900 -450 -900 0 90 textures/panel/SkelPanel.tga
 wavs/background.wav 1 -1
 wavs/laser.wav 2 0
 wavs/alarm.wav 3 3
-1
-models/static/FighterJet.dae 1 800 0 800 90
+2
+models/static/FighterJet.dae 1 800 0 800 90 1 0 0 0
+models/static/F20-Tigershark.dae 2 -800 0 800 90 5 -1800 11000 10000

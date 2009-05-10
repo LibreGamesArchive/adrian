@@ -178,9 +178,10 @@ int Map::LoadFile(const char *mapdir)
 		char buf[256];
 		int id;
 		smodels[i] = new SModel;
-		if (fscanf(f, "%s %d %f %f %f %f", buf, &id, 
+		if (fscanf(f, "%s %d %f %f %f %f %f %f %f %f", buf, &id, 
 				   &smodels[i]->x, &smodels[i]->y, &smodels[i]->z,
-				   &smodels[i]->angle) != 6) {
+				   &smodels[i]->angle, &smodels[i]->scalefactor,
+				   &smodels[i]->xoff, &smodels[i]->yoff, &smodels[i]->zoff) != 10) {
 			printf("Invalid map file format!\n");
 			exit(0);
 		}

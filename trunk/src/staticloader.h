@@ -1,6 +1,9 @@
 #ifndef		__STATICLOADER_H__
 #define		__STATICLOADER_H__
 
+#include <GL/gl.h>
+#include <GL/glu.h>
+
 #include <assimp.h>        // Plain-C interface
 #include <aiScene.h>       // Output data structure
 #include <aiPostProcess.h> // Post processing flags
@@ -12,7 +15,10 @@ class SModel
 
  public:
 	float x, y, z;
-	float angle;
+	float angle, scalefactor;
+	float xoff, yoff, zoff;
+
+	GLuint list;
 
 	SModel(void);
 	~SModel();

@@ -1,8 +1,5 @@
 #include "staticloader.h"
 
-#include <GL/gl.h>
-#include <GL/glu.h>
-
 SModel::SModel(void)
 {
 	scene = NULL;
@@ -26,20 +23,10 @@ int SModel::Load(const char *fn)
 		printf("Unable to load scene!\n");
 		exit(0);
 	}
-
-	return 0;
-}
-
-void SModel::Render(void)
-{
-static int ass = 0;
-ass++;
-
-	glPushMatrix();
-	glTranslatef(x, y, z);
-	glRotatef(-angle, 1, 0, 0);
-
-	glDisable(GL_TEXTURE_2D);
+	
+	/* Load into OpenGL */
+	list = glGenLists(1);
+	glNewList(list, GL_COMPILE);
 	for (int i = 0; i < (int)scene->mNumMeshes; i++) {
 		const aiMesh *mesh = scene->mMeshes[i];
 //		const aiMaterial *mat = scene->mMaterials[mesh->mMaterialIndex];
@@ -52,13 +39,29 @@ ass++;
 
 				for (int k = 0; k < (int)face->mNumIndices; k++) {
 					unsigned int idx = face->mIndices[k];
-					glVertex3f(v[idx].x, v[idx].y, v[idx].z);
-					if (ass == 1) printf("(%3d %3d %3d)%f %f %f\n", i, j, k, v[idx].x, v[idx].y, v[idx].z);
+					glVertex3f((v[idx].x - xoff)/scalefactor,
+							   (v[idx].y - yoff)/scalefactor,
+							   (v[idx].z - zoff)/scalefactor);
+//					printf("(%3d %3d %3d)%f %f %f\n", i, j, k, v[idx].x, v[idx].y, v[idx].z);
 				}
 			}
 		glEnd();
 	}
 
+	glEndList();
+
+	return 0;
+}
+
+void SModel::Render(void)
+{
+	glPushMatrix();
+	glTranslatef(x, y, z);
+	glRotatef(-angle, 1, 0, 0);
+
+	glDisable(GL_TEXTURE_2D);
+
+	glCallList(list);
 	glPopMatrix();
 }
 
