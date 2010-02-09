@@ -18,6 +18,7 @@
 
 
 #include "TTFFont.h"
+#include "texture.h"
 
 TTFFont::TTFFont(const char *fontpath, int size, int style)
 {
@@ -86,20 +87,7 @@ int TTFFont::createTexture(GLuint texid, const char *str, SDL_Color *color, floa
     SDL_BlitSurface(txtSDLSurface, 0, intermediary, 0);
 
 	/* Tell GL about our new texture */
-	glBindTexture(GL_TEXTURE_2D, texid);
-
-glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	    glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		    glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-
-	glTexImage2D(GL_TEXTURE_2D, 0, 4, w, h, 0, GL_BGRA, 
-				 GL_UNSIGNED_BYTE, intermediary->pixels );
-
-	/* GL_NEAREST looks horrible, if scaled... */
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);	
-	glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+    Texture::CreateTexFromSurf(intermediary, texid);
 
 	SDL_FreeSurface(txtSDLSurface);
 	SDL_FreeSurface(intermediary);
