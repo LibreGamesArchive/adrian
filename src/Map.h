@@ -28,7 +28,7 @@
 #include "texture.h"
 #include "Building.h"
 #include "Sprite.h"
-#include "staticloader.h"
+//#include "staticloader.h"
 
 class Map {
  public:
@@ -52,7 +52,7 @@ class Map {
 	Sprite **sprites;
 
 	int num_smodels;
-	SModel **smodels;
+	//SModel **smodels;
 
  public:
 	 Map(void);

@@ -68,13 +68,23 @@ int Texture::Load(GLuint tid)
 		texid = tid;
 	}
 
-	glBindTexture(GL_TEXTURE_2D, texid);
+    CreateTexFromSurf(surface, texid, reversed_rgb);
+
+	SDL_FreeSurface(surface);
+	loaded = true;
+
+	return 0;
+}
+
+void Texture::CreateTexFromSurf(SDL_Surface *surface, GLuint texid, bool reversed_rgb)
+{
+    glBindTexture(GL_TEXTURE_2D, texid);
 	SDL_PixelFormat *format = surface->format;
 
 	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	//glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	//glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 
 	GLenum colorformat = (reversed_rgb) ?
 		((format->Amask) ? GL_RGBA : GL_RGB) :
@@ -88,11 +98,6 @@ int Texture::Load(GLuint tid)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-
-	SDL_FreeSurface(surface);
-	loaded = true;
-
-	return 0;
 }
 
 int Texture::Unload(void)

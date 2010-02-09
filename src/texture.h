@@ -41,6 +41,9 @@ class Texture {
 		int Load(GLuint tid = INVALID_TEXTURE_ID);
 		int Unload(void);
 
+        //helper function to create texture from surface.
+        static void CreateTexFromSurf(SDL_Surface *surf, GLuint texid, bool reversed=false);
+
 		inline GLuint GetTexID(void)
 		{
 			return texid;

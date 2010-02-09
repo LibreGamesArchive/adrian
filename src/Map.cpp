@@ -172,7 +172,7 @@ int Map::LoadFile(const char *mapdir)
 		soundSystem->Load(buf, id, loop);
 	}
 
-	fscanf(f, "%d", &num_smodels);
+/*	fscanf(f, "%d", &num_smodels);
 	smodels = (SModel**)malloc(sizeof(SModel*) * num_smodels);
 	for (int i = 0; i < num_smodels; i++) {
 		char buf[256];
@@ -188,7 +188,7 @@ int Map::LoadFile(const char *mapdir)
 		printf("Loading Model File: %s with id=%d\n", buf, id);
 
 		smodels[i]->Load(buf);
-	}
+	}*/
 
 	fclose(f);
 
@@ -272,8 +272,8 @@ void Map::Render(void)
 //              }
 	}
 
-	for (int i = 0; i < num_smodels; i++)
-		smodels[i]->Render();
+//	for (int i = 0; i < num_smodels; i++)
+//		smodels[i]->Render();
 }
 
 void Map::TransparentRender(void)
