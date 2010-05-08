@@ -82,6 +82,9 @@ class Game
 	Panel *panel;
 	GLuint PanelBotTexId;
 
+    //scene handler for game rendering.
+    SceneComposer scene;
+
 	void setupOpenGL(int width, int height);
 
 	void resetVars(void);

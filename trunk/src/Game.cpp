@@ -34,8 +34,7 @@ extern SDL_Cursor *init_system_cursor(const char *image[]);
 
 Game::Game(void)
 {
-	initialized = false;
-    SceneComposer scene;
+	initialized = false;    
 	hero = NULL;
 	camera = NULL;
 	map = NULL;
@@ -574,7 +573,8 @@ void Game::drawObjects(GLenum mode)
 	if ((hero->curx - camera->initx) * (hero->curx - camera->initx) +
 	    (hero->cury - camera->initz) * (hero->cury - camera->initz) <=
 	    farthestdist) {
-		hero->Render();
+            scene.addToPass((RenderableObject*)hero);
+		//hero->Render();
         if(display_lines)
             hero->RenderBBox();
 	}
@@ -587,7 +587,8 @@ void Game::drawObjects(GLenum mode)
 			    (guard[i]->cury - camera->initz) * (guard[i]->cury -
 								camera->initz)
 			    <= farthestdist) {
-				guard[i]->Render();
+                    scene.addToPass((RenderableObject*)guard[i]);
+				//guard[i]->Render();
 			}
 		}
         if(display_lines)
@@ -610,11 +611,15 @@ void Game::Render(void)
 
 	camera->Update();
 
+    scene.Reset();
+    scene.addToPass((RenderableObject*)map);
 	//Terrain
-	map->Render();
+	//map->Render();
 	//printf("MAP CENTER: %f %f\n",camera->pointx,camera->pointz);
 
 	drawObjects(GL_RENDER);
+    //render using scene composer
+    scene.Compose();
 
 	map->TransparentRender();     
 
