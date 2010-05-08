@@ -21,7 +21,7 @@ class RenderPass{
         vector <RenderableObject*> m_List;
         void AddObject(RenderableObject *obj);
         void Clear();
-        RenderPass(char *vsfname = NULL, char *psfname = NULL);
+        RenderPass(const char *vsfname = NULL, const char *psfname = NULL);
         ~RenderPass();
         void Render();
 };

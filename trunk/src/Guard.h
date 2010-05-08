@@ -71,7 +71,7 @@ class Guard:public Md2, public RenderableObject {
 
 	bool mouseOverMe(float x, float y);
     float* GetBB();
-    void Guard::RenderBBox();
+    void RenderBBox();
 };
 
 #endif				/*      __GAME_GUARD_H__ */
