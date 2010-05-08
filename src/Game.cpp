@@ -601,7 +601,7 @@ void Game::Render(void)
 		return;
 
 	/* Just clear the depth buffer, color is overwritten anyway */
-	glClear(GL_DEPTH_BUFFER_BIT);
+    //	glClear(GL_DEPTH_BUFFER_BIT);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	glOrtho(-(hres/2.0), (hres/2.0), -(vres/2.0), (vres/2.0), -hres, hres);
@@ -611,7 +611,7 @@ void Game::Render(void)
 	camera->Update();
 
     scene.Reset();
-    scene.addToPass((RenderableObject*)map);
+    scene.addToPass((RenderableObject*)map, 1);
 	//Terrain
 	//map->Render();
 	//printf("MAP CENTER: %f %f\n",camera->pointx,camera->pointz);

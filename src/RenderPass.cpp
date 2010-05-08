@@ -3,15 +3,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void RenderPass::AddObject(RenderableObject *obj)
-{
-    m_List.push_back(obj);
-}
-
-void RenderPass::Clear()
-{
-    m_List.clear();
-}
 
 char * textFileRead(const char*fname)
 {    
@@ -32,10 +23,15 @@ char * textFileRead(const char*fname)
     return buff;
 }
 
-RenderPass::RenderPass(const char *vsfname, const char *psfname)
+static int width = 800;
+static int height = 600;
+
+RenderPass::RenderPass(const char *vsfname, const char *psfname, FbType type)
 {
         m_ShaderProgram = 0; // initialize to zero for using fixed functionality
-        if(vsfname && psfname)
+        m_FrameBufferObject = 0; //initialize to zero for window system provided buffer.
+
+        if(vsfname && psfname)  //create the shader handle if vertex and pixel shaders are provided.
         {
    		char *vs,*fs;
 	
@@ -66,20 +62,88 @@ RenderPass::RenderPass(const char *vsfname, const char *psfname)
                 free(vs);free(fs);
             }
         }
+
+        GLenum status;
+        this->type = type;
+        switch(type)
+        {
+            case FB_DEPTH_AND_COLOR:                
+                //follow through to create the depth buffer as well.
+            case FB_DEPTH_ONLY:
+                if(type != FB_DEPTH_AND_COLOR)
+                {//prevent the frame buffer object generation for second time.
+                    glGenFramebuffers(1, &m_FrameBufferObject);
+                    glBindFramebuffer(GL_FRAMEBUFFER, m_FrameBufferObject);
+                }
+
+                glGenRenderbuffers(1, &m_DepthTex);
+                glBindRenderbuffer(GL_RENDERBUFFER, m_DepthTex);
+                glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, width, height);
+                glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, m_DepthTex);
+
+                glDrawBuffer(GL_NONE);
+	            glReadBuffer(GL_NONE);
+
+                status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
+                if(status != GL_FRAMEBUFFER_COMPLETE)
+                {
+                    m_FrameBufferObject = 0;
+                    this->type = FB_NONE;
+                }
+                glBindFramebuffer(GL_FRAMEBUFFER, 0); //reset before we return.
+                break;            
+            case FB_NONE:
+            default:
+                break;
+        }
+}
+
+void RenderPass::AddObject(RenderableObject *obj)
+{
+    m_List.push_back(obj);
+}
+
+void RenderPass::Clear()
+{
+    m_List.clear();
 }
 
 void RenderPass::Render()
 {
-    glUseProgram(m_ShaderProgram);
+    glBindFramebuffer(GL_FRAMEBUFFER, m_FrameBufferObject); //switch to user created frame buffer.
+
+    if(type == FB_DEPTH_ONLY)
+    {
+        glPushAttrib(GL_VIEWPORT_BIT);
+        glViewport(0, 0, width, height);
+        glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
+    }
+    glUseProgram(m_ShaderProgram);  //use our awesome shaders.
+
     for(GLuint i = 0; i < m_List.size(); i++)
     {
         m_List[i]->Render();
     }
-    glUseProgram(0);
+    
+    glUseProgram(0);    //switch back to fixed pipeline
+    if(type != FB_NONE)
+    {
+        glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE); // reset the color buffer mask
+        glPopAttrib();
+    }
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);   //switch back to window manager framebuffer.
 }
 
 RenderPass::~RenderPass()
 {
+    if(m_ShaderProgram > 0)
+        glDeleteProgram(m_ShaderProgram);
+    if(m_FrameBufferObject > 0)
+        glDeleteFramebuffers(1, &m_FrameBufferObject);
+    if(m_DepthTex > 0)
+        glDeleteRenderbuffers(1, &m_DepthTex);
+    if(m_ColorTex > 0)
+        glDeleteTextures(1, &m_ColorTex);
     m_List.clear();
 }
 
@@ -93,10 +157,11 @@ SceneComposer::SceneComposer()
 		  fprintf(stderr, "Error: %s\n", glewGetErrorString(err));
 		  return;
 	}
-    if(GLEW_ARB_vertex_program && GLEW_ARB_fragment_program)
+    if(GLEW_ARB_vertex_program && GLEW_ARB_fragment_program && GL_EXT_framebuffer_object)
     {
         //OPENGL2.0 is supported do all the fancy stuff.
         m_isMultiPass = true;
+        m_List.push_back(new RenderPass(NULL, NULL, FB_DEPTH_ONLY));
         m_List.push_back(new RenderPass("vs.txt", "ps.txt"));
     }
     else
@@ -134,7 +199,8 @@ void SceneComposer::Compose()
 {
     for(GLuint i = 0;i < m_List.size(); i++)
     {
-        m_List[i]->Render();
+        glClear(GL_DEPTH_BUFFER_BIT);
+        m_List[i]->Render();        
     }
 }
 SceneComposer::~SceneComposer()
