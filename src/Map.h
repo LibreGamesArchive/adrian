@@ -22,8 +22,8 @@
 
 #include <stdio.h>
 #include <string.h>
-#include <GL/gl.h>
-#include <GL/glu.h>
+#include <GL/glew.h>
+//#include <GL/glu.h>
 
 #include "texture.h"
 #include "Building.h"

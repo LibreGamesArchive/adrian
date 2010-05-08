@@ -21,8 +21,9 @@
 #define				__GAME_BUILDING_H__
 
 #include <stdio.h>
-#include <GL/gl.h>
-#include <GL/glu.h>
+#include <GL/glew.h>
+/*#include <GL/gl.h>
+#include <GL/glu.h>*/
 
 class Building {
  private:

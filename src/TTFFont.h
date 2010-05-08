@@ -23,13 +23,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
-
-#include <GL/gl.h>
-#include <GL/glu.h>
+#include <GL/glew.h>
+//#include <GL/gl.h>
+//#include <GL/glu.h>
 
 #include <SDL/SDL.h>
 #include <SDL/SDL_ttf.h>
-#include <SDL/SDL_opengl.h>
+//#include <SDL/SDL_opengl.h>
 
 #include "texture.h"
 

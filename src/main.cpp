@@ -26,8 +26,8 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <GL/gl.h>
-#include <GL/glu.h>
+#include <GL/glew.h>
+//#include <GL/glu.h>
 #include <SDL/SDL.h>
 #include <SDL/SDL_mixer.h>
 #include <signal.h>

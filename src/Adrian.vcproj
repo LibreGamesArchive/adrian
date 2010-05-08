@@ -61,7 +61,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="glu32.lib opengl32.lib sdl.lib sdlmain.lib sdl_mixer.lib sdl_ttf.lib sdl_image.lib"
+				AdditionalDependencies="glew32.lib glu32.lib opengl32.lib sdl.lib sdlmain.lib sdl_mixer.lib sdl_ttf.lib sdl_image.lib"
 				LinkIncremental="2"
 				GenerateDebugInformation="true"
 				SubSystem="2"
@@ -249,6 +249,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\RenderPass.h"
+				>
+			</File>
+			<File
 				RelativePath=".\SoundSystem.h"
 				>
 			</File>
@@ -350,6 +354,10 @@
 			</File>
 			<File
 				RelativePath=".\platform.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\RenderPass.cpp"
 				>
 			</File>
 			<File

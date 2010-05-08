@@ -21,9 +21,9 @@
 #define				__GAME_CAMERA_H__
 
 #include <math.h>
-
-#include <GL/gl.h>
-#include <GL/glu.h>
+#include <GL/glew.h>
+/*#include <GL/gl.h>
+#include <GL/glu.h>*/
 
 #include <stdio.h>
 

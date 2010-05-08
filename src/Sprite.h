@@ -20,8 +20,8 @@
 #ifndef		__SPRITE_H__
 #define		__SPRITE_H__
 
-#include <GL/gl.h>
-#include <GL/glu.h>
+#include <GL/glew.h>
+//#include <GL/glu.h>
 
 class Sprite
 {

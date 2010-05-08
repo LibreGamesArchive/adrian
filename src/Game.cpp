@@ -23,8 +23,9 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <GL/gl.h>
-#include <GL/glu.h>
+#include <GL/glew.h>
+/*#include <GL/gl.h>
+#include <GL/glu.h>*/
 #include <SDL/SDL.h>
 #include <SDL/SDL_mixer.h>
 #include <signal.h>
@@ -34,7 +35,7 @@ extern SDL_Cursor *init_system_cursor(const char *image[]);
 Game::Game(void)
 {
 	initialized = false;
-
+    SceneComposer scene;
 	hero = NULL;
 	camera = NULL;
 	map = NULL;
@@ -600,7 +601,7 @@ void Game::Render(void)
 		return;
 
 	/* Just clear the depth buffer, color is overwritten anyway */
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glClear(GL_DEPTH_BUFFER_BIT);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	glOrtho(-(hres/2.0), (hres/2.0), -(vres/2.0), (vres/2.0), -hres, hres);

@@ -22,8 +22,8 @@
 #include "../globals.h"
 #include "../main.h"
 
-#include <GL/gl.h>
-#include <GL/glu.h>
+#include <GL/glew.h>
+//#include <GL/glu.h>
 #include <stdlib.h>
 
 Menu::Menu(void)

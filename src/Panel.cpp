@@ -21,8 +21,8 @@
 #include "globals.h"
 #include "Game.h"
 
-#include <GL/glu.h>
-#include <GL/gl.h>
+//#include <GL/glu.h>
+#include <GL/glew.h>
 
 #include <time.h>
 
