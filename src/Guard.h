@@ -2,6 +2,7 @@
 #define			__GAME_GUARD_H__
 
 #include "Md2.h"
+#include "RenderPass.h"
 
 typedef enum {
 	STANDING,
@@ -11,7 +12,7 @@ typedef enum {
 	DEAD
 } GuardStance;
 
-class Guard:public Md2 {
+class Guard:public Md2, public RenderableObject {
  public:
 	float curx;
 	float cury;

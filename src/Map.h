@@ -24,13 +24,13 @@
 #include <string.h>
 #include <GL/glew.h>
 //#include <GL/glu.h>
-
+#include "RenderPass.h"
 #include "texture.h"
 #include "Building.h"
 #include "Sprite.h"
 //#include "staticloader.h"
 
-class Map {
+class Map: public RenderableObject{
  public:
 	float length;
 	float breadth;

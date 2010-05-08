@@ -19,7 +19,7 @@
 
 #ifndef			__GAME_HERO_H__
 #define			__GAME_HERO_H__
-
+#include "RenderPass.h"
 #include "Md2.h"
 
 typedef enum {
@@ -29,7 +29,7 @@ typedef enum {
 	HERO_DEAD
 } HeroStance;
 
-class Hero:public Md2 {
+class Hero:public Md2, public RenderableObject {
  public:
 	float curx;
 	float cury;

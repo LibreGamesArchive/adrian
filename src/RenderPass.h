@@ -6,13 +6,14 @@
 using namespace std;
 
 class RenderableObject{
+public:
     virtual void Render() = 0;
 };
 
 //class for handling each pass of rendering.
 class RenderPass{
     private:   
-        GLuint m_ShaderPrograme; //Handle for shader program to be used for this pass
+        GLuint m_ShaderProgram; //Handle for shader program to be used for this pass
         GLuint m_FrameBufferObject; //Handle for the frame bufferObject to be used for this pass;
         GLuint m_DepthTex; //Depth RenderBuffer handle.
         GLuint m_ColorTex; //Color RenderBuffer/Texture handle.
@@ -21,6 +22,8 @@ class RenderPass{
         void AddObject(RenderableObject *obj);
         void Clear();
         RenderPass(char *vsfname = NULL, char *psfname = NULL);
+        ~RenderPass();
+        void Render();
 };
 
 class SceneComposer{
@@ -30,6 +33,8 @@ class SceneComposer{
     public:
         void addToPass(RenderableObject *obj, int index = -1); //add an object to particular index; //-1 implies all of them.
         void Reset();   //clear all the object list on all the renderpasses.
+        void Compose();
         SceneComposer();
+        ~SceneComposer();
 };
 #endif //__RENDER_PASS__
