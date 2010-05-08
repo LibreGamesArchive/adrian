@@ -1,5 +1,7 @@
 #include "RenderPass.h"
-
+#include <string>
+#include <stdio.h>
+#include <stdlib.h>
 
 void RenderPass::AddObject(RenderableObject *obj)
 {
@@ -11,13 +13,15 @@ void RenderPass::Clear()
     m_List.clear();
 }
 
-#include <string>
-#include <stdio.h>
-char * textFileRead(char*fname)
+char * textFileRead(const char*fname)
 {    
     char name[1024];
     sprintf(name, "shaders/%s",fname); 
     FILE *fp = fopen(name, "rb");
+	if (fp == NULL) {
+		fprintf(stderr, "Opening(%s) failed\n", name);
+		return NULL;
+	}
     fseek(fp, 0, SEEK_END);
     long size = ftell(fp);
     rewind(fp);
@@ -28,7 +32,7 @@ char * textFileRead(char*fname)
     return buff;
 }
 
-RenderPass::RenderPass(char *vsfname, char *psfname)
+RenderPass::RenderPass(const char *vsfname, const char *psfname)
 {
         m_ShaderProgram = 0; // initialize to zero for using fixed functionality
         if(vsfname && psfname)
@@ -82,8 +86,14 @@ RenderPass::~RenderPass()
 
 SceneComposer::SceneComposer()
 {
-    glewInit();
-    if(GLEW_VERSION_2_0)
+    GLenum err = glewInit();
+	if (GLEW_OK != err)
+	{
+		  /* Problem: glewInit failed, something is seriously wrong. */
+		  fprintf(stderr, "Error: %s\n", glewGetErrorString(err));
+		  return;
+	}
+    if(GLEW_ARB_vertex_program && GLEW_ARB_fragment_program)
     {
         //OPENGL2.0 is supported do all the fancy stuff.
         m_isMultiPass = true;

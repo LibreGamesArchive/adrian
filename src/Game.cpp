@@ -246,7 +246,6 @@ bool LineBoxIntersection(double *ray, float *box)
 
 void Game::newpickObjects(int x, int y)
 {
-	float newx, newy;	//newx newy are coordinates of clicked pt on map
     double pts[6];
 
     camera->GetRayPoints(x, y, pts);

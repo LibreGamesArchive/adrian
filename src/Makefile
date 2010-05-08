@@ -3,7 +3,7 @@ COMPILE_COMMAND = g++ -Wall -Werror -g3 -I../vendor/assimp/include
 
 LINKER_LIBRARIES = ../vendor/assimp/bin/gcc/libassimp.so
 
-LINK_COMMAND = g++ -Wall -Werror -g3 $(LINKER_LIBRARIES) -lGL -lGLU -lm -lSDL -lSDL_image -lSDL_mixer -lSDL_ttf
+LINK_COMMAND = g++ -Wall -Werror -g3 $(LINKER_LIBRARIES) -lGL -lGLU -lm -lSDL -lSDL_image -lSDL_mixer -lSDL_ttf -lGLEW
 #LINK_COMMAND = g++ -Wall -Werror -g3 -lGL -lGLU -lm -lSDL -lSDL_image -lSDL_mixer -lSDL_ttf
 
 OBJECT_FILES	=	Map.o			\
@@ -26,7 +26,11 @@ OBJECT_FILES	=	Map.o			\
 					SoundSystem.o	\
 					platform.o		\
 					staticloader.o	\
+					RenderPass.o	\
 
+CC = g++
+
+CFLAGS = -Wall -Werror -g3
 	
 adrian: $(OBJECT_FILES) Menu/menu.a
 	$(LINK_COMMAND) $(OBJECT_FILES) Menu/menu.a -o adrian
@@ -93,6 +97,9 @@ staticloader.o:	staticloader.cpp staticloader.h
 	
 platform.o:	platform.cpp platform.h
 	$(COMPILE_COMMAND) -c platform.cpp -o platform.o
+
+%.o: %.cpp
+	$(CC) $(CFLAGS) -c $< -o $@
 	
 clean:
 	make -C Menu clean
