@@ -50,16 +50,16 @@ class Camera {
 	float yfactor;
 
  public:
+    GLdouble modelview[16];
+    GLdouble projection[16];
+    GLint viewport[4];
 	 Camera(void);
 	~Camera();
 
 	void Initialize();
 
-	inline void Update(void) {
-		glLoadIdentity();
-		gluLookAt(camx, camy, camz, pointx, pointy, pointz, lookx,
-			  looky, lookz);
-	} void Move();
+    void Update();
+    void Move();
 	void MoveUp();
 	void MoveDown();
 	void MoveLeft();
@@ -72,6 +72,8 @@ class Camera {
 	int ConvertCoordinates(int x, int y, float &, float &);
 
 	int ScrollOver(float x, float y);
+
+    void GetRayPoints(int x, int y, double *vals);
 
 };
 

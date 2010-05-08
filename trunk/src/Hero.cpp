@@ -503,6 +503,20 @@ bool Hero::mouseOverMe(float x, float y)
 		return false;
 }
 
+float* Hero::GetBB()
+{
+    int s = 30;
+    bbox[0] = x-s;
+    bbox[1] = y-s;
+    bbox[2] = z-s;
+
+    bbox[3] = x+s;
+    bbox[4] = y+s;
+    bbox[5] = z+s;
+
+    return bbox;
+}
+
 void Hero::Fov(void)
 {
 	float ptx1, pty1;
@@ -536,6 +550,30 @@ void Hero::Fov(void)
 
 }
 
+void Hero::RenderBBox()
+{  
+    float *bbox = GetBB();
+    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+    glBegin(GL_QUAD_STRIP);
+    glVertex3f(bbox[0], bbox[1], bbox[2]);
+    glVertex3f(bbox[0], bbox[1], bbox[5]);
+
+    glVertex3f(bbox[0], bbox[4], bbox[2]);
+    glVertex3f(bbox[0], bbox[4], bbox[5]);
+
+    glVertex3f(bbox[3], bbox[4], bbox[2]);
+    glVertex3f(bbox[3], bbox[4], bbox[5]);
+
+    glVertex3f(bbox[3], bbox[1], bbox[2]);
+    glVertex3f(bbox[3], bbox[1], bbox[5]);
+
+    glVertex3f(bbox[0], bbox[1], bbox[2]);
+    glVertex3f(bbox[0], bbox[1], bbox[5]);
+
+    glEnd();
+    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+}
+
 bool Hero::CalculateDest(float x1, float y1, float &x2, float &y2)
 {
 	return true;
@@ -567,7 +605,6 @@ void Hero::Render(void)
 	Fov();
 	glPopMatrix();
 	glColor3f(1, 1, 1);
-
 	render();
 
 	if (AttackFrameCount > 0)

@@ -219,21 +219,54 @@ void Game::WorldCamUpdate(void)
 	}
 }
 
+bool Line2DPlaneRect(double lx1, double ly1, double lx2, double ly2, double x1, double y1, double x2, double y2)
+{
+    double m = (ly2-ly1)/(lx2-lx1);
+    //check if corner points lie on different side or not. two corners (i.e, four points)
+    double v1 = ly1 - y1 + m * x1 - m*lx1 ;
+    double v2 = ly1 - y2 + m * x2 - m*lx1 ;
+    if( v1 * v2 <= 0 ) return true;
+    v1 = ly1 - y1 + m * x2 - m*lx1 ;
+    v1 = ly1 - y2 + m * x1 - m*lx1 ;
+    if( v1 * v2 <= 0 ) return true;
+
+    return false;
+}
+bool LineBoxIntersection(double *ray, float *box)
+{
+    enum {X, Y, Z};
+    if ( Line2DPlaneRect(ray[X], ray[Y], ray[X+3], ray[Y+3], box[X], box[Y], box[X+3], box[Y+3]) &&
+         Line2DPlaneRect(ray[Z], ray[X], ray[Z+3], ray[X+3], box[Z], box[X], box[Z+3], box[X+3]) &&
+         Line2DPlaneRect(ray[Y], ray[Z], ray[Y+3], ray[Z+3], box[Y], box[Z], box[Y+3], box[Z+3]) )
+    {
+        return true;
+    }
+    return false;
+}
+
 void Game::newpickObjects(int x, int y)
 {
 	float newx, newy;	//newx newy are coordinates of clicked pt on map
+    double pts[6];
 
-	camera->ConvertCoordinates(x, y, newx, newy);
+    camera->GetRayPoints(x, y, pts);
 
-	if (hero->mouseOverMe(newx, newy)) {
-		hero->selected = true;
+    if(LineBoxIntersection(pts, hero->GetBB()))
+    {
+    	hero->selected = true;
 		PanelBotTexId = hero->PanelTexId;
-	} else {
+	} 
+    else 
+    {
 		hero->selected = false;
-	}
+    }
+
+   // camera->ConvertCoordinates(x, y, newx, newy);    
 
 	for (int i = 0; i < num_guards; i++) {
-		if (guard[i]->mouseOverMe(newx, newy)) {
+		//if (guard[i]->mouseOverMe(newx, newy)) {
+        if(LineBoxIntersection(pts, guard[i]->GetBB()))
+        {
 			guard[i]->selected = true;
 			PanelBotTexId = guard[i]->PanelTexId;
 		} else {
@@ -274,6 +307,7 @@ void Game::EndGame(void)
 	started = false;
 }
 
+double gpts[6] = {0};
 void Game::ProcessEvents(void)
 {
 	if (!initialized)
@@ -486,7 +520,13 @@ void Game::ProcessEvents(void)
 				break;
 			}
 		case SDL_MOUSEBUTTONDOWN:
-			{
+			{                     
+                switch(event.button.button)
+                {   
+                case SDL_BUTTON_LEFT:
+                case SDL_BUTTON_RIGHT:
+                    camera->GetRayPoints(event.button.x, event.button.y, gpts);
+                }
 				if (event.button.button == SDL_BUTTON_LEFT) {
 					float nx, ny;
 					if (minimap->isMouseOver
@@ -497,8 +537,8 @@ void Game::ProcessEvents(void)
 								   ny *
 								   minimap->yconvfactor);
 					} else {
-						newpickObjects((int)event.button.x,
-									   (int)event.button.y);
+						newpickObjects(event.button.x,
+									   event.button.y);
 					}
 
 				}
@@ -534,6 +574,8 @@ void Game::drawObjects(GLenum mode)
 	    (hero->cury - camera->initz) * (hero->cury - camera->initz) <=
 	    farthestdist) {
 		hero->Render();
+        if(display_lines)
+            hero->RenderBBox();
 	}
 	for (int i = 0; i < num_guards; i++) {
 		if (guard[i]->selected) {
@@ -547,6 +589,8 @@ void Game::drawObjects(GLenum mode)
 				guard[i]->Render();
 			}
 		}
+        if(display_lines)
+            guard[i]->RenderBBox();
 	}
 }
 
@@ -556,7 +600,7 @@ void Game::Render(void)
 		return;
 
 	/* Just clear the depth buffer, color is overwritten anyway */
-	glClear(GL_DEPTH_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	glOrtho(-(hres/2.0), (hres/2.0), -(vres/2.0), (vres/2.0), -hres, hres);
@@ -571,7 +615,21 @@ void Game::Render(void)
 
 	drawObjects(GL_RENDER);
 
-	map->TransparentRender();
+	map->TransparentRender();     
+
+    //picking debugging..
+    if(display_lines)
+    {
+        glColor3f(1, 1, 1);
+        glDisable(GL_TEXTURE_2D);
+        //glLineWidth(20);
+        glBegin(GL_LINES);
+        glVertex3dv(gpts);
+        glVertex3dv(gpts+3);
+        glEnd();
+        glEnable(GL_TEXTURE_2D);
+    }
+    //end debug;
 
 	if (show_minimap)
 		panel->Render();
@@ -593,14 +651,15 @@ void Game::HandleRightClick(int x, int y)
 		hero->Run(fx, fy, px, py);
 	} else {
 		float x3, y3;
-		camera->ConvertCoordinates(x, y, x3, y3);
-
+		camera->ConvertCoordinates(x, y, x3, y3);       
 		if (hero->selected) {
+            double pts[6] = {0};
+            camera->GetRayPoints(x, y, pts);
 			/* Flag indicates if user wants Hero to run. false means attack */
 			float flag = true;
 			for (int i = 0; i < num_guards; i++) {
 				if (guard[i]->Alive	&&
-					guard[i]->mouseOverMe(x3, y3)	&&
+                    LineBoxIntersection(pts, guard[i]->GetBB()) &&
 					guard[i]->inRange(hero->curx, hero->cury, hero->facingAngle)) 
 				{
 					if (guard[i]->status != DEAD) {
@@ -615,7 +674,6 @@ void Game::HandleRightClick(int x, int y)
 			}
 			if (flag) {
 				float fx, fy;
-
 				block_convert(fx, fy, x3, y3);
 				hero->Run(fx, fy, x3, y3);
 			}
