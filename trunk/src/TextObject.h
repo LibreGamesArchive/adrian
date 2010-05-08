@@ -20,7 +20,7 @@
 #ifndef		__TEXTOBJECT_H__
 #define		__TEXTOBJECT_H__
 
-#include <GL/gl.h>
+#include <GL/glew.h>
 #include <SDL/SDL.h>
 
 #include "TTFFont.h"

@@ -20,6 +20,7 @@
 #ifndef		__GAME_H__
 #define		__GAME_H__
 
+#include "RenderPass.h"
 #include "Map.h"
 #include "Camera.h"
 #include "Md2.h"
@@ -31,8 +32,8 @@
 #include "config.h"
 #include "TTFFont.h"
 
-#include <GL/gl.h>
-#include <GL/glu.h>
+/*#include <GL/gl.h>
+#include <GL/glu.h>*/
 #include <SDL/SDL.h>
 #include <SDL/SDL_mixer.h>
 

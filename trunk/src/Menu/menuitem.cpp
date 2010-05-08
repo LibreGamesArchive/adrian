@@ -18,8 +18,8 @@
 
 
 #include "menuitem.h"
-#include <GL/gl.h>
-#include <GL/glu.h>
+/*#include <GL/gl.h>
+#include <GL/glu.h>*/
 
 #include "menu.h"
 #include "../globals.h"
