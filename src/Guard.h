@@ -43,8 +43,8 @@ class Guard:public Md2 {
 	float fovInterval;
 	float fovStart;
 	float fovEnd;
-	int fovID;
-
+	int fovID;    
+    float bbox[6];
  public:
 	 Guard(char *filename, int texid, float x1, float y1, float x2,
 	       float y2, float speed, GLuint fovTexID, float botangle = 0, int no = 0);
@@ -69,7 +69,8 @@ class Guard:public Md2 {
 	bool checkIntruder(float, float);
 
 	bool mouseOverMe(float x, float y);
-
+    float* GetBB();
+    void Guard::RenderBBox();
 };
 
 #endif				/*      __GAME_GUARD_H__ */

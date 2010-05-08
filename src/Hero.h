@@ -61,7 +61,7 @@ class Hero:public Md2 {
 	int textureID;
 	int PanelTexId;
 	bool selected;
-
+    float bbox[6];
  public:
 	 Hero(float, float, float, float, GLuint fovTexID, GLuint panelTexID);
 	~Hero();
@@ -73,6 +73,7 @@ class Hero:public Md2 {
 	void Death();
 	int NextMove(void);
 	bool mouseOverMe(float x, float y);
+    float* GetBB();
 	void Fov(void);
 
 	int BuildingOnPath(void);
@@ -85,6 +86,7 @@ class Hero:public Md2 {
 	bool CalculateDest(float x1, float y1, float &x2, float &y2);
 	bool CheckCurWithBuildings(float &curx, float &cury);
 	bool CheckCurWithWalls(float &x, float &y);
+    void RenderBBox();
 
 };
 

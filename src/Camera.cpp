@@ -125,6 +125,27 @@ void Camera::MoveRight(void)
 	Move();
 }
 
+void Camera::Update(void) 
+{
+	glLoadIdentity();
+	gluLookAt(camx, camy, camz, pointx, pointy, pointz, lookx,
+			  looky, lookz);
+    //gluLookAt(0, 50, 100, 0, 0, 0, 0, 1, 0);
+    //get the projection matrix		
+    glGetDoublev( GL_PROJECTION_MATRIX, projection );
+	//get the modelview matrix		
+    glGetDoublev( GL_MODELVIEW_MATRIX, modelview );
+	//get the viewport		
+    glGetIntegerv( GL_VIEWPORT, viewport );
+} 
+
+void Camera::GetRayPoints(int x, int y, double *vals)
+{
+    //vals should be a pointer to 6 vals. ray start, ray end.
+    gluUnProject(x, viewport[3]-y, 0, modelview, projection, viewport, &vals[0], &vals[1], &vals[2]);
+    gluUnProject(x, viewport[3]-y, 1, modelview, projection, viewport, &vals[3], &vals[4], &vals[5]);
+}
+
 void Camera::Zoom(float d)
 {
 	camy = (d / distance) * camy;

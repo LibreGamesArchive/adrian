@@ -87,6 +87,44 @@ void Guard::Stand(float x, float y)
 	setAnimation(STAND);
 }
 
+float* Guard::GetBB()
+{
+    int s = 30;
+    bbox[0] = x-s;
+    bbox[1] = y-s;
+    bbox[2] = z-s;
+
+    bbox[3] = x+s;
+    bbox[4] = y+s;
+    bbox[5] = z+s;
+
+    return bbox;
+}
+
+void Guard::RenderBBox()
+{  
+    float *bbox = GetBB();
+    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+    glBegin(GL_QUAD_STRIP);
+    glVertex3f(bbox[0], bbox[1], bbox[2]);
+    glVertex3f(bbox[0], bbox[1], bbox[5]);
+
+    glVertex3f(bbox[0], bbox[4], bbox[2]);
+    glVertex3f(bbox[0], bbox[4], bbox[5]);
+
+    glVertex3f(bbox[3], bbox[4], bbox[2]);
+    glVertex3f(bbox[3], bbox[4], bbox[5]);
+
+    glVertex3f(bbox[3], bbox[1], bbox[2]);
+    glVertex3f(bbox[3], bbox[1], bbox[5]);
+
+    glVertex3f(bbox[0], bbox[1], bbox[2]);
+    glVertex3f(bbox[0], bbox[1], bbox[5]);
+
+    glEnd();
+    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+}
+
 void Guard::Attack(float x, float y)
 {
 	status = ATTACKING;
@@ -377,7 +415,6 @@ void Guard::Render(void)
 	render();
 	if (DeathFrameCount > 0)
 		DeathFrameCount -= 1;
-
 }
 
 void Guard::Dump(void)
