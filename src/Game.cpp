@@ -39,6 +39,7 @@ Game::Game(void)
 	camera = NULL;
 	map = NULL;
 	minimap = NULL;
+    scene = NULL;
 	num_guards = 0;
     scene = NULL;
 	memset(guard, 0, sizeof(guard));
@@ -149,6 +150,7 @@ void Game::InitializeGame(const char *gamefile)
 	camera->Initialize();
 	map->Initialize();
 	soundSystem->PlaySound(SOUNDTYPE_BACKGROUND);
+    scene = new SceneComposer();
     scene = new SceneComposer();
 	initialized = true;
 }

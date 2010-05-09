@@ -13,11 +13,7 @@ public:
 };
 
 class FullScreenPoly : public RenderableObject{   //for post processing etc.
-  //  int hres;
-//    int vres;
-    GLuint texid;
 public:
-    FullScreenPoly(int w, int h, GLuint texid);
     void Render();
 };
 
@@ -41,6 +37,7 @@ class RenderPass{
         void SetUniformVal(char *str, float val);
         GLuint getColorTexture(){return m_ColorTex;}
         GLuint getDepthTexture(){return m_DepthTex;}
+        void SetUniformVars(GLuint colorid, GLuint depthid);
 };
 
 class SceneComposer{
