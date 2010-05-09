@@ -143,6 +143,7 @@ void RenderPass::SetUniformVars(GLuint colorid, GLuint depthid)
     //we can use the textures only if we have some program loaded to use them.
     if(m_ShaderProgram)
     {
+            glUseProgram(m_ShaderProgram);
             GLint ctex_loc = glGetUniformLocation(m_ShaderProgram, "tex0");
             if(ctex_loc == GL_INVALID_OPERATION)
                 printf("Could not get uniformloc\n");
@@ -275,9 +276,9 @@ void SceneComposer::Compose(Camera *c)
        // glClear(GL_COLOR_BUFFER_BIT);
         c->set2DProjection();
         glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, m_List[0]->getDepthTexture());
-        glActiveTexture(GL_TEXTURE1);
         glBindTexture(GL_TEXTURE_2D, m_List[0]->getColorTexture());
+        glActiveTexture(GL_TEXTURE1);
+        glBindTexture(GL_TEXTURE_2D, m_List[0]->getDepthTexture());
         m_List[1]->SetUniformVars(0, 1);
         m_List[1]->Render();        //second pass
         glActiveTexture(GL_TEXTURE0);
