@@ -7,9 +7,10 @@ void main()
     mat3 gx = mat3(-1.0f, -2.0f, -1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 2.0f, 1.0f);
     mat3 gy = mat3(1.0f, 0.0f, -1.0f, 2.0f, 0.0f, -2.0f, 1.0f, 0.0f, -1.0f);
     int i, j;
-    float x = gl_TexCoord[0].s - 0.5;
-    float y = gl_TexCoord[0].t - 0.5;
+//    float x = gl_TexCoord[0].s - 0.5;
+//    float y = gl_TexCoord[0].t - 0.5;
     vec4 ones = vec4(1.0, 1.0, 1.0, 1.0); 
+    vec4 zeros = vec4(0.0, 0.0, 0.0, 0.0); 
 
         vec4 sx = vec4(0, 0, 0, 0);
         vec4 sy = vec4(0, 0, 0, 0);
@@ -25,8 +26,8 @@ void main()
             }
         }
         float sum = dot(abs(sx), abs(sy));
-        if(sum > 0.5)
-            gl_FragColor = dpt * vec4(0, 0, 0, 1);
+        if(sum > 0.1)
+            gl_FragColor = ones * 0.2; 
         else
-            gl_FragColor =  texel; 
+            gl_FragColor =  texel + ones * 0.2; 
 }
