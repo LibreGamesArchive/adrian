@@ -65,6 +65,9 @@ class Camera {
 	void MoveLeft();
 	void MoveRight();
 
+    void set3DProjection();
+    void set2DProjection();
+
 	void Rotate(float a);
 
 	void Zoom(float d);

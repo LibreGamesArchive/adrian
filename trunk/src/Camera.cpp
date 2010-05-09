@@ -125,6 +125,39 @@ void Camera::MoveRight(void)
 	Move();
 }
 
+void Camera::set2DProjection()
+{
+    glViewport(0, 0, hres, vres);
+	glDisable(GL_DEPTH_TEST);
+	//glPushMatrix();
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	glOrtho(0, hres, 0, vres, -1, 1);
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+
+}
+
+void Camera::set3DProjection()
+{
+    glEnable(GL_DEPTH_TEST);
+    glViewport(0, 0, hres, vres);
+    glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	glOrtho(-(hres/2.0), (hres/2.0), -(vres/2.0), (vres/2.0), -hres, hres);
+
+	glMatrixMode(GL_MODELVIEW);	
+	glLoadIdentity();
+	gluLookAt(camx, camy, camz, pointx, pointy, pointz, lookx,
+			  looky, lookz);
+    //get the projection matrix		
+    glGetDoublev( GL_PROJECTION_MATRIX, projection );
+	//get the modelview matrix		
+    glGetDoublev( GL_MODELVIEW_MATRIX, modelview );
+	//get the viewport		
+    glGetIntegerv( GL_VIEWPORT, viewport );
+}
+
 void Camera::Update(void) 
 {
 	glLoadIdentity();

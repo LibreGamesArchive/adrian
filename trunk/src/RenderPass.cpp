@@ -23,8 +23,8 @@ char * textFileRead(const char*fname)
     return buff;
 }
 
-static int width = 800;
-static int height = 600;
+static int width = hres;
+static int height = vres;
 
 RenderPass::RenderPass(const char *vsfname, const char *psfname, FbType type)
 {
@@ -69,28 +69,53 @@ RenderPass::RenderPass(const char *vsfname, const char *psfname, FbType type)
         {
             case FB_DEPTH_AND_COLOR:                
                 //follow through to create the depth buffer as well.
-            case FB_DEPTH_ONLY:
-                if(type != FB_DEPTH_AND_COLOR)
-                {//prevent the frame buffer object generation for second time.
-                    glGenFramebuffers(1, &m_FrameBufferObject);
-                    glBindFramebuffer(GL_FRAMEBUFFER, m_FrameBufferObject);
-                }
+                glGenTextures(1, &m_ColorTex);
+                glBindTexture(GL_TEXTURE_2D, m_ColorTex);
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	            // Remove artefact on the edges of the shadowmap
+	            glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP );
+	            glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP );
+                glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, 0);    
+                glGenerateMipmapEXT(GL_TEXTURE_2D);
+                //glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,GL_TEXTURE_2D, m_ColorTex, 0);
 
-                glGenRenderbuffers(1, &m_DepthTex);
+            case FB_DEPTH_ONLY:                                           
+                /*glGenRenderbuffers(1, &m_DepthTex);
                 glBindRenderbuffer(GL_RENDERBUFFER, m_DepthTex);
                 glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, width, height);
-                glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, m_DepthTex);
+                glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, m_DepthTex);*/
+                glGenTextures(1, &m_DepthTex);
+                glBindTexture(GL_TEXTURE_2D, m_DepthTex);
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	            // Remove artefact on the edges of the shadowmap
+	            glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP );
+	            glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP );
+                glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, width, height, 0, GL_DEPTH_COMPONENT, GL_UNSIGNED_BYTE, 0);               
 
-                glDrawBuffer(GL_NONE);
-	            glReadBuffer(GL_NONE);
-
+                glBindTexture(GL_TEXTURE_2D, 0);
+                
+                glGenFramebuffers(1, &m_FrameBufferObject);
+                glBindFramebuffer(GL_FRAMEBUFFER, m_FrameBufferObject);                
+                if(type != FB_DEPTH_AND_COLOR)
+                {
+                    glDrawBuffer(GL_NONE);
+	                glReadBuffer(GL_NONE);
+                }
+                else
+                {
+                    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_ColorTex, 0);
+                }
+                glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT,GL_TEXTURE_2D, m_DepthTex, 0);
+                //glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, m_DepthTex);
                 status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
                 if(status != GL_FRAMEBUFFER_COMPLETE)
                 {
                     m_FrameBufferObject = 0;
                     this->type = FB_NONE;
                 }
-                glBindFramebuffer(GL_FRAMEBUFFER, 0); //reset before we return.
+                glBindFramebuffer(GL_FRAMEBUFFER, 0); //reset before we return.                
                 break;            
             case FB_NONE:
             default:
@@ -111,12 +136,16 @@ void RenderPass::Clear()
 void RenderPass::Render()
 {
     glBindFramebuffer(GL_FRAMEBUFFER, m_FrameBufferObject); //switch to user created frame buffer.
-
-    if(type == FB_DEPTH_ONLY)
+    glClear(GL_DEPTH_BUFFER_BIT);
+    switch(type)
     {
-        glPushAttrib(GL_VIEWPORT_BIT);
-        glViewport(0, 0, width, height);
-        glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
+        case FB_DEPTH_ONLY:
+            glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
+        case FB_DEPTH_AND_COLOR:
+        {
+            glPushAttrib(GL_VIEWPORT_BIT);
+            glViewport(0, 0, width, height);
+        }
     }
     glUseProgram(m_ShaderProgram);  //use our awesome shaders.
 
@@ -124,12 +153,12 @@ void RenderPass::Render()
     {
         m_List[i]->Render();
     }
-    
     glUseProgram(0);    //switch back to fixed pipeline
     if(type != FB_NONE)
     {
-        glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE); // reset the color buffer mask
         glPopAttrib();
+        if(type == FB_DEPTH_ONLY)
+            glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE); // reset the color buffer mask        
     }
     glBindFramebuffer(GL_FRAMEBUFFER, 0);   //switch back to window manager framebuffer.
 }
@@ -161,8 +190,10 @@ SceneComposer::SceneComposer()
     {
         //OPENGL2.0 is supported do all the fancy stuff.
         m_isMultiPass = true;
-        m_List.push_back(new RenderPass(NULL, NULL, FB_DEPTH_ONLY));
-        m_List.push_back(new RenderPass("vs.txt", "ps.txt"));
+        m_List.push_back(new RenderPass(NULL, NULL, FB_DEPTH_AND_COLOR));
+        m_List.push_back(new RenderPass());
+        FullScreenPoly *tmp = new FullScreenPoly(width, height, m_List[0]->getColorTexture());
+        m_List[1]->AddObject((RenderableObject*)tmp);
     }
     else
     {
@@ -174,9 +205,9 @@ SceneComposer::SceneComposer()
 
 void SceneComposer::Reset()
 {
-    for(GLuint i = 0; i < m_List.size(); i++)
+    //for(GLuint i = 0; i < m_List.size(); i++)
     {
-        m_List[i]->Clear();
+        m_List[0]->Clear();
     }
 }
 
@@ -195,12 +226,17 @@ void SceneComposer::addToPass(RenderableObject *obj, int index)
     }
 }
 
-void SceneComposer::Compose()
+void SceneComposer::Compose(Camera *c)
 {
-    for(GLuint i = 0;i < m_List.size(); i++)
+    //for(GLuint i = 0;i < m_List.size(); i++)
     {
-        glClear(GL_DEPTH_BUFFER_BIT);
-        m_List[i]->Render();        
+     //   glClear(GL_DEPTH_BUFFER_BIT);
+        c->set3DProjection();
+        m_List[0]->Render();        //first pass rendered to texture
+
+       // glClear(GL_COLOR_BUFFER_BIT);
+        c->set2DProjection();
+        m_List[1]->Render();        //second pass
     }
 }
 SceneComposer::~SceneComposer()
@@ -210,4 +246,34 @@ SceneComposer::~SceneComposer()
         delete m_List[i];
     }
     m_List.clear();
+}
+
+
+FullScreenPoly::FullScreenPoly(int w, int h, GLuint texid)
+{
+//    this->hres = w;
+    //this->vres = h;
+    this->texid = texid;
+}
+
+void FullScreenPoly::Render()
+{
+    glColor3f(1, 1, 1);
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D, texid);
+    glBegin(GL_POLYGON);
+    glTexCoord2f(0, 0);
+    glVertex2f(0, 0);
+
+    glTexCoord2f(1, 0);
+    glVertex2f(hres, 0);
+
+    glTexCoord2f(1, 1);
+    glVertex2f(hres, vres);
+
+    glTexCoord2f(0, 1);
+    glVertex2f(0, vres);
+
+    glEnd();
+    glDisable(GL_TEXTURE_2D);
 }

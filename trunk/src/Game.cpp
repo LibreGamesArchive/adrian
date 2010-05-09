@@ -40,6 +40,7 @@ Game::Game(void)
 	map = NULL;
 	minimap = NULL;
 	num_guards = 0;
+    scene = NULL;
 	memset(guard, 0, sizeof(guard));
 
 	resetVars();
@@ -148,7 +149,7 @@ void Game::InitializeGame(const char *gamefile)
 	camera->Initialize();
 	map->Initialize();
 	soundSystem->PlaySound(SOUNDTYPE_BACKGROUND);
-
+    scene = new SceneComposer();
 	initialized = true;
 }
 
@@ -169,6 +170,7 @@ void Game::DestroyGame(void)
 		delete guard[i];
 	delete map;
 	delete camera;
+    delete scene;
 
 	hero = NULL;
 	camera = NULL;
@@ -563,16 +565,21 @@ void Game::ProcessEvents(void)
 	}
 }
 
-void Game::drawObjects(GLenum mode)
+
+void Game::Render(void)
 {
-	float farthestdist = 2 * ((hres/2.0) * (hres/2.0) + (vres/2.0) * (vres/2.0));
+	if (!initialized)
+		return;
 
+    scene->Reset();
+    scene->addToPass((RenderableObject*)map, 0);
+
+    float farthestdist = 2 * ((hres/2.0) * (hres/2.0) + (vres/2.0) * (vres/2.0));
 	glColor3f(1.0, 1.0, 1.0);
-
 	if ((hero->curx - camera->initx) * (hero->curx - camera->initx) +
 	    (hero->cury - camera->initz) * (hero->cury - camera->initz) <=
 	    farthestdist) {
-            scene.addToPass((RenderableObject*)hero);
+            scene->addToPass((RenderableObject*)hero, 0);
 		//hero->Render();
         if(display_lines)
             hero->RenderBBox();
@@ -586,41 +593,17 @@ void Game::drawObjects(GLenum mode)
 			    (guard[i]->cury - camera->initz) * (guard[i]->cury -
 								camera->initz)
 			    <= farthestdist) {
-                    scene.addToPass((RenderableObject*)guard[i]);
+                    scene->addToPass((RenderableObject*)guard[i], 0);
 				//guard[i]->Render();
 			}
 		}
         if(display_lines)
             guard[i]->RenderBBox();
 	}
-}
 
-void Game::Render(void)
-{
-	if (!initialized)
-		return;
-
-	/* Just clear the depth buffer, color is overwritten anyway */
-    //	glClear(GL_DEPTH_BUFFER_BIT);
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	glOrtho(-(hres/2.0), (hres/2.0), -(vres/2.0), (vres/2.0), -hres, hres);
-	glMatrixMode(GL_MODELVIEW);	// Select The Modelview Matrix
-	glLoadIdentity();	// Reset The Modelview Matrix
-
-	camera->Update();
-
-    scene.Reset();
-    scene.addToPass((RenderableObject*)map, 1);
-	//Terrain
-	//map->Render();
-	//printf("MAP CENTER: %f %f\n",camera->pointx,camera->pointz);
-
-	drawObjects(GL_RENDER);
-    //render using scene composer
-    scene.Compose();
-
-	map->TransparentRender();     
+    scene->Compose(camera);
+    //map->Render();
+	//map->TransparentRender();     
 
     //picking debugging..
     if(display_lines)

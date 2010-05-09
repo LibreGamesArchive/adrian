@@ -264,16 +264,17 @@ void Map::Render(void)
 //    float farthestdist = 2 * ((hres/2.0) *(hres/2.0) + (vres/2.0) *(vres/2.0));
 //      printf("Rendering Polygons : ");
 	for (int i = 0; i < no_of_buildings; i++) {
-//              if( (buildings[i].x1 - camera->initx)*(buildings[i].x2 - camera->initx) +
-//                      (buildings[i].y1 - camera->initz)*(buildings[i].y2 - camera->initz) <= farthestdist )
-//              {
+              //if( (buildings[i].x1 - camera->initx)*(buildings[i].x2 - camera->initx) +
+                      //(buildings[i].y1 - camera->initz)*(buildings[i].y2 - camera->initz) <= farthestdist )
+              {
 //              printf("%d ",i);
-		buildings[i].Render();
-//              }
+            		buildings[i].Render();
+              }
 	}
 
 //	for (int i = 0; i < num_smodels; i++)
 //		smodels[i]->Render();
+    TransparentRender();
 }
 
 void Map::TransparentRender(void)
