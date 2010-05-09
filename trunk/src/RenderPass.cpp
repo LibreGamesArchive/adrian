@@ -1,3 +1,4 @@
+#include "globals.h"
 #include "RenderPass.h"
 #include <string>
 #include <stdio.h>
@@ -68,6 +69,19 @@ RenderPass::RenderPass(const char *vsfname, const char *psfname, FbType type)
         switch(type)
         {
             case FB_DEPTH_AND_COLOR:                
+                glGenFramebuffers(1, &m_FrameBufferObject);
+                glBindFramebuffer(GL_FRAMEBUFFER, m_FrameBufferObject);
+
+                glGenTextures(1, &m_ColorTex);
+                glBindTexture(GL_TEXTURE_2D, m_ColorTex);
+                glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
+
+                glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
+                glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
+                glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE );
+                glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE ); 
+
+                glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_ColorTex, 0); 
                 //follow through to create the depth buffer as well.
                 glGenTextures(1, &m_ColorTex);
                 glBindTexture(GL_TEXTURE_2D, m_ColorTex);
@@ -112,6 +126,7 @@ RenderPass::RenderPass(const char *vsfname, const char *psfname, FbType type)
                 status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
                 if(status != GL_FRAMEBUFFER_COMPLETE)
                 {
+                    printf("Framebuffer screwed\n");
                     m_FrameBufferObject = 0;
                     this->type = FB_NONE;
                 }
@@ -121,6 +136,24 @@ RenderPass::RenderPass(const char *vsfname, const char *psfname, FbType type)
             default:
                 break;
         }
+ }
+
+void RenderPass::SetUniformVars(GLuint colorid, GLuint depthid)
+{
+    //we can use the textures only if we have some program loaded to use them.
+    if(m_ShaderProgram)
+    {
+            GLint ctex_loc = glGetUniformLocation(m_ShaderProgram, "tex0");
+            if(ctex_loc == GL_INVALID_OPERATION)
+                printf("Could not get uniformloc\n");
+            glUniform1i(ctex_loc, colorid);
+
+            GLint dtex_loc = glGetUniformLocation(m_ShaderProgram, "tex1");
+            if(dtex_loc == GL_INVALID_OPERATION)
+                printf("Could not get uniformloc\n");
+            glUniform1i(dtex_loc, depthid);
+    }
+
 }
 
 void RenderPass::AddObject(RenderableObject *obj)
@@ -145,7 +178,11 @@ void RenderPass::Render()
         {
             glPushAttrib(GL_VIEWPORT_BIT);
             glViewport(0, 0, width, height);
+            break;
         }
+        default:
+        case FB_NONE:
+            break;
     }
     glUseProgram(m_ShaderProgram);  //use our awesome shaders.
 
@@ -191,9 +228,10 @@ SceneComposer::SceneComposer()
         //OPENGL2.0 is supported do all the fancy stuff.
         m_isMultiPass = true;
         m_List.push_back(new RenderPass(NULL, NULL, FB_DEPTH_AND_COLOR));
-        m_List.push_back(new RenderPass());
-        FullScreenPoly *tmp = new FullScreenPoly(width, height, m_List[0]->getColorTexture());
+        m_List.push_back(new RenderPass("vs.txt", "ps.txt"));
+        FullScreenPoly *tmp = new FullScreenPoly();
         m_List[1]->AddObject((RenderableObject*)tmp);
+    //    m_List[1]->SetUniformVars(m_List[0]->getColorTexture(), m_List[1]->getDepthTexture());
     }
     else
     {
@@ -236,7 +274,13 @@ void SceneComposer::Compose(Camera *c)
 
        // glClear(GL_COLOR_BUFFER_BIT);
         c->set2DProjection();
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, m_List[0]->getDepthTexture());
+        glActiveTexture(GL_TEXTURE1);
+        glBindTexture(GL_TEXTURE_2D, m_List[0]->getColorTexture());
+        m_List[1]->SetUniformVars(0, 1);
         m_List[1]->Render();        //second pass
+        glActiveTexture(GL_TEXTURE0);
     }
 }
 SceneComposer::~SceneComposer()
@@ -249,18 +293,10 @@ SceneComposer::~SceneComposer()
 }
 
 
-FullScreenPoly::FullScreenPoly(int w, int h, GLuint texid)
-{
-//    this->hres = w;
-    //this->vres = h;
-    this->texid = texid;
-}
-
 void FullScreenPoly::Render()
 {
     glColor3f(1, 1, 1);
     glEnable(GL_TEXTURE_2D);
-    glBindTexture(GL_TEXTURE_2D, texid);
     glBegin(GL_POLYGON);
     glTexCoord2f(0, 0);
     glVertex2f(0, 0);

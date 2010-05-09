@@ -64,7 +64,7 @@ int TTFFont::createTexture(GLuint texid, const char *str, SDL_Color *color, floa
 	SDL_Surface *txtSDLSurface;
 	SDL_Surface *intermediary;
 
-	printf("Creating TextTexture for %s at TexID:%d\n", str, texid);
+	//printf("Creating TextTexture for %s at TexID:%d\n", str, texid);
 
 	txtSDLSurface = TTF_RenderText_Solid(font, str, *color);
 	if (txtSDLSurface == NULL) {

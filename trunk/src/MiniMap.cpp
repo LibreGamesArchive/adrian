@@ -82,7 +82,7 @@ void MiniMap::Render(void)
 	glRotatef(game->camera->angle * 180.0 / 3.141, 0, 0, -1);
 
 	glCallList(mapbuildings);
-
+    GenerateDisplayLists();
 	glPointSize(3);
 	glColor3f(1, 0, 0);
 	glBegin(GL_POINTS);
