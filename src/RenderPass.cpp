@@ -229,7 +229,7 @@ SceneComposer::SceneComposer()
         //OPENGL2.0 is supported do all the fancy stuff.
         m_isMultiPass = true;
         m_List.push_back(new RenderPass(NULL, NULL, FB_DEPTH_AND_COLOR));
-        m_List.push_back(new RenderPass("vs.txt", "ps.txt"));
+        m_List.push_back(new RenderPass("vs.txt", "toonps.txt"));
         FullScreenPoly *tmp = new FullScreenPoly();
         m_List[1]->AddObject((RenderableObject*)tmp);
     //    m_List[1]->SetUniformVars(m_List[0]->getColorTexture(), m_List[1]->getDepthTexture());
