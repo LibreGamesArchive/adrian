@@ -27,6 +27,21 @@ char * textFileRead(const char*fname)
 static int width = hres;
 static int height = vres;
 
+void printLog(GLuint v)
+{
+    GLint blen = 0;	
+    GLsizei slen = 0;
+
+    glGetShaderiv(v, GL_INFO_LOG_LENGTH , &blen);   
+    if (blen > 1)
+    {
+        GLchar* compiler_log = (GLchar*)malloc(blen);
+        glGetInfoLogARB(v, blen, &slen, compiler_log);
+        printf("Error: %s\n", compiler_log);
+        free (compiler_log);
+    }
+}
+
 RenderPass::RenderPass(const char *vsfname, const char *psfname, FbType type)
 {
         m_ShaderProgram = 0; // initialize to zero for using fixed functionality
@@ -49,17 +64,29 @@ RenderPass::RenderPass(const char *vsfname, const char *psfname, FbType type)
 	
 		        glShaderSource(v, 1, &vv,NULL);
 		        glShaderSource(f, 1, &ff,NULL);
-		
-		        glCompileShader(v);
-		        glCompileShader(f);
-	
-		        m_ShaderProgram = glCreateProgram();
-		
-		        glAttachShader(m_ShaderProgram,v);
-		        glAttachShader(m_ShaderProgram,f);
-	
-		        glLinkProgram(m_ShaderProgram);	
 
+                GLint vsstatus, fsstatus;
+                
+		        glCompileShader(v);
+                glGetShaderiv(v, GL_COMPILE_STATUS, &vsstatus);
+
+		        glCompileShader(f);
+                glGetShaderiv(f, GL_COMPILE_STATUS, &fsstatus);
+	
+                if (fsstatus && vsstatus)
+                {                  
+		            m_ShaderProgram = glCreateProgram();
+		
+		            glAttachShader(m_ShaderProgram,v);
+		            glAttachShader(m_ShaderProgram,f);
+	
+		            glLinkProgram(m_ShaderProgram);	
+                }
+                else
+                {     
+                    printLog(v);
+                    printLog(f);
+                }
                 free(vs);free(fs);
             }
         }
