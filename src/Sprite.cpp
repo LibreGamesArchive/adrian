@@ -62,5 +62,7 @@ void Sprite::Render(void)
 		glTexCoord2f(0, 1.0);
 		glVertex3f(centx + lenx, 0, centz + lenz);
 	glEnd();
+    glDisable(GL_ALPHA_TEST);
+    glDisable(GL_BLEND);
 }
 

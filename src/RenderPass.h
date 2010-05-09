@@ -5,9 +5,20 @@
 #include <vector>
 using namespace std;
 
+#include "Camera.h"
+#include "globals.h"
 class RenderableObject{
 public:
     virtual void Render() = 0;
+};
+
+class FullScreenPoly : public RenderableObject{   //for post processing etc.
+  //  int hres;
+//    int vres;
+    GLuint texid;
+public:
+    FullScreenPoly(int w, int h, GLuint texid);
+    void Render();
 };
 
 enum FbType {FB_NONE, FB_DEPTH_ONLY, FB_DEPTH_AND_COLOR};
@@ -26,16 +37,20 @@ class RenderPass{
         RenderPass(const char *vsfname = NULL, const char *psfname = NULL, FbType type = FB_NONE);
         ~RenderPass();
         void Render();
+        void SetUniformVal(char *str, int val);
+        void SetUniformVal(char *str, float val);
+        GLuint getColorTexture(){return m_ColorTex;}
+        GLuint getDepthTexture(){return m_DepthTex;}
 };
 
 class SceneComposer{
     private:
         vector <RenderPass*> m_List;
-        bool m_isMultiPass;
+        bool m_isMultiPass;        
     public:
         void addToPass(RenderableObject *obj, int index = -1); //add an object to particular index; //-1 implies all of them.
         void Reset();   //clear all the object list on all the renderpasses.
-        void Compose();
+        void Compose(Camera *c);
         SceneComposer();
         ~SceneComposer();
 };

@@ -83,15 +83,14 @@ class Game
 	GLuint PanelBotTexId;
 
     //scene handler for game rendering.
-    SceneComposer scene;
+    SceneComposer *scene;
 
 	void setupOpenGL(int width, int height);
 
 	void resetVars(void);
 	void WorldCamUpdate(void);
 	void newpickObjects(int x, int y);
-	void HandleRightClick(int x, int y);
-	void drawObjects(GLenum mode);
+	void HandleRightClick(int x, int y);	
 
  public:
 	bool stop_all_animation;
