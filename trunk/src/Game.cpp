@@ -588,7 +588,8 @@ void Game::Render(void)
 	}
 	for (int i = 0; i < num_guards; i++) {
 		if (guard[i]->selected) {
-			guard[i]->Render();
+            scene->addToPass((RenderableObject*)guard[i], 0);
+			//guard[i]->Render();
 		} else {
 			if ((guard[i]->curx - camera->initx) * (guard[i]->curx -
 								camera->initx) +
