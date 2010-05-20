@@ -110,22 +110,8 @@ RenderPass::RenderPass(const char *vsfname, const char *psfname, FbType type)
 
                 glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_ColorTex, 0); 
                 //follow through to create the depth buffer as well.
-                glGenTextures(1, &m_ColorTex);
-                glBindTexture(GL_TEXTURE_2D, m_ColorTex);
-                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	            // Remove artefact on the edges of the shadowmap
-	            glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP );
-	            glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP );
-                glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, 0);    
-                glGenerateMipmapEXT(GL_TEXTURE_2D);
-                //glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,GL_TEXTURE_2D, m_ColorTex, 0);
 
             case FB_DEPTH_ONLY:                                           
-                /*glGenRenderbuffers(1, &m_DepthTex);
-                glBindRenderbuffer(GL_RENDERBUFFER, m_DepthTex);
-                glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, width, height);
-                glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, m_DepthTex);*/
                 glGenTextures(1, &m_DepthTex);
                 glBindTexture(GL_TEXTURE_2D, m_DepthTex);
                 glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
@@ -149,7 +135,6 @@ RenderPass::RenderPass(const char *vsfname, const char *psfname, FbType type)
                     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_ColorTex, 0);
                 }
                 glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT,GL_TEXTURE_2D, m_DepthTex, 0);
-                //glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, m_DepthTex);
                 status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
                 if(status != GL_FRAMEBUFFER_COMPLETE)
                 {
