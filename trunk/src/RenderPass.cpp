@@ -93,12 +93,15 @@ RenderPass::RenderPass(const char *vsfname, const char *psfname, FbType type)
 
         GLenum status;
         this->type = type;
+        if(type != FB_NONE)
+        {
+            glGenFramebuffers(1, &m_FrameBufferObject);
+            glBindFramebuffer(GL_FRAMEBUFFER, m_FrameBufferObject);  
+        }
+
         switch(type)
         {
             case FB_DEPTH_AND_COLOR:                
-                glGenFramebuffers(1, &m_FrameBufferObject);
-                glBindFramebuffer(GL_FRAMEBUFFER, m_FrameBufferObject);
-
                 glGenTextures(1, &m_ColorTex);
                 glBindTexture(GL_TEXTURE_2D, m_ColorTex);
                 glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
@@ -120,11 +123,7 @@ RenderPass::RenderPass(const char *vsfname, const char *psfname, FbType type)
 	            glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP );
 	            glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP );
                 glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, width, height, 0, GL_DEPTH_COMPONENT, GL_UNSIGNED_BYTE, 0);               
-
-                glBindTexture(GL_TEXTURE_2D, 0);
-                
-                glGenFramebuffers(1, &m_FrameBufferObject);
-                glBindFramebuffer(GL_FRAMEBUFFER, m_FrameBufferObject);                
+                                             
                 if(type != FB_DEPTH_AND_COLOR)
                 {
                     glDrawBuffer(GL_NONE);
