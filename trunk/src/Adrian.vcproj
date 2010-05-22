@@ -253,6 +253,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\PPShaderProgram.h"
+				>
+			</File>
+			<File
+				RelativePath=".\ShaderProgram.h"
+				>
+			</File>
+			<File
 				RelativePath=".\SoundSystem.h"
 				>
 			</File>
@@ -354,6 +362,14 @@
 			</File>
 			<File
 				RelativePath=".\platform.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\ShaderProgram.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\PPShaderProgram.cpp"
 				>
 			</File>
 			<File
