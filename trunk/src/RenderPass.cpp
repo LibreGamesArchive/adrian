@@ -1,96 +1,18 @@
 #include "globals.h"
 #include "RenderPass.h"
+#include "PPShaderProgram.h"
 #include <string>
 #include <stdio.h>
 #include <stdlib.h>
 
-
-char * textFileRead(const char*fname)
-{    
-    char name[1024];
-    sprintf(name, "shaders/%s",fname); 
-    FILE *fp = fopen(name, "rb");
-	if (fp == NULL) {
-		fprintf(stderr, "Opening(%s) failed\n", name);
-		return NULL;
-	}
-    fseek(fp, 0, SEEK_END);
-    long size = ftell(fp);
-    rewind(fp);
-    char *buff = (char *) malloc(sizeof(char)*size+1); 
-    fread(buff, sizeof(char), size, fp);
-    fclose(fp);
-    buff[size]='\0';
-    return buff;
-}
-
 static int width = hres;
 static int height = vres;
 
-void printLog(GLuint v)
+RenderPass::RenderPass(ShaderProgram *s, FbType type)
 {
-    GLint blen = 0;	
-    GLsizei slen = 0;
-
-    glGetShaderiv(v, GL_INFO_LOG_LENGTH , &blen);   
-    if (blen > 1)
-    {
-        GLchar* compiler_log = (GLchar*)malloc(blen);
-        glGetInfoLogARB(v, blen, &slen, compiler_log);
-        printf("Error: %s\n", compiler_log);
-        free (compiler_log);
-    }
-}
-
-RenderPass::RenderPass(const char *vsfname, const char *psfname, FbType type)
-{
-        m_ShaderProgram = 0; // initialize to zero for using fixed functionality
+        m_ShaderProgram = s; // initialize to zero for using fixed functionality
         m_FrameBufferObject = 0; //initialize to zero for window system provided buffer.
-
-        if(vsfname && psfname)  //create the shader handle if vertex and pixel shaders are provided.
-        {
-   		char *vs,*fs;
-	
-		GLuint v = glCreateShader(GL_VERTEX_SHADER);
-		GLuint f = glCreateShader(GL_FRAGMENT_SHADER);	
-	
-		    vs = textFileRead(vsfname);
-		    fs = textFileRead(psfname);
-	
-            if( vs && fs )
-            {
-		        const char * vv = vs;
-		        const char * ff = fs;
-	
-		        glShaderSource(v, 1, &vv,NULL);
-		        glShaderSource(f, 1, &ff,NULL);
-
-                GLint vsstatus, fsstatus;
-                
-		        glCompileShader(v);
-                glGetShaderiv(v, GL_COMPILE_STATUS, &vsstatus);
-
-		        glCompileShader(f);
-                glGetShaderiv(f, GL_COMPILE_STATUS, &fsstatus);
-	
-                if (fsstatus && vsstatus)
-                {                  
-		            m_ShaderProgram = glCreateProgram();
-		
-		            glAttachShader(m_ShaderProgram,v);
-		            glAttachShader(m_ShaderProgram,f);
-	
-		            glLinkProgram(m_ShaderProgram);	
-                }
-                else
-                {     
-                    printLog(v);
-                    printLog(f);
-                }
-                free(vs);free(fs);
-            }
-        }
-
+        
         GLenum status;
         this->type = type;
         if(type != FB_NONE)
@@ -149,25 +71,6 @@ RenderPass::RenderPass(const char *vsfname, const char *psfname, FbType type)
         }
  }
 
-void RenderPass::SetUniformVars(GLuint colorid, GLuint depthid)
-{
-    //we can use the textures only if we have some program loaded to use them.
-    if(m_ShaderProgram)
-    {
-            glUseProgram(m_ShaderProgram);
-            GLint ctex_loc = glGetUniformLocation(m_ShaderProgram, "tex0");
-            if(ctex_loc == GL_INVALID_OPERATION)
-                printf("Could not get uniformloc\n");
-            glUniform1i(ctex_loc, colorid);
-
-            GLint dtex_loc = glGetUniformLocation(m_ShaderProgram, "tex1");
-            if(dtex_loc == GL_INVALID_OPERATION)
-                printf("Could not get uniformloc\n");
-            glUniform1i(dtex_loc, depthid);
-    }
-
-}
-
 void RenderPass::AddObject(RenderableObject *obj)
 {
     m_List.push_back(obj);
@@ -196,13 +99,21 @@ void RenderPass::Render()
         case FB_NONE:
             break;
     }
-    glUseProgram(m_ShaderProgram);  //use our awesome shaders.
+    if(m_ShaderProgram)
+    { 
+        m_ShaderProgram->Enable();
+        m_ShaderProgram->InitVariables();
+    }
 
+    //render the scene using the shaders if available
     for(GLuint i = 0; i < m_List.size(); i++)
     {
         m_List[i]->Render();
     }
-    glUseProgram(0);    //switch back to fixed pipeline
+
+    if(m_ShaderProgram)
+        m_ShaderProgram->Disable();
+
     if(type != FB_NONE)
     {
         glPopAttrib();
@@ -214,8 +125,6 @@ void RenderPass::Render()
 
 RenderPass::~RenderPass()
 {
-    if(m_ShaderProgram > 0)
-        glDeleteProgram(m_ShaderProgram);
     if(m_FrameBufferObject > 0)
         glDeleteFramebuffers(1, &m_FrameBufferObject);
     if(m_DepthTex > 0)
@@ -237,19 +146,21 @@ SceneComposer::SceneComposer()
 	}
     if(GLEW_ARB_vertex_program && GLEW_ARB_fragment_program && GL_EXT_framebuffer_object)
     {
+        m_BloomShader = new PPShaderProgram((char *)"vs.txt", (char *)"bloom.txt");
         //OPENGL2.0 is supported do all the fancy stuff.
         m_isMultiPass = true;
-        m_List.push_back(new RenderPass(NULL, NULL, FB_DEPTH_AND_COLOR));
-        m_List.push_back(new RenderPass("vs.txt", "bloom.txt"));
-        FullScreenPoly *tmp = new FullScreenPoly();
+        m_List.push_back(new RenderPass(NULL, FB_DEPTH_AND_COLOR));
+        m_List.push_back(new RenderPass(m_BloomShader));
+
+        //initialize the second pass with the fullscreen polygon.
+        FullScreenPoly *tmp = new FullScreenPoly(); 
         m_List[1]->AddObject((RenderableObject*)tmp);
-    //    m_List[1]->SetUniformVars(m_List[0]->getColorTexture(), m_List[1]->getDepthTexture());
     }
     else
     {
         m_isMultiPass = false;
         //do stuff required for normal rendering.
-        m_List.push_back(new RenderPass(NULL, NULL));
+        m_List.push_back(new RenderPass(NULL));
     }
 }
 
@@ -280,23 +191,22 @@ void SceneComposer::Compose(Camera *c)
 {
     //for(GLuint i = 0;i < m_List.size(); i++)
     {
-     //   glClear(GL_DEPTH_BUFFER_BIT);
         c->set3DProjection();
         m_List[0]->Render();        //first pass rendered to texture
 
-       // glClear(GL_COLOR_BUFFER_BIT);
         c->set2DProjection();
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, m_List[0]->getColorTexture());
         glActiveTexture(GL_TEXTURE1);
         glBindTexture(GL_TEXTURE_2D, m_List[0]->getDepthTexture());
-        m_List[1]->SetUniformVars(0, 1);
         m_List[1]->Render();        //second pass
         glActiveTexture(GL_TEXTURE0);
     }
 }
 SceneComposer::~SceneComposer()
 {
+    if(m_BloomShader)
+        delete m_BloomShader;
     for(GLuint i = 0; i < m_List.size(); i++)
     {
         delete m_List[i];
