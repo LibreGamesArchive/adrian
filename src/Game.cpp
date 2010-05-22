@@ -574,7 +574,8 @@ void Game::Render(void)
 		return;
 
     scene->Reset();
-    scene->addToPass((RenderableObject*)map, 0);
+    scene->addToPass((RenderableObject*)map, 0); //shadow map pass
+    //scene->addToPass((RenderableObject*)map, 1); //render to framebuffer pass
 
     float farthestdist = 2 * ((hres/2.0) * (hres/2.0) + (vres/2.0) * (vres/2.0));
 	glColor3f(1.0, 1.0, 1.0);

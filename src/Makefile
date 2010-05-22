@@ -27,6 +27,8 @@ OBJECT_FILES	=	Map.o			\
 					platform.o		\
 					staticloader.o	\
 					RenderPass.o	\
+					ShaderProgram.o	\
+					PPShaderProgram.o	\
 
 CC = g++
 
