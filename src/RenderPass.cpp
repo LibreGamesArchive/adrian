@@ -15,11 +15,6 @@ RenderPass::RenderPass(ShaderProgram *s, FbType type)
         
         GLenum status;
         this->type = type;
-        if(type != FB_NONE)
-        {
-            glGenFramebuffers(1, &m_FrameBufferObject);
-            glBindFramebuffer(GL_FRAMEBUFFER, m_FrameBufferObject);  
-        }
 
         switch(type)
         {
@@ -32,10 +27,7 @@ RenderPass::RenderPass(ShaderProgram *s, FbType type)
                 glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
                 glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE );
                 glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE ); 
-
-                glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_ColorTex, 0); 
                 //follow through to create the depth buffer as well.
-
             case FB_DEPTH_ONLY:                                           
                 glGenTextures(1, &m_DepthTex);
                 glBindTexture(GL_TEXTURE_2D, m_DepthTex);
@@ -50,12 +42,14 @@ RenderPass::RenderPass(ShaderProgram *s, FbType type)
                 {
                     glDrawBuffer(GL_NONE);
 	                glReadBuffer(GL_NONE);
-                }
-                else
-                {
-                    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_ColorTex, 0);
-                }
+                }  
+
+                glGenFramebuffers(1, &m_FrameBufferObject);
+                glBindFramebuffer(GL_FRAMEBUFFER, m_FrameBufferObject);  
+                if(type == FB_DEPTH_AND_COLOR)  //follow through of the code from above case
+                    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_ColorTex, 0); 
                 glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT,GL_TEXTURE_2D, m_DepthTex, 0);
+
                 status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
                 if(status != GL_FRAMEBUFFER_COMPLETE)
                 {
