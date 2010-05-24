@@ -1,6 +1,7 @@
 #include "globals.h"
 #include "RenderPass.h"
 #include "PPShaderProgram.h"
+#include "SMShaderProgram.h"
 #include <string>
 #include <stdio.h>
 #include <stdlib.h>
@@ -27,6 +28,7 @@ RenderPass::RenderPass(ShaderProgram *s, FbType type)
                 glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
                 glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE );
                 glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE ); 
+                glBindTexture(GL_TEXTURE_2D, 0);
                 //follow through to create the depth buffer as well.
             case FB_DEPTH_ONLY:                                           
                 glGenTextures(1, &m_DepthTex);
@@ -37,7 +39,7 @@ RenderPass::RenderPass(ShaderProgram *s, FbType type)
 	            glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP );
 	            glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP );
                 glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, width, height, 0, GL_DEPTH_COMPONENT, GL_UNSIGNED_BYTE, 0);               
-                                             
+                glBindTexture(GL_TEXTURE_2D, 0);                             
                 if(type != FB_DEPTH_AND_COLOR)
                 {
                     glDrawBuffer(GL_NONE);
@@ -83,6 +85,7 @@ void RenderPass::Render()
     {
         case FB_DEPTH_ONLY:
             glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
+            //follow through.. 
         case FB_DEPTH_AND_COLOR:
         {
             glPushAttrib(GL_VIEWPORT_BIT);
@@ -140,72 +143,95 @@ SceneComposer::SceneComposer()
 	}
     if(GLEW_ARB_vertex_program && GLEW_ARB_fragment_program && GL_EXT_framebuffer_object)
     {
-        m_BloomShader = new PPShaderProgram((char *)"vs.txt", (char *)"bloom.txt");
         //OPENGL2.0 is supported do all the fancy stuff.
         m_isMultiPass = true;
-        m_List.push_back(new RenderPass(NULL, FB_DEPTH_AND_COLOR));
-        m_List.push_back(new RenderPass(m_BloomShader));
+
+        //create shader objects required for each pass.
+        m_BloomShader = new PPShaderProgram((char *)"vs.txt", (char *)"bloom.txt"); //post proc shader.
+        m_ShadowMapShader = new SMShaderProgram((char*)"smvs.txt", (char*)"smps.txt");
+
+        m_RenderPass.push_back(new RenderPass(NULL, FB_DEPTH_AND_COLOR));
+        m_RenderPass.push_back(new RenderPass(m_ShadowMapShader, FB_DEPTH_AND_COLOR));        
+        m_RenderPass.push_back(new RenderPass(m_BloomShader));
 
         //initialize the second pass with the fullscreen polygon.
         FullScreenPoly *tmp = new FullScreenPoly(); 
-        m_List[1]->AddObject((RenderableObject*)tmp);
+        m_RenderPass[m_RenderPass.size()-1]->AddObject((RenderableObject*)tmp);
     }
     else
     {
         m_isMultiPass = false;
         //do stuff required for normal rendering.
-        m_List.push_back(new RenderPass(NULL));
+        m_RenderPass.push_back(new RenderPass(NULL));
     }
 }
 
 void SceneComposer::Reset()
 {
-    //for(GLuint i = 0; i < m_List.size(); i++)
+    for(GLuint i = 0; i < m_RenderPass.size()-1; i++)
     {
-        m_List[0]->Clear();
-    }
+        m_RenderPass[i]->Clear();
+    }   //we are not clearing the last one because it is for post proc
 }
 
 void SceneComposer::addToPass(RenderableObject *obj, int index)
 {
     if(index < 0) //if index == -1 add the object to every render pass.
     {
-        for(GLuint i = 0; i < m_List.size(); i++)
+        for(GLuint i = 0; i < m_RenderPass.size(); i++)
         {
-            m_List[i]->AddObject(obj);
+            m_RenderPass[i]->AddObject(obj);
         }
     }
     else
     {
-        m_List[index]->AddObject(obj);
+        m_RenderPass[index]->AddObject(obj);
     }
 }
 
 void SceneComposer::Compose(Camera *c)
 {
-    //for(GLuint i = 0;i < m_List.size(); i++)
-    {
+    if(m_isMultiPass)
+    {       
+        glEnable(GL_POLYGON_OFFSET_FILL);       //enable offset so there is no z fighting.
+        glPolygonOffset(1.0, 1.0);
+        ((SMShaderProgram*)m_ShadowMapShader)->Set3DProjection();   //this informatioin should be moved to RenderPass
+        m_RenderPass[0]->Render();        //first pass for shadow map generation
+        glDisable(GL_POLYGON_OFFSET_FILL);
+
+        GLuint size = m_RenderPass.size();
         c->set3DProjection();
-        m_List[0]->Render();        //first pass rendered to texture
+        glActiveTexture(GL_TEXTURE1);
+        glBindTexture(GL_TEXTURE_2D, m_RenderPass[0]->getDepthTexture()); //last but one pass
+        glActiveTexture(GL_TEXTURE0);
+        m_RenderPass[size-2]->Render();        //second pass rendered to texture
 
         c->set2DProjection();
         glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, m_List[0]->getColorTexture());
+        glBindTexture(GL_TEXTURE_2D, m_RenderPass[size-2]->getColorTexture());  //last but one pass
         glActiveTexture(GL_TEXTURE1);
-        glBindTexture(GL_TEXTURE_2D, m_List[0]->getDepthTexture());
-        m_List[1]->Render();        //second pass
+        glBindTexture(GL_TEXTURE_2D, m_RenderPass[size-2]->getDepthTexture()); //last but one pass
+        m_RenderPass[size-1]->Render();        //last pass
         glActiveTexture(GL_TEXTURE0);
+    }
+    else
+    {
+        c->set3DProjection();
+        m_RenderPass[0]->Render();
     }
 }
 SceneComposer::~SceneComposer()
 {
-    if(m_BloomShader)
-        delete m_BloomShader;
-    for(GLuint i = 0; i < m_List.size(); i++)
+    if(m_isMultiPass)
     {
-        delete m_List[i];
+        delete m_BloomShader;
+        delete m_ShadowMapShader;
     }
-    m_List.clear();
+    for(GLuint i = 0; i < m_RenderPass.size(); i++)
+    {
+        delete m_RenderPass[i];
+    }
+    m_RenderPass.clear();
 }
 
 
