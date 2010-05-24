@@ -45,7 +45,7 @@ class RenderPass{
 
 class SceneComposer{
     private:
-        vector <RenderPass*> m_List;
+        vector <RenderPass*> m_RenderPass;
         bool m_isMultiPass;        
         ShaderProgram *m_BloomShader;
         ShaderProgram *m_ShadowMapShader;
@@ -53,6 +53,7 @@ class SceneComposer{
         void addToPass(RenderableObject *obj, int index = -1); //add an object to particular index; //-1 implies all of them.
         void Reset();   //clear all the object list on all the renderpasses.
         void Compose(Camera *c);
+        bool IsMultiPass(){return m_isMultiPass;}
         SceneComposer();
         ~SceneComposer();
 };

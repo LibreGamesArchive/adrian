@@ -150,7 +150,7 @@ void Game::InitializeGame(const char *gamefile)
 	camera->Initialize();
 	map->Initialize();
 	soundSystem->PlaySound(SOUNDTYPE_BACKGROUND);
-    scene = new SceneComposer();
+    camera->set3DProjection();
     scene = new SceneComposer();
 	initialized = true;
 }
@@ -570,26 +570,33 @@ void Game::ProcessEvents(void)
 
 void Game::Render(void)
 {
+    int RenderPassIndex = 0;
 	if (!initialized)
 		return;
-
+    
     scene->Reset();
-    scene->addToPass((RenderableObject*)map, 0); //shadow map pass
-    //scene->addToPass((RenderableObject*)map, 1); //render to framebuffer pass
+    if(scene->IsMultiPass())
+    {
+        RenderPassIndex = 1;
+        scene->addToPass((RenderableObject*)map, 0); //shadow map pass
+    }
 
+    scene->addToPass((RenderableObject*)map, RenderPassIndex);
     float farthestdist = 2 * ((hres/2.0) * (hres/2.0) + (vres/2.0) * (vres/2.0));
 	glColor3f(1.0, 1.0, 1.0);
 	if ((hero->curx - camera->initx) * (hero->curx - camera->initx) +
 	    (hero->cury - camera->initz) * (hero->cury - camera->initz) <=
 	    farthestdist) {
-            scene->addToPass((RenderableObject*)hero, 0);
+            scene->addToPass((RenderableObject*)hero, RenderPassIndex);
+            //scene->addToPass((RenderableObject*)hero, RenderPassIndex-1);
 		//hero->Render();
         if(display_lines)
             hero->RenderBBox();
 	}
 	for (int i = 0; i < num_guards; i++) {
 		if (guard[i]->selected) {
-            scene->addToPass((RenderableObject*)guard[i], 0);
+            scene->addToPass((RenderableObject*)guard[i], RenderPassIndex);
+            //scene->addToPass((RenderableObject*)guard[i], RenderPassIndex-1);
 			//guard[i]->Render();
 		} else {
 			if ((guard[i]->curx - camera->initx) * (guard[i]->curx -
@@ -597,17 +604,15 @@ void Game::Render(void)
 			    (guard[i]->cury - camera->initz) * (guard[i]->cury -
 								camera->initz)
 			    <= farthestdist) {
-                    scene->addToPass((RenderableObject*)guard[i], 0);
-				//guard[i]->Render();
+                    scene->addToPass((RenderableObject*)guard[i], RenderPassIndex);
+                    //scene->addToPass((RenderableObject*)guard[i], RenderPassIndex-1);
 			}
 		}
         if(display_lines)
             guard[i]->RenderBBox();
 	}
 
-    scene->Compose(camera);
-    //map->Render();
-	//map->TransparentRender();     
+    scene->Compose(camera);  
 
     //picking debugging..
     if(display_lines)

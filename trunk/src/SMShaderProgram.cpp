@@ -20,7 +20,17 @@ SMShaderProgram::SMShaderProgram(char *vsname, char *fsname)
     {
        printf("Could nto get the LightMVP\n");
     }
-
+    //light projection setting.
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    //gluPerspective(120, 1, 200, 2000);
+    glOrtho(-2000, 2000, -2000, 2000, -2000, 2000);    
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
+    gluLookAt(-700, 700, 700, 0, 0, -100, 0, 1, 0);
+/*    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
+    gluLookAt(0, 30, 800, 0, 0, 0, 0, 1, 0);*/
     glGetFloatv(GL_MODELVIEW_MATRIX, m_LightMV);
     glGetFloatv(GL_PROJECTION_MATRIX, m_LightProj);
 

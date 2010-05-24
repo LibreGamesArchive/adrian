@@ -528,7 +528,7 @@ void Hero::Fov(void)
 	glAlphaFunc(GL_GEQUAL, 0.0);
 	glEnable(GL_TEXTURE_2D);
 	glBindTexture(GL_TEXTURE_2D, fovID);
-
+    glRotatef(180, 0, 1, 0);
 	glBegin(GL_POLYGON);
 
 	glTexCoord2f(0.5, 0.5);
@@ -540,7 +540,7 @@ void Hero::Fov(void)
 		ptx1 = fov * tptx1;
 		pty1 = fov * tpty1;
 		glTexCoord2f(0.5 + 0.5 * tptx1, 0.5 + 0.5 * tpty1);
-		glVertex3f(ptx1, 0, pty1);
+		glVertex3f(-ptx1, 0, -pty1);
 	}
 	glEnd();
 
