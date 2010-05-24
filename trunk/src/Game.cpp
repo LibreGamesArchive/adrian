@@ -150,7 +150,7 @@ void Game::InitializeGame(const char *gamefile)
 	camera->Initialize();
 	map->Initialize();
 	soundSystem->PlaySound(SOUNDTYPE_BACKGROUND);
-    camera->set3DProjection();
+    //camera->set3DProjection();
     scene = new SceneComposer();
 	initialized = true;
 }
@@ -588,7 +588,7 @@ void Game::Render(void)
 	    (hero->cury - camera->initz) * (hero->cury - camera->initz) <=
 	    farthestdist) {
             scene->addToPass((RenderableObject*)hero, RenderPassIndex);
-            //scene->addToPass((RenderableObject*)hero, RenderPassIndex-1);
+            scene->addToPass((RenderableObject*)hero, RenderPassIndex-1);
 		//hero->Render();
         if(display_lines)
             hero->RenderBBox();
