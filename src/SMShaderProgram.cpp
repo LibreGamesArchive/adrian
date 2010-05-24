@@ -49,7 +49,7 @@ void SMShaderProgram::InitVariables()
     glUniformMatrix4fv(m_LightMVP, 1, GL_FALSE, m_LightMatrix); //we can send more matrices each for one light.
 }
 
-void SMShaderProgram::Set3DProjection()
+void SMShaderProgram::Set3DProjection() //to ensure that we use the lights projection before rendering to shadow map.
 {
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
