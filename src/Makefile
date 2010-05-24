@@ -29,6 +29,7 @@ OBJECT_FILES	=	Map.o			\
 					RenderPass.o	\
 					ShaderProgram.o	\
 					PPShaderProgram.o	\
+					SMShaderProgram.o	\
 
 CC = g++
 
