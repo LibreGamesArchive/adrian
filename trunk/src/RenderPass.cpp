@@ -40,16 +40,16 @@ RenderPass::RenderPass(ShaderProgram *s, FbType type)
 	            glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP );
                 glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, width, height, 0, GL_DEPTH_COMPONENT, GL_UNSIGNED_BYTE, 0);               
                 glBindTexture(GL_TEXTURE_2D, 0);                             
-                if(type != FB_DEPTH_AND_COLOR)
-                {
-                    glDrawBuffer(GL_NONE);
-	                glReadBuffer(GL_NONE);
-                }  
 
                 glGenFramebuffers(1, &m_FrameBufferObject);
                 glBindFramebuffer(GL_FRAMEBUFFER, m_FrameBufferObject);  
                 if(type == FB_DEPTH_AND_COLOR)  //follow through of the code from above case
                     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_ColorTex, 0); 
+                else
+                {               
+                    glDrawBuffer(GL_NONE);
+	                glReadBuffer(GL_NONE);
+                }  
                 glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT,GL_TEXTURE_2D, m_DepthTex, 0);
 
                 status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
@@ -148,10 +148,12 @@ SceneComposer::SceneComposer()
 
         //create shader objects required for each pass.
         m_BloomShader = new PPShaderProgram((char *)"vs.txt", (char *)"bloom.txt"); //post proc shader.
-        m_ShadowMapShader = new SMShaderProgram((char*)"smvs.txt", (char*)"smps.txt");
+        m_ShadowMapShader = new SMShaderProgram((char*)"smvs.txt", (char*)"smps.txt");//shadow map shader.
 
-        m_RenderPass.push_back(new RenderPass(NULL, FB_DEPTH_AND_COLOR));
-        m_RenderPass.push_back(new RenderPass(m_ShadowMapShader, FB_DEPTH_AND_COLOR));        
+        //render the scene to the shadow map.
+        m_RenderPass.push_back(new RenderPass(NULL, FB_DEPTH_ONLY)); 
+         //render the scene to Frame buffer to use as texture in next pass      
+        m_RenderPass.push_back(new RenderPass(m_ShadowMapShader, FB_DEPTH_AND_COLOR));
         m_RenderPass.push_back(new RenderPass(m_BloomShader));
 
         //initialize the second pass with the fullscreen polygon.
