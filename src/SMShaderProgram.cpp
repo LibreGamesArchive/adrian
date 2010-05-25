@@ -23,7 +23,7 @@ SMShaderProgram::SMShaderProgram(char *vsname, char *fsname)
     //light projection setting.
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    glOrtho(-2000, 2000, -2000, 2000, -2000, 2000);        
+    glOrtho(-2000, 2000, -400, 2000, -2000, 2000);        
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
     gluLookAt(-800, 30, 800, -780, 0, 780, 0, 1, 0);
