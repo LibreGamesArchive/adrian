@@ -24,6 +24,7 @@ extern bool gameInit;
 extern bool gamePaused;
 extern bool gameOver;
 extern bool showHelp;
+extern bool enable_shaders;
 
 extern int hres;
 extern int vres;
