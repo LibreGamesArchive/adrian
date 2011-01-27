@@ -134,34 +134,34 @@ RenderPass::~RenderPass()
 
 SceneComposer::SceneComposer()
 {
-    GLenum err = glewInit();
+	GLenum err = glewInit();
 	if (GLEW_OK != err)
 	{
 		  /* Problem: glewInit failed, something is seriously wrong. */
 		  fprintf(stderr, "Error: %s\n", glewGetErrorString(err));
 		  return;
 	}
-    if(GLEW_ARB_vertex_program && GLEW_ARB_fragment_program && GL_EXT_framebuffer_object)
-    {
-        //OPENGL2.0 is supported do all the fancy stuff.
-        m_isMultiPass = true;
+	if (enable_shaders) {
+		if(GLEW_ARB_vertex_program && GLEW_ARB_fragment_program && GL_EXT_framebuffer_object)
+		{
+			//OPENGL2.0 is supported do all the fancy stuff.
+			m_isMultiPass = true;
 
-        //create shader objects required for each pass.
-        m_BloomShader = new PPShaderProgram((char *)"vs.txt", (char *)"bloom.txt"); //post proc shader.
-        m_ShadowMapShader = new SMShaderProgram((char*)"smvs.txt", (char*)"smps.txt");//shadow map shader.
+			//create shader objects required for each pass.
+			m_BloomShader = new PPShaderProgram((char *)"vs.txt", (char *)"bloom.txt"); //post proc shader.
+			m_ShadowMapShader = new SMShaderProgram((char*)"smvs.txt", (char*)"smps.txt");//shadow map shader.
 
-        //render the scene to the shadow map.
-        m_RenderPass.push_back(new RenderPass(NULL, FB_DEPTH_ONLY)); 
-         //render the scene to Frame buffer to use as texture in next pass      
-        m_RenderPass.push_back(new RenderPass(m_ShadowMapShader, FB_DEPTH_AND_COLOR));
-        m_RenderPass.push_back(new RenderPass(m_BloomShader));
+			//render the scene to the shadow map.
+			m_RenderPass.push_back(new RenderPass(NULL, FB_DEPTH_ONLY)); 
+			 //render the scene to Frame buffer to use as texture in next pass      
+			m_RenderPass.push_back(new RenderPass(m_ShadowMapShader, FB_DEPTH_AND_COLOR));
+			m_RenderPass.push_back(new RenderPass(m_BloomShader));
 
-        //initialize the second pass with the fullscreen polygon.
-        FullScreenPoly *tmp = new FullScreenPoly(); 
-        m_RenderPass[m_RenderPass.size()-1]->AddObject((RenderableObject*)tmp);
-    }
-    else
-    {
+			//initialize the second pass with the fullscreen polygon.
+			FullScreenPoly *tmp = new FullScreenPoly(); 
+			m_RenderPass[m_RenderPass.size()-1]->AddObject((RenderableObject*)tmp);
+		}
+	} else {
         m_isMultiPass = false;
         //do stuff required for normal rendering.
         m_RenderPass.push_back(new RenderPass(NULL));

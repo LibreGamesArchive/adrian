@@ -53,6 +53,12 @@ int main(int argc, char *argv[])
 	int VideoFlags = 0;
 	SDL_Surface *MainWindow;
 
+	if (argc == 2) {
+		if (!strcmp(argv[1], "--enable-shaders")) {
+			enable_shaders = true;
+		}
+	}
+
 	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER) < 0)	// try to initialize SDL video module
 	{
 		printf("SDL ERROR:%s\n", SDL_GetError());	// report error if it fails

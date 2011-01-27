@@ -12,6 +12,8 @@ SoundSystem *soundSystem = NULL;
 Menu *menu = NULL;
 Game *game = NULL;
 
+bool enable_shaders = false;
+
 bool showHelp = false;
 
 #if 0
