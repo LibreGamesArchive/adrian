@@ -587,16 +587,14 @@ void Game::Render(void)
 	if ((hero->curx - camera->initx) * (hero->curx - camera->initx) +
 	    (hero->cury - camera->initz) * (hero->cury - camera->initz) <=
 	    farthestdist) {
-            scene->addToPass((RenderableObject*)hero, RenderPassIndex);
-            scene->addToPass((RenderableObject*)hero, RenderPassIndex-1);
+            scene->addToPass((RenderableObject*)hero, -1);
 		//hero->Render();
         if(display_lines)
             hero->RenderBBox();
 	}
 	for (int i = 0; i < num_guards; i++) {
 		if (guard[i]->selected) {
-            scene->addToPass((RenderableObject*)guard[i], RenderPassIndex);
-            //scene->addToPass((RenderableObject*)guard[i], RenderPassIndex-1);
+            scene->addToPass((RenderableObject*)guard[i], -1);
 			//guard[i]->Render();
 		} else {
 			if ((guard[i]->curx - camera->initx) * (guard[i]->curx -
@@ -604,8 +602,7 @@ void Game::Render(void)
 			    (guard[i]->cury - camera->initz) * (guard[i]->cury -
 								camera->initz)
 			    <= farthestdist) {
-                    scene->addToPass((RenderableObject*)guard[i], RenderPassIndex);
-                    //scene->addToPass((RenderableObject*)guard[i], RenderPassIndex-1);
+                    scene->addToPass((RenderableObject*)guard[i], -1);
 			}
 		}
         if(display_lines)

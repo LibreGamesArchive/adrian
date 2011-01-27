@@ -49,6 +49,7 @@ class SceneComposer{
         bool m_isMultiPass;        
         ShaderProgram *m_BloomShader;
         ShaderProgram *m_ShadowMapShader;
+        FullScreenPoly *m_PostProc;
     public:
         void addToPass(RenderableObject *obj, int index = -1); //add an object to particular index; //-1 implies all of them.
         void Reset();   //clear all the object list on all the renderpasses.
