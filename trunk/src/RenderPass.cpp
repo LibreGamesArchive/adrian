@@ -158,8 +158,7 @@ SceneComposer::SceneComposer()
 			m_RenderPass.push_back(new RenderPass(m_BloomShader));
 
 			//initialize the second pass with the fullscreen polygon.
-			FullScreenPoly *tmp = new FullScreenPoly(); 
-			m_RenderPass[m_RenderPass.size()-1]->AddObject((RenderableObject*)tmp);
+			m_PostProc = new FullScreenPoly(); 
 		}
 	} else {
         m_isMultiPass = false;
@@ -170,7 +169,7 @@ SceneComposer::SceneComposer()
 
 void SceneComposer::Reset()
 {
-    for(GLuint i = 0; i < m_RenderPass.size()-1; i++)
+    for(GLuint i = 0; i < m_RenderPass.size(); i++)
     {
         m_RenderPass[i]->Clear();
     }   //we are not clearing the last one because it is for post proc
@@ -194,7 +193,10 @@ void SceneComposer::addToPass(RenderableObject *obj, int index)
 void SceneComposer::Compose(Camera *c)
 {
     if(m_isMultiPass)
-    {       
+    {   
+        //add full screen poly for post proc
+	    m_RenderPass[m_RenderPass.size()-1]->AddObject((RenderableObject*)m_PostProc);
+
         glEnable(GL_POLYGON_OFFSET_FILL);       //enable offset so there is no z fighting.
         glPolygonOffset(1.0, 1.0);
         ((SMShaderProgram*)m_ShadowMapShader)->Set3DProjection();   //this informatioin should be moved to RenderPass
@@ -228,6 +230,7 @@ SceneComposer::~SceneComposer()
     {
         delete m_BloomShader;
         delete m_ShadowMapShader;
+        delete m_PostProc;
     }
     for(GLuint i = 0; i < m_RenderPass.size(); i++)
     {
