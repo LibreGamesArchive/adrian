@@ -120,6 +120,18 @@ void RenderPass::Render()
     glBindFramebuffer(GL_FRAMEBUFFER, 0);   //switch back to window manager framebuffer.
 }
 
+void RenderPass::bindBuffer(bool flag)
+{
+    if(flag)
+    {
+        glBindFramebuffer(GL_FRAMEBUFFER, m_FrameBufferObject);
+    }
+    else
+    {
+        glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    }
+}
+
 RenderPass::~RenderPass()
 {
     if(m_FrameBufferObject > 0)
@@ -190,6 +202,9 @@ void SceneComposer::addToPass(RenderableObject *obj, int index)
     }
 }
 
+#include "Sprite.h"
+#include "Game.h"
+
 void SceneComposer::Compose(Camera *c)
 {
     if(m_isMultiPass)
@@ -197,6 +212,7 @@ void SceneComposer::Compose(Camera *c)
         //add full screen poly for post proc
 	    m_RenderPass[m_RenderPass.size()-1]->AddObject((RenderableObject*)m_PostProc);
 
+        Sprite::is_bilboard = false;
         glEnable(GL_POLYGON_OFFSET_FILL);       //enable offset so there is no z fighting.
         glPolygonOffset(1.0, 1.0);
         ((SMShaderProgram*)m_ShadowMapShader)->Set3DProjection();   //this informatioin should be moved to RenderPass
@@ -209,6 +225,14 @@ void SceneComposer::Compose(Camera *c)
         glBindTexture(GL_TEXTURE_2D, m_RenderPass[0]->getDepthTexture()); //last but one pass
         glActiveTexture(GL_TEXTURE0);
         m_RenderPass[size-2]->Render();        //second pass rendered to texture
+        //-------------------- hack to stop the sprites' shadows from rotating.
+        Sprite::is_bilboard = true;
+        m_RenderPass[size-2]->bindBuffer();
+        if(game->initialized){
+            game->map->TransparentRender();
+        }
+        m_RenderPass[size-2]->bindBuffer(false);
+        //---------------------end hack
 
         c->set2DProjection();
         glActiveTexture(GL_TEXTURE0);

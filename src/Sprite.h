@@ -29,6 +29,7 @@ class Sprite
 	float centx, centz;
 	GLint texid;
  public:
+    static bool is_bilboard;
 	Sprite(GLint texid, float x, float y);
 	~Sprite();
 

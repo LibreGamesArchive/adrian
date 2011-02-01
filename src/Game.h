@@ -48,7 +48,6 @@ class Game
 	friend class Sprite;
 	friend class Panel;
  private:
-	bool initialized;
 	bool started;
 	bool gameover;
 
@@ -73,7 +72,6 @@ class Game
 	bool show_minimap;
 
 	/* Guard & Hero informations */
-	Map *map;
 	Camera *camera;
 	Hero *hero;
 	Guard *guard[50];
@@ -93,6 +91,8 @@ class Game
 	void HandleRightClick(int x, int y);	
 
  public:
+	bool initialized;
+	Map *map;
 	bool stop_all_animation;
 
 	/* Cheat Codes */
