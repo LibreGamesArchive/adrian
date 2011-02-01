@@ -22,7 +22,7 @@
 #include "globals.h"
 #include "Game.h"
 
-
+bool Sprite::is_bilboard = true;
 Sprite::Sprite(GLint texid, float x, float z)
 {
 	this->texid = texid;
@@ -37,7 +37,7 @@ Sprite::~Sprite()
 void Sprite::Render(void)
 {
 	float imgwdth = 60;
-	float ang = game->camera->angle;
+	float ang = (Sprite::is_bilboard? game->camera->angle : START_ANGLE);
 	/* actually 90 + angle */
 	float lenx = cos(ang) * imgwdth;
 	float lenz = -sin(ang) * imgwdth;

@@ -37,6 +37,7 @@ class RenderPass{
         RenderPass(ShaderProgram *s = NULL, FbType type = FB_NONE);
         ~RenderPass();
         void Render();
+        void bindBuffer(bool flag = true);
         void SetUniformVal(char *str, int val);
         void SetUniformVal(char *str, float val);
         GLuint getColorTexture(){return m_ColorTex;}
