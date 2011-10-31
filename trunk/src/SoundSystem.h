@@ -42,6 +42,8 @@ class SoundSystem {
 	 SoundSystem(void);
 	~SoundSystem();
 
+	static bool flag_no_sound;
+
 	int Initialize(void);
 	void Destroy(void);
 
