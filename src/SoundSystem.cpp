@@ -23,8 +23,13 @@
 #include <string.h>
 #include "globals.h"
 
+bool SoundSystem::flag_no_sound = false;
+
 SoundSystem::SoundSystem(void)
 {
+	if (flag_no_sound)
+		return;
+
 	initialized = false;
 
 	audio_rate = 44100;
@@ -45,6 +50,9 @@ SoundSystem::~SoundSystem()
 
 int SoundSystem::Initialize(void)
 {
+	if (flag_no_sound)
+		return 0;
+
 	if (SDL_InitSubSystem(SDL_INIT_AUDIO) < 0) {
 		printf("Error Initializing Sound SubSystem\nSound will be Disabled\n");
 		return -1;
@@ -62,6 +70,9 @@ int SoundSystem::Initialize(void)
 
 void SoundSystem::Destroy(void)
 {
+	if (flag_no_sound)
+		return;
+
 	UnloadAll();
 	initialized = false;
 	Mix_CloseAudio();

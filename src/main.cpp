@@ -32,6 +32,8 @@
 #include <SDL/SDL_mixer.h>
 #include <signal.h>
 
+#include <getopt.h>
+
 bool load_game = false;
 const char *next_game_map = NULL;
 bool end_game_show_menu = false;
@@ -50,6 +52,30 @@ void Quit(int val)
 
 int main(int argc, char *argv[])
 {
+	int option_idx = 0;
+	while (1) {
+		int c;
+		const static struct option longopts[] = {
+			{ "nosound", no_argument, NULL, 's'},
+			{ NULL, 0, 0, 0}
+		};
+
+		c = getopt_long(argc, argv, "s",
+				longopts, &option_idx);
+
+		if (c == -1)
+			break;
+
+		switch (c) {
+			case 's':
+				SoundSystem::flag_no_sound = 1;
+				break;
+			default:
+				printf("Illegal option");
+				return -1;
+		}
+	}
+
 	int VideoFlags = 0;
 	SDL_Surface *MainWindow;
 
