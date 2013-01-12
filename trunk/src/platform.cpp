@@ -33,7 +33,7 @@ int get_list_of_files_in_dir(const char *dirname, int *num_files, char *dname[])
    WIN32_FIND_DATA ffd;
    HANDLE hFind = INVALID_HANDLE_VALUE;
    DWORD dwError = 0;
-   char buf[256];
+   char buf[1024];
    sprintf_s(buf, 256, "%s\\*", dirname);
 
    hFind = FindFirstFile(buf, &ffd);
@@ -65,7 +65,7 @@ int get_list_of_files_in_dir(const char *dirname, int *num_files, char *dname[])
    FindClose(hFind);
 
 #else   /* Linux */
-	DIR *d = opendir("maps");
+	DIR *d = opendir(dirname);
 	struct dirent *dent;
 	while (((dent = readdir(d)) != NULL) && i < *num_files) {
 		dname[i] = strdup(dent->d_name);

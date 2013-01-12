@@ -2,6 +2,7 @@
 #define __SHADER_PROGRAM_H__
 
 #include <GL/glew.h>
+#include "config.h"
 
 class ShaderProgram
 {

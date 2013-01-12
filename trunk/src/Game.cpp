@@ -136,8 +136,8 @@ void Game::InitializeGame(const char *gamefile)
 	}
 	panel = new Panel(62);
 	hero = new Hero(660, 550, 270, 1,
-					map->getTextureID("textures/misc/los.tga"),
-					map->getTextureID("textures/panel/panelhero.tga"));
+					map->getTextureID(GAME_DATA_PATH"/textures/misc/los.tga"),
+					map->getTextureID(GAME_DATA_PATH"/textures/panel/panelhero.tga"));
 	minimap = new MiniMap();
 	PanelBotTexId = 65;
 
@@ -145,8 +145,8 @@ void Game::InitializeGame(const char *gamefile)
 	fontInit();
 
 	hero->Initialize(-780, 780, 270, 1,
-					 map->getTextureID("textures/misc/los.tga"),
-					 map->getTextureID("textures/panel/panelhero.tga"));
+					 map->getTextureID(GAME_DATA_PATH"/textures/misc/los.tga"),
+					 map->getTextureID(GAME_DATA_PATH"/textures/panel/panelhero.tga"));
 	camera->Initialize();
 	map->Initialize();
 	soundSystem->PlaySound(SOUNDTYPE_BACKGROUND);

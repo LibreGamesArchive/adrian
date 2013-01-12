@@ -63,7 +63,7 @@ ShaderProgram::~ShaderProgram()
 char * ShaderProgram::TextFileRead(const char*fname)
 {    
     char name[1024];
-    sprintf(name, "shaders/%s",fname); 
+    sprintf(name, "%s/shaders/%s", GAME_DATA_PATH, fname); 
     FILE *fp = fopen(name, "rb");
 	if (fp == NULL) {
 		fprintf(stderr, "Opening(%s) failed\n", name);

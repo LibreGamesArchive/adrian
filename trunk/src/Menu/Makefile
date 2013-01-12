@@ -1,4 +1,4 @@
-COMPILE_COMMAND = g++ -Wall -Werror -g3 -I../../vendor/assimp/include
+include ../common.mk
 #COMPILE_COMMAND = g++ -Wall -Werror -O3
 
 LINK_COMMAND = g++ -Wall -Werror -g3 -lGL -lGLU -lm -lSDL -lSDL_image -lSDL_mixer

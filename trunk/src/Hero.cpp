@@ -24,7 +24,7 @@
 #define		PI		3.141
 
 Hero::Hero(float x, float y, float f, float s, GLuint fovTexID, GLuint panelTexID)
-:Md2("Creatures/Rhino")
+:Md2(GAME_DATA_PATH"/Creatures/Rhino")
 {
 	Initialize(x, y, f, s, fovTexID, panelTexID);
 }
