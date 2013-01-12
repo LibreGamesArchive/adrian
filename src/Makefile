@@ -1,5 +1,4 @@
-COMPILE_COMMAND = g++ -Wall -Werror -g3 -I../vendor/assimp/include 
-#COMPILE_COMMAND = g++ -Wall -Werror -O3
+include common.mk
 
 LINKER_LIBRARIES = ../vendor/assimp/bin/gcc/libassimp.so
 
@@ -33,7 +32,7 @@ OBJECT_FILES	=	Map.o			\
 
 CC = g++
 
-CFLAGS = -Wall -Werror -g3
+CFLAGS = -Wall -Werror -g3 -DGAME_DATA_PATH=$(GAME_DATA_PATH)
 	
 adrian: $(OBJECT_FILES) Menu/menu.a
 	$(LINK_COMMAND) $(OBJECT_FILES) Menu/menu.a -o adrian

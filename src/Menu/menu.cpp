@@ -63,14 +63,14 @@ void Menu::LoadAvailMaps(MenuItem *singlePlayerItem)
 	// Single Player Menu
 	singlePlayerPage = new MenuPage();
 
-    if (get_list_of_files_in_dir("maps", &num_files, arr) < 0) {
+    if (get_list_of_files_in_dir(GAME_DATA_PATH"/maps", &num_files, arr) < 0) {
         fprintf(stderr, "Unable to get list of files from maps\n");
         exit(-1);
     }
 
     for (int i = 0; i < num_files; i++) {
 		char buf[256];
-		sprintf(buf, "maps/%s/info", arr[i]);
+		sprintf(buf, "%s/maps/%s/info", GAME_DATA_PATH, arr[i]);
 		FILE *f;
 		f = fopen(buf, "r");
 		if (f) {
@@ -81,7 +81,7 @@ void Menu::LoadAvailMaps(MenuItem *singlePlayerItem)
 					if (name[j] == '\n' || name[j] == '\r')
 						name[j] = '\0';
 
-				sprintf(buf, "maps/%s", arr[i]);
+				sprintf(buf, "%s/maps/%s", GAME_DATA_PATH, arr[i]);
 				singlePlayerPage->addMenuItem(new
 						MenuItem(n, itemfont, 400, nextloc, flag_load_game, (void*)strdup(buf), NULL));
 				nextloc -= 100;
@@ -116,7 +116,7 @@ void Menu::InitializeMenu(void)
 
 	InitMenuOpenGL(1024, 768);
 
-	itemfont = new TTFFont("fonts/font.ttf", 64, TTF_STYLE_BOLD);
+	itemfont = new TTFFont(GAME_DATA_PATH"/fonts/font.ttf", 64, TTF_STYLE_BOLD);
 
 	// Animation
 	linex = 0;
@@ -238,14 +238,14 @@ void Menu::InitializeMenu(void)
 
 	num_textures = 1;
 	textures = new Texture*[num_textures];
-	textures[0] = new Texture("textures/menu/blood_splatter.jpg");
+	textures[0] = new Texture(GAME_DATA_PATH"/textures/menu/blood_splatter.jpg");
 	textures[0]->Load();
 
 	currentMenuPage->Show();
 	currentMenuPage->Animate();
 
-	soundSystem->Load("wavs/menu.wav", SOUNDTYPE_MENU, -1);
-	soundSystem->Load("wavs/ting.wav", SOUNDTYPE_MENU_TING, 0);
+	soundSystem->Load(GAME_DATA_PATH"/wavs/menu.wav", SOUNDTYPE_MENU, -1);
+	soundSystem->Load(GAME_DATA_PATH"/wavs/ting.wav", SOUNDTYPE_MENU_TING, 0);
 
 	soundSystem->PlaySound(SOUNDTYPE_MENU);
 

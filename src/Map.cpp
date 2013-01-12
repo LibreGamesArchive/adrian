@@ -80,13 +80,14 @@ int Map::LoadFile(const char *mapdir)
 	for (int i = 0; i < num_textures; i++) {
 		GLuint texid;
 		fscanf(f, "%s %d", buf, &texid);
-
-		Texture *t = new Texture(buf);
+        char tex_file_name[256];
+        sprintf(tex_file_name, "%s/%s", GAME_DATA_PATH, buf); 
+		Texture *t = new Texture(tex_file_name);
 		if (t->Load(texid) < 0) {
-			printf("Unable to load Texture(%s) into %d\n", buf, texid);
+			printf("Unable to load Texture(%s) into %d\n", tex_file_name, texid);
 			exit(-1);
 		}
-		printf("Loaded %s into %d\n", buf, texid);
+		printf("Loaded %s into %d\n", tex_file_name, texid);
 
 		textures[i] = t;
 	}
@@ -139,7 +140,10 @@ int Map::LoadFile(const char *mapdir)
 		int type;
 		fscanf(f, "%s %d %f %f %f %f %f %f %s", buf, &type, &x[0], &x[1],
 		       &x[2], &x[3], &x[4], &botangle, paneltexfn);
-		if ((guard = new Guard(buf, type, x[0], x[1], x[2], x[3], x[4], getTextureID("textures/misc/los.tga"), botangle, i)) == NULL) {
+        char path[256];
+        sprintf(path, "%s/%s", GAME_DATA_PATH, buf);
+		if ((guard = new Guard(path, type, x[0], x[1], x[2], x[3], x[4], 
+                getTextureID(GAME_DATA_PATH"/textures/misc/los.tga"), botangle, i)) == NULL) {
 			printf("Out of RAM!\n");
 			SDL_Quit();
 			exit(-1);
@@ -167,9 +171,10 @@ int Map::LoadFile(const char *mapdir)
 		char buf[256];
 		int id, loop;
 		fscanf(f, "%s %d %d", buf, &id, &loop);
-		printf("Loading Sound File: %s with id=%d loop=%d\n", buf, id, loop);
-
-		soundSystem->Load(buf, id, loop);
+        char path[256];
+        sprintf(path, "%s/%s", GAME_DATA_PATH, buf);
+		soundSystem->Load(path, id, loop);
+		printf("Loading Sound File: %s with id=%d loop=%d\n", path, id, loop);
 	}
 
 /*	fscanf(f, "%d", &num_smodels);

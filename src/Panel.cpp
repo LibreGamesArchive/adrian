@@ -31,7 +31,7 @@ Panel::Panel(GLuint texid)
 	textureId = texid;
 	show_fps = false;
 
-	font = new TTFFont("fonts/font.ttf", 64, 0);
+	font = new TTFFont(GAME_DATA_PATH"/fonts/font.ttf", 64, 0);
 
 	fps = new TextObject(font);
 	gameOver = NULL;
