@@ -50,6 +50,14 @@ void Quit(int val)
 	exit(val);
 }
 
+void Usage(void)
+{
+	fprintf(stderr, "./adrian [options]\n");
+	fprintf(stderr, "\t-S : Enables Shaders\n");
+	fprintf(stderr, "\t-s : Disables Sound\n");
+	fprintf(stderr, "\t-h : Prints this help message\n");
+}
+
 int main(int argc, char *argv[])
 {
 	int option_idx = 0;
@@ -57,10 +65,12 @@ int main(int argc, char *argv[])
 		int c;
 		const static struct option longopts[] = {
 			{ "nosound", no_argument, NULL, 's'},
+			{ "enable-shaders", no_argument, NULL, 'S'},
+			{ "help", no_argument, NULL, 'h'},
 			{ NULL, 0, 0, 0}
 		};
 
-		c = getopt_long(argc, argv, "s",
+		c = getopt_long(argc, argv, "sSh",
 				longopts, &option_idx);
 
 		if (c == -1)
@@ -70,20 +80,18 @@ int main(int argc, char *argv[])
 			case 's':
 				SoundSystem::flag_no_sound = 1;
 				break;
+			case 'S':
+				enable_shaders = true;
+				break;
+			case 'h':
 			default:
-				printf("Illegal option");
+				Usage();
 				return -1;
 		}
 	}
 
 	int VideoFlags = 0;
 	SDL_Surface *MainWindow;
-
-	if (argc == 2) {
-		if (!strcmp(argv[1], "--enable-shaders")) {
-			enable_shaders = true;
-		}
-	}
 
 	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER) < 0)	// try to initialize SDL video module
 	{
