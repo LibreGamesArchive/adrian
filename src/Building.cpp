@@ -77,7 +77,7 @@ int Building::Load(const char *fn)
 			glVertex3f(fl[0], fl[1], fl[2]);
 		} else if (!strncmp(buf, "txtr:", 5)) {
 			GLuint texid = game->map->getTextureID(str);
-			printf("Texid: %s vs %d\n", str, texid);
+			printf("TexNAME: %s TEXID:%d\n", str, texid);
 			glBindTexture(GL_TEXTURE_2D, texid);
 		} else if (!strncmp(buf, "crds:", 5)) {
 			h = fl[4];

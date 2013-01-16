@@ -109,8 +109,31 @@ int Texture::Unload(void)
 	return 0;
 }
 
+/* TODO Replace with a more robust checksum based approach */
 bool Texture::isTextureSame(const char *path)
 {
-	return (!strcmp(path, fn));
+	int lp, lf;
+	lp = strlen(path) - 1;
+	lf = strlen(fn) - 1;
+
+	while (lp >= 0 && lf >= 0) {
+		char c = path[lp];
+		char c2 = fn[lf];
+		if (c >= 'A' && c <= 'Z') 
+			c += 'a' - 'A';
+		if (c2 >= 'A' && c2 <= 'Z') 
+			c2 += 'a' - 'A';
+
+		if (c != c2) {
+			return false;
+		}
+
+		if (c == '/')
+			return true;
+		lp--;
+		lf--;
+	}
+
+	return false;
 }
 
