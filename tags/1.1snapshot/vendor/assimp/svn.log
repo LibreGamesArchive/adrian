@@ -1,0 +1,2153 @@
+------------------------------------------------------------------------
+r419 | aramis_acg | 2009-05-10 05:38:06 +0530 (Sun, 10 May 2009) | 1 line
+
+FIX: ObjLoader reads opacity now.
+------------------------------------------------------------------------
+r418 | aramis_acg | 2009-05-10 05:24:16 +0530 (Sun, 10 May 2009) | 2 lines
+
+FIX: WaveFront MTL files will no line break at the end will now read properly.
+Manually removing the line break from a test file for regression testing.
+------------------------------------------------------------------------
+r417 | aramis_acg | 2009-05-10 04:57:48 +0530 (Sun, 10 May 2009) | 9 lines
+
+AssimpView:
+ - postprocessing configuration is no (partially) configurable.
+ - adding linsk to Assimp homepage/bugtracker/forums.
+ - updating about dialog.  
+ - fixing colors of texture view (tiny array overrun ...).
+ - minor UI theme adjustments.
+ - 'setup file extensions' works again.
+ - normal smooth limit is now used for primary import, too.
+ - minor spelling fixes in the UI.
+------------------------------------------------------------------------
+r416 | aramis_acg | 2009-05-06 02:21:36 +0530 (Wed, 06 May 2009) | 1 line
+
+Updating mkfinal.bat.
+------------------------------------------------------------------------
+r415 | aramis_acg | 2009-05-05 20:02:01 +0530 (Tue, 05 May 2009) | 3 lines
+
+LWO: Improving handling of VMAD chunks to process multiple discontinous UV's correctly.
+LWO: Error messages include VMAP/VMAD name now.
+LWO: Subdivision weight maps are read; but not yet evaluated. 
+------------------------------------------------------------------------
+r414 | aramis_acg | 2009-05-05 01:11:38 +0530 (Tue, 05 May 2009) | 1 line
+
+Further work on material documentation. Still WIP.
+------------------------------------------------------------------------
+r413 | aramis_acg | 2009-05-04 03:19:34 +0530 (Mon, 04 May 2009) | 6 lines
+
+FIX: IrrMesh lightmap scale factor is imported correctly now.
+FIX: aiProcess_TransformUVCoords tried to transform untransformed channels, and 'he' changed their order from time to time.
+FIX: Viewer displays lightmap with scaling factor correctly now.
+Further work on documentation, material doc is WIP for the moment.
+Some improvements to fast_atof.
+Updating makeifle.mingw to reflect my new boost location (arg, too lazy to make it better ...). 
+------------------------------------------------------------------------
+r411 | aramis_acg | 2009-04-28 01:28:34 +0530 (Tue, 28 Apr 2009) | 1 line
+
+Fixing crash at Importer::IsExtensionSupported().
+------------------------------------------------------------------------
+r410 | sueastside | 2009-04-27 21:13:01 +0530 (Mon, 27 Apr 2009) | 2 lines
+
+Added ASSIMP_API to aiCreateQuaternionFromMatrix and aiDecomposeMatrix.
+Added aiDecomposeMatrix to PyAssimp.
+------------------------------------------------------------------------
+r409 | aramis_acg | 2009-04-27 20:46:32 +0530 (Mon, 27 Apr 2009) | 1 line
+
+Adding aiCreateQuaternionFromMatrix() and aiDecomposeMatrix() to expose some cpp maths functionality for c.
+------------------------------------------------------------------------
+r408 | aramis_acg | 2009-04-26 20:39:03 +0530 (Sun, 26 Apr 2009) | 2 lines
+
+Adding very basic reading support for CSM (CharacterStudio Motion). No proper hierarchy reconstruction yet, just plain marker import.
+
+------------------------------------------------------------------------
+r406 | sueastside | 2009-04-26 02:42:53 +0530 (Sun, 26 Apr 2009) | 3 lines
+
+Changed structs.py to export the original names of the C structs, not uppercase.
+Totally rewrote pyassimp, removing all pyassimp classes, instead using python's dynamic nature to expand the ctypes structures to include safe array access and python style tuple access.
+Updated helper.py and sample.py.
+------------------------------------------------------------------------
+r405 | aramis_acg | 2009-04-25 23:11:32 +0530 (Sat, 25 Apr 2009) | 1 line
+
+OFF: AI_MATKEY_TWOSIDED is now always set to 1. 
+------------------------------------------------------------------------
+r404 | aramis_acg | 2009-04-25 03:13:48 +0530 (Sat, 25 Apr 2009) | 1 line
+
+Adding some additional check to avoid viewer crashes when the user changes the asset too fast.
+------------------------------------------------------------------------
+r403 | aramis_acg | 2009-04-25 02:23:24 +0530 (Sat, 25 Apr 2009) | 3 lines
+
+Integrating aiProcess_OptimizeGraph and aiProcess_OptimizeMeshes back into the Assimp core. They're stable enough now.
+Moving private members of Assimp::Importer to a pimpl, hopefully solving strange crashes with vc9 debug builds.
+Updating assimp_cmd to reflect these changes.
+------------------------------------------------------------------------
+r402 | aramis_acg | 2009-04-24 02:28:16 +0530 (Fri, 24 Apr 2009) | 1 line
+
+Updating PyAssimp to the latest data structures. Many thanks to sueastside for the patch.
+------------------------------------------------------------------------
+r401 | aramis_acg | 2009-04-24 00:16:25 +0530 (Fri, 24 Apr 2009) | 2 lines
+
+- Adding a collada test file with two UV channels.
+- Fixing ColladaLoader's error message if an UV set is invalid.
+------------------------------------------------------------------------
+r400 | aramis_acg | 2009-04-23 19:43:20 +0530 (Thu, 23 Apr 2009) | 2 lines
+
+- BUGFIX: ColladaLoader handles multiple UVs/VColors correctly now. Thanks to Ingrater to point it out.
+- ScenePreprocessor will now detect 3D UV channels with all-empty third component.
+------------------------------------------------------------------------
+r399 | aramis_acg | 2009-04-22 17:28:25 +0530 (Wed, 22 Apr 2009) | 1 line
+
+Fixing a minor issue in FileSystemFilter which prevented some external files from being loaded. Thanks to Jonathan Klein to point it out.
+------------------------------------------------------------------------
+r396 | aramis_acg | 2009-04-20 22:19:46 +0530 (Mon, 20 Apr 2009) | 5 lines
+
+- Changing LWO loader's VMAP selection strategy. Unassigned VMAPs (UVs and VColors) are now kept, if possible. Referenced VMAPs have higher priority so everything should be backward compatible. 
+- assimp_cmd writes vertex colors in 'Colors' elements now.
+- assimp_cmd writes 'set=' attribute for UVs and vertex colors.
+- Adding test files for the awesome new LWO capabilities.
+
+------------------------------------------------------------------------
+r395 | aramis_acg | 2009-04-19 16:06:36 +0530 (Sun, 19 Apr 2009) | 1 line
+
+Fixing build errors.
+------------------------------------------------------------------------
+r394 | kimmi | 2009-04-19 05:11:50 +0530 (Sun, 19 Apr 2009) | 1 line
+
+Bugfix: Memory leak fixed.
+------------------------------------------------------------------------
+r393 | kimmi | 2009-04-19 03:51:14 +0530 (Sun, 19 Apr 2009) | 1 line
+
+Bugfix: Add resources to cmake enviroment.
+------------------------------------------------------------------------
+r392 | kimmi | 2009-04-18 23:33:54 +0530 (Sat, 18 Apr 2009) | 1 line
+
+- Fix a compiler warning ( double to float ).
+------------------------------------------------------------------------
+r391 | kimmi | 2009-04-18 16:54:00 +0530 (Sat, 18 Apr 2009) | 1 line
+
+- Remove crt- and secure-warnings for VC8.0 in cmake enviroment.
+------------------------------------------------------------------------
+r390 | kimmi | 2009-04-18 05:40:16 +0530 (Sat, 18 Apr 2009) | 1 line
+
+- Add first prototype for CMake enviroment.
+------------------------------------------------------------------------
+r389 | aramis_acg | 2009-04-15 21:54:58 +0530 (Wed, 15 Apr 2009) | 1 line
+
+FIX: multiple LWO layers referencing a single texture won't anymore cause all layers except the first to have no proper uv coordinates.
+------------------------------------------------------------------------
+r388 | aramis_acg | 2009-04-15 19:46:11 +0530 (Wed, 15 Apr 2009) | 1 line
+
+Fixing a rare bug when parsing floating-point numbers in exponent form. Thanks to zhao lei to point it out.
+------------------------------------------------------------------------
+r387 | aramis_acg | 2009-04-11 20:16:54 +0530 (Sat, 11 Apr 2009) | 1 line
+
+assimp_cmd: makefile.mingw now embeds icon and version into the executable. 
+------------------------------------------------------------------------
+r386 | aramis_acg | 2009-04-11 20:16:12 +0530 (Sat, 11 Apr 2009) | 1 line
+
+assimp_cmd: makefile.mingw now embeds icon and version into the executable. 
+------------------------------------------------------------------------
+r385 | aramis_acg | 2009-04-11 20:01:57 +0530 (Sat, 11 Apr 2009) | 3 lines
+
+Removing stdint.h dependency from the public API to avoid conflicts with other libraries.
+Cleaned up aiTexture.h, AssimpPCH.h and MaterialSystem.h.
+Updated child apps & makefiles to reflect these changes.
+------------------------------------------------------------------------
+r384 | aramis_acg | 2009-04-11 17:58:05 +0530 (Sat, 11 Apr 2009) | 1 line
+
+Fixing minor issues with RunUnitTestSuite.bat. 
+------------------------------------------------------------------------
+r383 | aramis_acg | 2009-04-11 04:21:12 +0530 (Sat, 11 Apr 2009) | 3 lines
+
+ColladaLoader does now load transparency. hacky, but it could work.
+Cleaned up Collada material importing. No changes to other loader parts.
+Adding missing FileSystemFilter.h to vc8 build config.
+------------------------------------------------------------------------
+r382 | aramis_acg | 2009-04-11 03:40:11 +0530 (Sat, 11 Apr 2009) | 1 line
+
+ColladaLoader does now utilize SkeletonMeshBuilder to build animated meshes for animation skeletons.
+------------------------------------------------------------------------
+r381 | aramis_acg | 2009-04-11 03:29:22 +0530 (Sat, 11 Apr 2009) | 1 line
+
+Adding a file system filter layer to correct invalid paths automatically.
+------------------------------------------------------------------------
+r380 | aramis_acg | 2009-04-10 05:01:13 +0530 (Fri, 10 Apr 2009) | 1 line
+
+ASE rejects ASC files completely now.
+------------------------------------------------------------------------
+r379 | aramis_acg | 2009-04-10 03:07:49 +0530 (Fri, 10 Apr 2009) | 5 lines
+
+MD5 parser will now reject files with version!=10.
+3DS Loader -> improved light and camera handling.
+DXF -> minor fixes, refactoring.
+Updating DLL revision number.
+
+------------------------------------------------------------------------
+r378 | aramis_acg | 2009-04-10 02:55:04 +0530 (Fri, 10 Apr 2009) | 1 line
+
+Adding bob.md5, a great skinned character made by Ken Beyer of http://www.katsbits.com.
+------------------------------------------------------------------------
+r377 | ulfjorensen | 2009-04-07 04:27:43 +0530 (Tue, 07 Apr 2009) | 1 line
+
+- Bugfix: BikeFromXSI.dae loads again. 
+------------------------------------------------------------------------
+r376 | aramis_acg | 2009-04-06 22:39:32 +0530 (Mon, 06 Apr 2009) | 1 line
+
+FIX: strange 3DS look-at vectors are auto-corrected now
+------------------------------------------------------------------------
+r375 | ulfjorensen | 2009-04-06 22:30:03 +0530 (Mon, 06 Apr 2009) | 1 line
+
+- Collada loader now supports node animations
+------------------------------------------------------------------------
+r374 | aramis_acg | 2009-04-02 20:46:01 +0530 (Thu, 02 Apr 2009) | 18 lines
+
+Triangulation:
+ - FEATURE: Concave polygons are now triangulated correctly.
+ - internal face order is ccw now, flipwinding part of converttolh flag
+ - added test files for the various formats supporting such polygons
+
+FindDegenerates: 
+ - improved behaviour when processing polygons, more tolerant.
+
+Obj: 
+ - material files are now properly read using the given IOSystem 
+ - redirecting some std::cerr calls to our logger 
+ - spaces and tabs are now allowed at the beginning of a line 
+
+Viewer: 
+ - max smoothing angle for normals is set to 90 deg now
+
+vc9-workspace 
+ - added assimp_cmd, renamed some virtual folders to be sexier.
+------------------------------------------------------------------------
+r370 | ulfjorensen | 2009-03-28 02:13:22 +0530 (Sat, 28 Mar 2009) | 1 line
+
+- Collada loader now loads bones 
+------------------------------------------------------------------------
+r369 | aramis_acg | 2009-03-27 03:35:56 +0530 (Fri, 27 Mar 2009) | 8 lines
+
+LWO 
+ - added workaround for LWOB's with ill-formed SURF chunks 
+ - layer hierarchy is now correct
+ - fixed & simplified transparency handling
+
+FindDegenerates 
+ - fixed seldom crashes with RemoveDegenerates=1. 
+
+------------------------------------------------------------------------
+r368 | ulfjorensen | 2009-03-26 02:40:28 +0530 (Thu, 26 Mar 2009) | 1 line
+
+- Collada loader now also loads skinned meshes, although still as static meshes. Preparation step, more to come.
+------------------------------------------------------------------------
+r367 | aramis_acg | 2009-03-19 03:31:11 +0530 (Thu, 19 Mar 2009) | 12 lines
+
+General 
+ - cleaned up doc, made section on face winding clearer 
+
+MD3 
+ - fixed coordinate system 
+ - changed default face order for .shader files 
+
+MD2 
+ - fixed coordinate system 
+ - fixed face order 
+
+
+------------------------------------------------------------------------
+r366 | aramis_acg | 2009-03-15 06:10:30 +0530 (Sun, 15 Mar 2009) | 24 lines
+
+General
+ - changing Assimp's coordinate system from RH z-up to RH y-up
+ - fixing coordinate system for LWO, 3DS, ASE, MD5, MDL, B3D, IRR, IRRMESH 
+ - converttolh moved to three separate steps -> flipuv, flipwinding, makelh
+
+LWO 
+ - fixing texture coordinate generation -> mapping axis is correct now 
+ - fixing z-fighting bug
+
+ASE 
+ - fixing crash due to invalid normal setup 
+ - fixing parenting bug 
+ - code cleanup
+
+IRR 
+ - code cleanup
+ - fixing placement of externally loaded meshes 
+
+MDL 
+ - fixing texture coordinate space
+
+PLY 
+ - cleanup 
+ - two-sided maat property is now set 
+------------------------------------------------------------------------
+r365 | ulfjorensen | 2009-03-12 19:45:57 +0530 (Thu, 12 Mar 2009) | 1 line
+
+Bugfix: Collada loader now reads scenes with translucent materials correctly again.
+------------------------------------------------------------------------
+r364 | aramis_acg | 2009-03-12 04:26:16 +0530 (Thu, 12 Mar 2009) | 21 lines
+
+MD5
+  - added some extra validations to prevent unwanted crashes
+  - fixed stand-alone loading of MD5ANIM files 
+  - MD5CAMERA working very well now ...
+
+JoinIdenticalVertices
+  - an exception case where multiple vertices with the same position are assigned to different bones is handled now -> no crash anymore
+
+SkeletonMeshBuilder
+  - proper material naming
+  - two-sided flag is set for material
+  - enforcing 'rahd' per-face normal vectors for better visual appearance
+
+ValidateDataStructure
+  - code cleanup
+
+MaterialSystem
+  - code cleanup
+
+LimitBoneWeights
+  - code cleanup
+------------------------------------------------------------------------
+r363 | ulfjorensen | 2009-03-11 02:17:55 +0530 (Wed, 11 Mar 2009) | 1 line
+
+Bugfix: XFiles exported from kwxPort with vertex colors load correctly now.
+------------------------------------------------------------------------
+r362 | ulfjorensen | 2009-03-11 00:27:54 +0530 (Wed, 11 Mar 2009) | 1 line
+
+Bugfix: Collada loader now produces correct UP direction again.
+------------------------------------------------------------------------
+r361 | aramis_acg | 2009-03-09 01:42:43 +0530 (Mon, 09 Mar 2009) | 7 lines
+
+MD5
+ - fixing some minor issues
+ - cleaned up parsing code a bit
+ - experimental MD5CAMERA support
+
+General
+ - RemoveComments does now correctly skip over quotes
+------------------------------------------------------------------------
+r360 | aramis_acg | 2009-03-08 21:57:36 +0530 (Sun, 08 Mar 2009) | 1 line
+
+[ 2672224 ] Patch To get gcc to compile assimp under Linux
+------------------------------------------------------------------------
+r359 | aramis_acg | 2009-03-08 20:59:34 +0530 (Sun, 08 Mar 2009) | 19 lines
+
+General
+ - added Conjugate() and Rotate() to aiQuaternion
+ - SkeletonMeshBuilder can now start hierarchy construction at a given node
+ 
+MD5
+ - MD5MESH and MD5 anim now working.
+ - MD5ANIM files can be loaded without corresponding MD5MESHES
+ - Config option to prevent automatic loading of MD5ANIMs 
+ - WIP version of MD5CAMERA support.
+ - added test files. No anim test file yet.
+
+BHV
+ - fixing formatting 
+
+LimitBoneWeights
+ - prints now statistics to the logging system 
+
+Viewer
+ - does now specify the LBW post-processing step.
+------------------------------------------------------------------------
+r358 | ulfjorensen | 2009-03-08 00:27:04 +0530 (Sun, 08 Mar 2009) | 1 line
+
+- cleaned up the BVH loading a bit
+------------------------------------------------------------------------
+r357 | aramis_acg | 2009-03-06 18:07:08 +0530 (Fri, 06 Mar 2009) | 1 line
+
+[ 2666245 ] Remove unused vars
+------------------------------------------------------------------------
+r356 | aramis_acg | 2009-03-06 04:02:13 +0530 (Fri, 06 Mar 2009) | 50 lines
+
+General
+  - Added format auto-detection to most loaders
+  - Simplified BaseImporter::CanRead() with some utility methods
+  - improved fast_atof -> no overruns anymore. Fuck you, irrlicht.
+  - added assimp_cmd tool to allow command line model processing. Mainly adebugging tool for internal purposes, but others might find it useful, too.
+  - vc8/vc9: revision number is now written to DLL version header
+  - mkutil: some batch scripts to simplify tagging & building of release versions
+  - some API cleanup
+  - fixing some doxygen markup (+now explicit use of @file <filename>)
+  - Icon for assimp_view and assimp_cmd
+
+3DS
+  - Normal vectors are not anymore inverted in some cases
+  - Improved pivot handling
+  - Improved handling of x-flipped meshes
+
+Collada
+  - fixed a minor bug (visual_scene element)
+
+LWS 
+  - WIP implementation. No animations yet, some bugs and crashes.
+  - Animation system remains disabled, WIP code
+  - many test files for LWS, but most of them test the anim support, which is, read above, currently disabled.
+
+STL
+  - fixing a log warning which appears for every model
+  - added binary&ascii test spider, exported from truespace
+
+MD3 
+  - Cleaning up output tags for automatically joined player models.
+
+
+IRR
+  - Fixing coordinate system issues. 
+  - Instance handling improved.
+  - Some of the reported crashes not yet fixed.
+
+PretransformVertices
+  - Numerous performance improvements.
+  - Added config option to preserve the hierarchy during the step.
+
+RemoveRedundantMaterials
+  - Added config option to specify a list of materials which are kept in every case.
+
+UNREAL
+  - Added support for the old unreal data format (*.a,*.d,*.uc)
+  - tested only with exports from Milkshape
+  - more Unreal stuff to come soon
+
+
+------------------------------------------------------------------------
+r355 | aramis_acg | 2009-03-05 23:33:00 +0530 (Thu, 05 Mar 2009) | 1 line
+
+BUGFIX: invalid explicit qualification of aiMatrix3x3
+------------------------------------------------------------------------
+r354 | ulfjorensen | 2009-03-05 19:57:06 +0530 (Thu, 05 Mar 2009) | 2 lines
+
+- added proper inversion of 3x3 matrices
+- Bugfix: aiMatrix4x4::IsIdentity() had a classical Copy&Paste error. Thanks to Michael Schifferling for pointing it out.
+------------------------------------------------------------------------
+r353 | aramis_acg | 2009-03-05 01:16:18 +0530 (Thu, 05 Mar 2009) | 2 lines
+
+[ 2659155 ] Missing initializations
+
+------------------------------------------------------------------------
+r352 | aramis_acg | 2009-03-04 19:59:53 +0530 (Wed, 04 Mar 2009) | 2 lines
+
+[ 2659135 ] Xcode project update [for rev. 351]
+
+------------------------------------------------------------------------
+r351 | ulfjorensen | 2009-03-03 21:13:26 +0530 (Tue, 03 Mar 2009) | 3 lines
+
+- Bugfix: ColladaParser now properly tunnels XML reading through the Assimp IO System
+- Bugfix: IrrXML-IOWrapper now properly inherits the irr interface
+- moved some "using namespace" directives out of the header
+------------------------------------------------------------------------
+r350 | aramis_acg | 2009-02-16 20:52:17 +0530 (Mon, 16 Feb 2009) | 1 line
+
+Added LWO subdivision test case.
+------------------------------------------------------------------------
+r349 | aramis_acg | 2009-02-16 01:59:07 +0530 (Mon, 16 Feb 2009) | 21 lines
+
+MD3 
+ - shaders are now processed
+ - multi-part player models are handled correctly
+
+Material system
+ - added flags for 'usealpha' or 'ignorealpha' setting of textures
+
+LWO
+ - fixed texture assignment bug due to invalid tag list
+
+3DS
+ - improved handling of dummy nodes
+
+Viewer:
+ - lines&points are now displayed
+ - improved animation control via slider (still some stuff missing)
+ - skeleton is now displayed
+ - some other minor fixes
+
+Validator:
+ - some material issues are warnings now (no errors anymore)
+------------------------------------------------------------------------
+r348 | aramis_acg | 2009-02-16 01:56:01 +0530 (Mon, 16 Feb 2009) | 3 lines
+
+Test suite
+ - regression file for LWO 
+ - Additional shaders for Q3 MD3 files
+------------------------------------------------------------------------
+r346 | aramis_acg | 2009-02-14 03:33:57 +0530 (Sat, 14 Feb 2009) | 10 lines
+
+MD3
+ - finished support for multi-part player models
+ - skin files are now read 
+ - shaders are parsed, but not yet processed yet
+
+DefaultIOSystem
+ - file size is now cached over multiple calls to FileSize()
+
+MaterialSystem
+ - added AI_MATKEY_BLEND_FUNC property and the aiBlendMode enum to allow MD3 and Collada to pass transparency information correctly.
+------------------------------------------------------------------------
+r345 | aramis_acg | 2009-02-13 03:44:35 +0530 (Fri, 13 Feb 2009) | 5 lines
+
+MD3
+ - rough support for multi-part player models.
+
+SceneCombiner
+ - added support for cross-attachments of nodes in the whole graph
+------------------------------------------------------------------------
+r344 | aramis_acg | 2009-02-12 22:14:12 +0530 (Thu, 12 Feb 2009) | 2 lines
+
+MD3 
+ - tags are now imported as nodes in the hierarchy
+------------------------------------------------------------------------
+r343 | aramis_acg | 2009-02-12 21:28:55 +0530 (Thu, 12 Feb 2009) | 6 lines
+
+MD2
+ - fixed UV coords
+ - added further test models
+
+Collada
+ - fixed invalid aiStrings
+------------------------------------------------------------------------
+r342 | aramis_acg | 2009-02-12 19:10:32 +0530 (Thu, 12 Feb 2009) | 1 line
+
+Committing batch scrips to build final release packages easily and error-free.
+------------------------------------------------------------------------
+r341 | aramis_acg | 2009-02-12 03:54:17 +0530 (Thu, 12 Feb 2009) | 7 lines
+
+IRRMESH/IRR
+  - improved handling of materials with multiple textures
+  - BUG: lightmapping is now broken for the moment
+
+AssimpView
+  - Skyboxes and bg images work again
+  - Improved lightmap handling.
+------------------------------------------------------------------------
+r340 | aramis_acg | 2009-02-12 02:26:05 +0530 (Thu, 12 Feb 2009) | 19 lines
+
+Collada
+ - collada 1.5.0 textures are readable now
+ - cube and volume maps and mip initializations are skipped
+Material system
+ - unified texture types. Added lightmap, displacement, reflection and 'unknown'. Everyone should be happy now (intending to remove ambient textures from the API).
+
+ComputeUV
+  Changed mapping axis property to vec3 
+  Adapted step
+   WARN: produces mirrored uv coords now. LH issue.
+
+IRR  
+  Updated to new texture types
+
+3DS
+  Updated to new texture types
+
+NFF
+  Updated to new texture types
+------------------------------------------------------------------------
+r339 | aramis_acg | 2009-02-09 04:49:11 +0530 (Mon, 09 Feb 2009) | 1 line
+
+Fixes to make gcc happy.
+------------------------------------------------------------------------
+r338 | aramis_acg | 2009-02-09 04:25:51 +0530 (Mon, 09 Feb 2009) | 11 lines
+
+Collada
+ - added support for lights and cameras
+ - added support for tangents and bitangents
+ - added support for more than 2 UV components.
+ - fixed node naming
+ - beta support for instance_node elements. Works in most cases.
+ - added support for more complex materials
+ - UV index is now set correctly. hopefully.
+ Material system
+ - fixed potential problems regarding aiUVTransform
+ - added utility macros for the base keys
+------------------------------------------------------------------------
+r337 | aramis_acg | 2009-02-09 02:54:39 +0530 (Mon, 09 Feb 2009) | 1 line
+
+Removed ptv flag from assimp_view.
+------------------------------------------------------------------------
+r336 | aramis_acg | 2009-02-09 02:52:03 +0530 (Mon, 09 Feb 2009) | 2 lines
+
+FIX: ptv transforms tangents and bitangents now corrrectly.
+FIX: Obj loader sets IOR material property now. Fixed spelling.
+------------------------------------------------------------------------
+r335 | aramis_acg | 2009-02-07 16:53:22 +0530 (Sat, 07 Feb 2009) | 1 line
+
+Minor doc fixes.
+------------------------------------------------------------------------
+r334 | aramis_acg | 2009-02-07 04:13:08 +0530 (Sat, 07 Feb 2009) | 1 line
+
+Cleaned up public headers.
+------------------------------------------------------------------------
+r333 | aramis_acg | 2009-02-06 00:03:25 +0530 (Fri, 06 Feb 2009) | 1 line
+
+assimpview: fixed crash during normal recomputation.
+------------------------------------------------------------------------
+r332 | aramis_acg | 2009-02-05 23:43:34 +0530 (Thu, 05 Feb 2009) | 2 lines
+
+Fixed illumination model conversion in the OBJ loader.
+Added map_d support to obj.
+------------------------------------------------------------------------
+r331 | aramis_acg | 2009-02-05 21:46:04 +0530 (Thu, 05 Feb 2009) | 2 lines
+
+Fixed nasty bug in FindInstancesProcess.cpp.
+Added a small epsilon to some functions in the API.
+------------------------------------------------------------------------
+r330 | marksibly | 2009-02-04 06:09:32 +0530 (Wed, 04 Feb 2009) | 1 line
+
+' B3DImporter.cpp
+------------------------------------------------------------------------
+r329 | aramis_acg | 2009-02-03 19:47:01 +0530 (Tue, 03 Feb 2009) | 1 line
+
+Deleted unused directories.
+------------------------------------------------------------------------
+r328 | aramis_acg | 2009-02-03 02:07:35 +0530 (Tue, 03 Feb 2009) | 1 line
+
+Some minor changes in postprocess step order. My fault, I didn't think.
+------------------------------------------------------------------------
+r327 | aramis_acg | 2009-02-03 01:59:27 +0530 (Tue, 03 Feb 2009) | 2 lines
+
+Changed some runtime asserts to boost::static_asserts.
+Added FindInstances postprocessing step. Not fully tested yet, but seems to work well. Enabled it for the viewer, too.
+------------------------------------------------------------------------
+r326 | aramis_acg | 2009-02-02 20:33:53 +0530 (Mon, 02 Feb 2009) | 1 line
+
+Added the Wuson in B3D format.
+------------------------------------------------------------------------
+r325 | marksibly | 2009-02-01 04:54:11 +0530 (Sun, 01 Feb 2009) | 1 line
+
+Fixed materials/normals
+------------------------------------------------------------------------
+r324 | marksibly | 2009-01-30 05:37:09 +0530 (Fri, 30 Jan 2009) | 1 line
+
+Converted output to right handed.
+------------------------------------------------------------------------
+r323 | aramis_acg | 2009-01-27 03:57:24 +0530 (Tue, 27 Jan 2009) | 1 line
+
+Added the Wuson as OBJ and SMD file (SMD not animated ...). Export from MS3D. 
+------------------------------------------------------------------------
+r322 | aramis_acg | 2009-01-26 04:52:25 +0530 (Mon, 26 Jan 2009) | 1 line
+
+Fixed paths in some ASE test files.
+------------------------------------------------------------------------
+r321 | aramis_acg | 2009-01-24 02:36:43 +0530 (Sat, 24 Jan 2009) | 1 line
+
+Removed direct STL dependency from the Assimp interface, should hopefully avoid problems with binary incompatible STLs. Some API changes, e.g. in the logger.
+------------------------------------------------------------------------
+r320 | aramis_acg | 2009-01-24 01:49:59 +0530 (Sat, 24 Jan 2009) | 3 lines
+
+Updated documentation.
+Added prebuild doxygen doc to repos.
+Added a nice splash image to the doc.
+------------------------------------------------------------------------
+r319 | aramis_acg | 2009-01-24 00:51:04 +0530 (Sat, 24 Jan 2009) | 1 line
+
+Fixed minor doc spelling issues.
+------------------------------------------------------------------------
+r318 | aramis_acg | 2009-01-22 03:03:56 +0530 (Thu, 22 Jan 2009) | 1 line
+
+Enabled 'fast' STL for vc9. secure_stl=0 && iterator_debugging=0.
+------------------------------------------------------------------------
+r317 | aramis_acg | 2009-01-21 20:06:03 +0530 (Wed, 21 Jan 2009) | 1 line
+
+Added the cube.dae and the cube.x from kwxport + a license file. TODO: cube.x fails to load because of RGBA vertex colors.
+------------------------------------------------------------------------
+r316 | aramis_acg | 2009-01-21 19:58:32 +0530 (Wed, 21 Jan 2009) | 2 lines
+
+Added another x test model - fails to load due to RGBA vertex colors.  Source is kwxport, MIT license, I think that's ok.
+
+------------------------------------------------------------------------
+r315 | aramis_acg | 2009-01-21 18:56:17 +0530 (Wed, 21 Jan 2009) | 1 line
+
+Fixed camera doc.
+------------------------------------------------------------------------
+r314 | aramis_acg | 2009-01-21 03:31:31 +0530 (Wed, 21 Jan 2009) | 1 line
+
+[doc] Added first draft of a section for building assimp against STLport.
+------------------------------------------------------------------------
+r313 | aramis_acg | 2009-01-21 03:17:18 +0530 (Wed, 21 Jan 2009) | 1 line
+
+Added vc8 and vc9 folders - I'll soon redirect the build output of vc to them.
+------------------------------------------------------------------------
+r312 | aramis_acg | 2009-01-21 03:11:17 +0530 (Wed, 21 Jan 2009) | 4 lines
+
+Fixed HMP typo.
+Further work on 3DS target animations.
+FixNormals-Step inverts face order now.
+Further work on the doc to aiCamera.h, added helper function to get a view matrix.
+------------------------------------------------------------------------
+r311 | aramis_acg | 2009-01-21 01:56:35 +0530 (Wed, 21 Jan 2009) | 1 line
+
+Fixed naming of aiNodeAnim in dox.h
+------------------------------------------------------------------------
+r310 | aramis_acg | 2009-01-20 17:02:39 +0530 (Tue, 20 Jan 2009) | 1 line
+
+Fixed mislead refactoring in HMPLoader.cpp. http://sourceforge.net/forum/forum.php?thread_id=2886037&forum_id=817653
+------------------------------------------------------------------------
+r309 | aramis_acg | 2009-01-20 02:58:24 +0530 (Tue, 20 Jan 2009) | 2 lines
+
+Added binary x test model exported from truespace. Didn't have one yet.
+Redirected makefile output to ./bin/gcc.
+------------------------------------------------------------------------
+r308 | aramis_acg | 2009-01-20 01:16:14 +0530 (Tue, 20 Jan 2009) | 1 line
+
+Updated VC9 workspace.
+------------------------------------------------------------------------
+r307 | aramis_acg | 2009-01-20 01:04:34 +0530 (Tue, 20 Jan 2009) | 7 lines
+
+Moved some defines into the core, away from the public stuff.
+Fixed build error regarding zutil.c with vc9.
+Updated VC9 project files (again ...)
+Moved version getters to aiVersion.h.
+Deleted redundant fast_atof.h from irrXML.
+Added vc9 config for cppunit
+Fixed a missing include when building against stlport
+------------------------------------------------------------------------
+r306 | aramis_acg | 2009-01-19 06:10:48 +0530 (Mon, 19 Jan 2009) | 3 lines
+
+FIX: Obj loader failed to read models with strange UV coordinates (see https://sourceforge.net/forum/forum.php?thread_id=2869243&forum_id=817653).
+Added the model that was reported as crashing to the regression test suite.
+
+------------------------------------------------------------------------
+r305 | aramis_acg | 2009-01-19 05:18:25 +0530 (Mon, 19 Jan 2009) | 12 lines
+
+Added support for compressed x files (all files from dx sdk, except car2.x, work, no further tests yet).
+Added a working makefile for mingw, provides more configs now. Not perfect yet.
+Added decompression part of zlib (inflate).
+Moved IrrXML to ./contrib dir.
+Moved some IRR/IRRmesh shared code.
+FIXME: makefile for gnu/linux is untested yet.
+Code cleanup.
+Unified #ifndef ASSIMP_BUILD_nnn_IMPORTER directives.
+OBJ loader supports map_bump, map_ka, map_ks, map_ns now.
+Endianess conversion in the ply loader is correct now.
+Changed IRR/IRRMESH coordinate system conversion. Not absolutely right now, but better than before.
+
+------------------------------------------------------------------------
+r304 | aramis_acg | 2009-01-18 21:15:43 +0530 (Sun, 18 Jan 2009) | 2 lines
+
+Added collada file to regression test suite.
+
+------------------------------------------------------------------------
+r303 | aramis_acg | 2009-01-18 07:48:56 +0530 (Sun, 18 Jan 2009) | 1 line
+
+Fixed issues with gcc 4.3.2 - semicolon after namespace closing brace not accepted. Thanks to klickverbot to point it out.
+------------------------------------------------------------------------
+r302 | ulfjorensen | 2009-01-18 06:22:20 +0530 (Sun, 18 Jan 2009) | 3 lines
+
+- Bugfix: ColladaLoader failed on <extra> tags in geometry elements
+- Bugfix: ColladaLoader reads and filters mesh subgroups without faces now. Who the fuck writes them anyways? I'm looking at you, Maya export!
+- Made the VC9 workspace load again. Thanks to Aramis for the hints.
+------------------------------------------------------------------------
+r301 | rave3d | 2009-01-16 15:52:44 +0530 (Fri, 16 Jan 2009) | 2 lines
+
+fixing vc9/UnitTest.vcproj
+
+------------------------------------------------------------------------
+r300 | aramis_acg | 2009-01-16 02:38:28 +0530 (Fri, 16 Jan 2009) | 3 lines
+
+Removed OptimizeGraph step - actually it isn't really useful, although I got it working very well.
+Updated credits.
+VC9 workspace updated by hand (no vc9 ...) so be careful.
+------------------------------------------------------------------------
+r299 | aramis_acg | 2009-01-16 00:52:29 +0530 (Fri, 16 Jan 2009) | 6 lines
+
+FIX: NFF face winding bug (actually it was in StandardShapes.cpp).
+FIX: StandardShapes::MakeCone() - face order was incorrect in 50% of all cases.
+Implemented StandardShapes::MakeCircle().
+Fixed a compiler warning in B3DImporter.cpp.
+Modified cone.nff - one texture isn't found, that's ok. The mapping should be better visible now.
+
+------------------------------------------------------------------------
+r298 | aramis_acg | 2009-01-15 22:45:05 +0530 (Thu, 15 Jan 2009) | 5 lines
+
+Patch [ 2508517 ]: Doc fixes II by Any Maloney
+Fixed a compiler warning: 'dangerous use of <<, check operator order'. Operator order was right, added the braces, though.
+
+
+
+------------------------------------------------------------------------
+r297 | rave3d | 2009-01-15 18:42:09 +0530 (Thu, 15 Jan 2009) | 1 line
+
+workspaces/vc9
+------------------------------------------------------------------------
+r296 | rave3d | 2009-01-15 18:20:43 +0530 (Thu, 15 Jan 2009) | 1 line
+
+updating vc9 workspaces
+------------------------------------------------------------------------
+r295 | aramis_acg | 2009-01-14 01:49:40 +0530 (Wed, 14 Jan 2009) | 1 line
+
+Further work on the documentation. 
+------------------------------------------------------------------------
+r294 | aramis_acg | 2009-01-14 00:28:07 +0530 (Wed, 14 Jan 2009) | 1 line
+
+[ 2503202 ] Doc fixes. Thanks to Andy Maloney for the patch!
+------------------------------------------------------------------------
+r293 | aramis_acg | 2009-01-13 03:56:11 +0530 (Tue, 13 Jan 2009) | 1 line
+
+Added empty end lines to all workaround files.
+------------------------------------------------------------------------
+r292 | aramis_acg | 2009-01-13 03:36:54 +0530 (Tue, 13 Jan 2009) | 11 lines
+
+Major API cleanup. Unified formatting & doxygen tags in the public API.
+Added factory provider for default log streams.
+Added default log streams to std::out and std::cerr.
+Updated VC8 project config, boost workarounds is now working for the viewer.
+Updated unit test suite.
+Fixed some minor issues in the postprocessing-framework.
+
+BROKEN: DebugDLL build.
+
+
+
+------------------------------------------------------------------------
+r291 | aramis_acg | 2009-01-12 22:48:08 +0530 (Mon, 12 Jan 2009) | 1 line
+
+Removed some stuff we don't need anymore.
+------------------------------------------------------------------------
+r290 | aramis_acg | 2009-01-12 22:44:56 +0530 (Mon, 12 Jan 2009) | 1 line
+
+Added batch script to cleanup any build stuff.
+------------------------------------------------------------------------
+r289 | aramis_acg | 2009-01-12 05:30:13 +0530 (Mon, 12 Jan 2009) | 1 line
+
+Temporary fix: collada loader strips 'file://' from paths now. 
+------------------------------------------------------------------------
+r288 | marksibly | 2009-01-12 03:21:45 +0530 (Mon, 12 Jan 2009) | 1 line
+
+Added more brush/material properties
+------------------------------------------------------------------------
+r287 | marksibly | 2009-01-12 03:08:01 +0530 (Mon, 12 Jan 2009) | 1 line
+
+Improved sanity checking
+------------------------------------------------------------------------
+r286 | aramis_acg | 2009-01-11 23:59:18 +0530 (Sun, 11 Jan 2009) | 1 line
+
+Added a larger ASCII-STL test file
+------------------------------------------------------------------------
+r285 | aramis_acg | 2009-01-11 23:58:33 +0530 (Sun, 11 Jan 2009) | 1 line
+
+Updated Doxyfile + added custom style sheet for further modifications.
+------------------------------------------------------------------------
+r284 | aramis_acg | 2009-01-11 20:50:06 +0530 (Sun, 11 Jan 2009) | 2 lines
+
+Fixed texture paths in some NFF files.
+Cleaned up Assimp C-API calls in the viewer.
+------------------------------------------------------------------------
+r282 | aramis_acg | 2009-01-10 23:28:06 +0530 (Sat, 10 Jan 2009) | 7 lines
+
+HMP loader returns quads now, cleaned up the code a bit. Still longer than necessary.
+BVH loader supports arbitrary rotation/translation orders now. Fixed a crash issue, added test models with ZYX and ZXY rotation order.
+Updated CREDITS.
+'Beautified' pushpack/poppack.
+Collada loader does now also load XML files if 'COLLADA' is found in the header.
+Fixed path issues in several IRR test files.
+
+------------------------------------------------------------------------
+r279 | aramis_acg | 2009-01-10 02:59:54 +0530 (Sat, 10 Jan 2009) | 5 lines
+
+Optimized triangulation algorithm. Must more faster now.
+Added loader for TERRAGEN terrains (*.ter).
+ScenePreprocessor generates a default material if none is given.
+AC: file extension bug
+Added terragen test files.
+------------------------------------------------------------------------
+r276 | aramis_acg | 2009-01-09 19:48:15 +0530 (Fri, 09 Jan 2009) | 1 line
+
+Updated mkfinal script.
+------------------------------------------------------------------------
+r275 | aramis_acg | 2009-01-09 04:14:07 +0530 (Fri, 09 Jan 2009) | 3 lines
+
+FIX: (aiMesh::mNumTextureCoords[n] == 0) is now propagated to 2. 
+Removed ATMNotUptoDate tag from SCons dir. The SCons script is generic.
+Updated list of contributors.
+------------------------------------------------------------------------
+r274 | aramis_acg | 2009-01-09 03:45:05 +0530 (Fri, 09 Jan 2009) | 2 lines
+
+Tracker ID [2485593], patch by John Connors for better Linux/Scons support.
+Removed BCC55 workspace. 
+------------------------------------------------------------------------
+r273 | aramis_acg | 2009-01-08 10:14:34 +0530 (Thu, 08 Jan 2009) | 1 line
+
+Added Tizian Wieland to the CREDITS file.
+------------------------------------------------------------------------
+r272 | aramis_acg | 2009-01-08 09:55:35 +0530 (Thu, 08 Jan 2009) | 1 line
+
+Added workaround for boost::tuple.
+------------------------------------------------------------------------
+r271 | aramis_acg | 2009-01-07 20:46:26 +0530 (Wed, 07 Jan 2009) | 2 lines
+
+Added batch scripts to run the unittests automatically.
+Added a directory to store detailled unittest results.
+------------------------------------------------------------------------
+r270 | aramis_acg | 2009-01-07 20:38:36 +0530 (Wed, 07 Jan 2009) | 1 line
+
+Added exception to the LICENSE file which applies to test models.
+------------------------------------------------------------------------
+r269 | aramis_acg | 2009-01-07 20:37:21 +0530 (Wed, 07 Jan 2009) | 1 line
+
+Fixed naming of copyright file for the LWS test scene.
+------------------------------------------------------------------------
+r268 | aramis_acg | 2009-01-07 20:36:41 +0530 (Wed, 07 Jan 2009) | 1 line
+
+Added several empty test files to verify that the loaders won't crash in this case.
+------------------------------------------------------------------------
+r267 | aramis_acg | 2009-01-07 20:34:15 +0530 (Wed, 07 Jan 2009) | 1 line
+
+Added batch script to copy DLL release exe's and dll to a common 'final' directory.
+------------------------------------------------------------------------
+r266 | aramis_acg | 2009-01-06 22:54:47 +0530 (Tue, 06 Jan 2009) | 1 line
+
+FIX: (aiMesh::mNumTextureCoords[n] == 0) is now propagated to 2.
+------------------------------------------------------------------------
+r265 | aramis_acg | 2008-12-31 20:56:16 +0530 (Wed, 31 Dec 2008) | 1 line
+
+Deleted build folders
+------------------------------------------------------------------------
+r264 | aramis_acg | 2008-12-30 18:35:33 +0530 (Tue, 30 Dec 2008) | 2 lines
+
+Cleaned up Assimp-test repository of sample 3d models.
+  - fixed texture hardlinks 
+------------------------------------------------------------------------
+r263 | aramis_acg | 2008-12-30 18:02:45 +0530 (Tue, 30 Dec 2008) | 3 lines
+
+Cleaned up Assimp-test repository of sample 3d models.
+  - moved to subfolder test/models
+  - removed the 'Files' suffix from the directories.
+------------------------------------------------------------------------
+r262 | aramis_acg | 2008-12-08 01:30:58 +0530 (Mon, 08 Dec 2008) | 2 lines
+
+[ 2373610 ] Patch for Linux and SCons. Added patch provided by John Connors, closed the corresponding tracker item.
+
+------------------------------------------------------------------------
+r261 | alil | 2008-12-05 03:31:35 +0530 (Fri, 05 Dec 2008) | 1 line
+
+made it work again under linux
+------------------------------------------------------------------------
+r260 | ulfjorensen | 2008-12-04 22:36:26 +0530 (Thu, 04 Dec 2008) | 1 line
+
+- further Collada work: materials are now loaded from profile_COMMON, meshes are properly split up at material borders
+------------------------------------------------------------------------
+r259 | aramis_acg | 2008-12-01 20:55:38 +0530 (Mon, 01 Dec 2008) | 1 line
+
+Removed MDR loader - too unimportant and would need much more work to work properly.
+------------------------------------------------------------------------
+r258 | aramis_acg | 2008-12-01 03:57:20 +0530 (Mon, 01 Dec 2008) | 6 lines
+
+FIX: 3DS loader skips TCB keys correctly now.
+Further work on 3DS light and camera support + target animation.
+Removed obsolete files & directories.
+AssimpPCH.h outputs the current build config now (MSVC only)
+Simplified foreach workaround
+Fixed compilation error in the DLL build
+------------------------------------------------------------------------
+r257 | alil | 2008-12-01 02:02:53 +0530 (Mon, 01 Dec 2008) | 1 line
+
+fixed some linux compilation issues
+------------------------------------------------------------------------
+r256 | aramis_acg | 2008-11-29 22:02:34 +0530 (Sat, 29 Nov 2008) | 1 line
+
+Fixed missing #include <vector> in assimp.hpp. Thanks to Andy Maloney for the hint.
+------------------------------------------------------------------------
+r255 | aramis_acg | 2008-11-29 21:00:50 +0530 (Sat, 29 Nov 2008) | 3 lines
+
+Updated boost workaround. Added -noboost build config to VC8.
+Added aiGetVersionMinor, aiGetVersionMajor, aiGetRevision and aiGetLegalInformation(). They allow to query the library version at runtime.
+Added reference images for cylindric and spherical mapping.
+------------------------------------------------------------------------
+r254 | aramis_acg | 2008-11-29 04:32:27 +0530 (Sat, 29 Nov 2008) | 5 lines
+
+Added support for cones and cylinders to NFF (the code to generate these primitives is hosted in StandardShapes.cpp).
+Fixed some minor material bugs in NFF.
+Added some more test NFF files, refactored and commented the old ones.
+Added FromToMatrix function to aiMatrix4x4
+Temporarily disabled animation support in SMD and fixed some minor bugs. Static models should load correctly in every case.
+------------------------------------------------------------------------
+r253 | ulfjorensen | 2008-11-27 21:24:35 +0530 (Thu, 27 Nov 2008) | 2 lines
+
+- corrected example code in the documentation. Thanks to Ingrater to point it out.
+- Further work on the Collada loader. Halve way through the material import, I have to leave it here and continue at home.
+------------------------------------------------------------------------
+r252 | aramis_acg | 2008-11-27 03:33:14 +0530 (Thu, 27 Nov 2008) | 4 lines
+
+Fixed a bug in the validation step - animation channels weren't validated correctly in every case.
+Further work on LWO materials, writes wrap amount to UV transform property now.
+NFFLoader generates spherical UV coordinates now (for spheres and all platonic solids except hexahedrons)
+Importer doesn't catch exceptions in debug builds.
+------------------------------------------------------------------------
+r251 | ulfjorensen | 2008-11-26 21:15:34 +0530 (Wed, 26 Nov 2008) | 5 lines
+
+- Bugfix: ColladaLoader node rotation was miscalculated
+- ColladaLoader now supports more primitive types
+- ColladaLoader now honours the up-vector specification
+- moved Collada temporary structures to separate Helper header
+- fast_atof_move() now also eats localized numbers with comma separator (e.g. 0,3210) correctly
+------------------------------------------------------------------------
+r250 | aramis_acg | 2008-11-26 19:37:27 +0530 (Wed, 26 Nov 2008) | 1 line
+
+Added 2 more collada test files
+------------------------------------------------------------------------
+r249 | aramis_acg | 2008-11-26 18:47:39 +0530 (Wed, 26 Nov 2008) | 5 lines
+
+Further work on the IRR, AC, LWS loaders. Further work on the - still unfinished - OptimizeGraph step. SceneCombiner works now properly in all cases I tested yet.
+Added missing 'typename' in Colladaparser.h
+First implementation of spherical and cylindrical mapping, already in use for IRR and LWO models. For the latter the coordinate system is not yet correct.
+Moved vec2d to a separate header and added operators similar to vec3.
+Added plane and ray helper classes. Just the data is wrapped, no operators required for the moment.
+------------------------------------------------------------------------
+r248 | aramis_acg | 2008-11-26 03:47:07 +0530 (Wed, 26 Nov 2008) | 1 line
+
+Added a static collada file that does not yet load correctly. 
+------------------------------------------------------------------------
+r247 | aramis_acg | 2008-11-26 03:40:56 +0530 (Wed, 26 Nov 2008) | 5 lines
+
+Added some test models:
+AC: A new AC test model (light + scaled texture)
+IRR: Skybox, Assimp output consisting of 6 meshes and 6 textures + further test models (multi-instancing test + simple sphere and box). They are not working yet.
+LWO: Test models and textures for the various mapping modes.
+
+------------------------------------------------------------------------
+r246 | ulfjorensen | 2008-11-25 23:28:11 +0530 (Tue, 25 Nov 2008) | 1 line
+
+- finalized Collada mesh part - can read static models now, using dummy materials
+------------------------------------------------------------------------
+r245 | ulfjorensen | 2008-11-20 23:12:55 +0530 (Thu, 20 Nov 2008) | 3 lines
+
+- added another boost dependency. 
+- further work on the collada loader. Should load static geometry correctly now, but still not properly integrated
+- added some Collada sample files. The license is hopefully fine with this.
+------------------------------------------------------------------------
+r244 | aramis_acg | 2008-11-17 04:56:21 +0530 (Mon, 17 Nov 2008) | 1 line
+
+Fixed a small bug in aiGetMaterialTexture
+------------------------------------------------------------------------
+r243 | aramis_acg | 2008-11-17 03:26:45 +0530 (Mon, 17 Nov 2008) | 8 lines
+
+ASE and 3DS cleanup - face ordering improved.
+Further work on target camera animation support in both loaders. Some general animation problems in both formats remaining, too. 
+Added GenUVCoords and TransformUV-steps (see ML). The latter has been fully implemented, test file are there. GenUVCoords is a dummy for the moment.
+Boost workaround for shared_array.
+Further work on the documentation.
+Updated material system (see ML).
+Bug fixing in the AC loader, lights are now supported, too.
+
+------------------------------------------------------------------------
+r242 | aramis_acg | 2008-11-17 02:52:21 +0530 (Mon, 17 Nov 2008) | 1 line
+
+Updated test set - Modo files LXO, more UV transform images, LWo's exported from Modo.
+------------------------------------------------------------------------
+r241 | aramis_acg | 2008-11-16 20:09:54 +0530 (Sun, 16 Nov 2008) | 2 lines
+
+Fixed a bug in the SortByPType-step causing some models with bones to crash
+Fixed a bug in PretransformVertices - vertex colors caused an infinite loop sometimes.
+------------------------------------------------------------------------
+r240 | aramis_acg | 2008-11-14 21:29:29 +0530 (Fri, 14 Nov 2008) | 4 lines
+
+Added test data for UV Transformations (3DS and ASE files + referenced images, rendered in max)
+Added AC test model with light
+Added "empty" irrmesh file - crashes for the moment
+Added LWO sphere mapping test files
+------------------------------------------------------------------------
+r239 | ulfjorensen | 2008-11-14 18:14:03 +0530 (Fri, 14 Nov 2008) | 4 lines
+
+- Bugfix: handling of XFile vertex colors is more forgiving now
+- Bugfix: XFileImporter filters empty animation sets now. 
+- updated VC9 project files
+
+------------------------------------------------------------------------
+r238 | ulfjorensen | 2008-11-12 22:37:44 +0530 (Wed, 12 Nov 2008) | 2 lines
+
+- first draft of the Collada importer. Compiles and runs fine, but not functional yet.
+- added a "rotation around arbitrary axis" function to the matrix class
+------------------------------------------------------------------------
+r237 | aramis_acg | 2008-11-12 00:32:51 +0530 (Wed, 12 Nov 2008) | 1 line
+
+Updated B3D Loader, added Mark Sibly to the list of contributors.
+------------------------------------------------------------------------
+r236 | aramis_acg | 2008-11-10 04:47:19 +0530 (Mon, 10 Nov 2008) | 10 lines
+
+ASE: Added WIP support for *SMOOTHSKINMESH elements in ASE/ASC files. Fixes in the ASE loader. Fixed animation parsing. Temporary implementation of target lights and cameras, including animations.
+3DS: Fixed transformation problems (Pivot points), added WIP animation support. No target animation yet (cameras, spot lights). Not yet fully tested, but static models that worked before should still work now, except all look correct now :-) (some problems with very large models remaining)
+Further work on the IRR and IRRMESH loaders. IRR still WIP, IRRMESH more stable now.
+Work on the LWo loader. Added support for the "one-layer-only" mode. Hierarchy bug still unfixed, UV coords bug still unfixed.
+Further work on the FindInvalidDataprocess. Improved validation for normals, no false positives anymore.
+Further work on the MDR loader, still WIP.
+Moved DeterminePType-Step to ScenePreprocessor.
+aiAnimation::mDuration is optional now, ScenePreprocessor computes it automatically if set to -1.
+Fixes in the SMD loader. Still crashes on some files.
+Updated animation documentation.
+------------------------------------------------------------------------
+r235 | kimmi | 2008-11-09 23:52:01 +0530 (Sun, 09 Nov 2008) | 1 line
+
+- Refactorized obj-material-loader: removed duplicated float separation and made it to a template.
+------------------------------------------------------------------------
+r234 | kimmi | 2008-11-09 21:27:03 +0530 (Sun, 09 Nov 2008) | 1 line
+
+Kill g++ compiler warning (no newline at end of file).
+------------------------------------------------------------------------
+r232 | aramis_acg | 2008-11-05 17:56:11 +0530 (Wed, 05 Nov 2008) | 2 lines
+
+Further work on the IRR and IRRMESH loaders. IRR is still WIP, IRRMESH loads lightmaps correctly now.
+Added lightmap viewing support to the viewer. Irrlicht's tone scaling is hardcoded for the moment, a proper implementation will follow with the new viewer.
+------------------------------------------------------------------------
+r231 | aramis_acg | 2008-11-05 02:11:11 +0530 (Wed, 05 Nov 2008) | 5 lines
+
+Fixed 3DS, ASE, MD3 and Q3D orientation after Schrompf' recent changes to the RH-LH conversion.
+WIP version of animation support in the 3DS loader. Still hoping to find out why the pivots aren't handled correctly ...
+Added first draft of a B3D loader provided by Mark Sibly.
+Moved DeterminePType-Step to ScenePreprocessor.
+Small LWO fix. Still texturing problems.
+------------------------------------------------------------------------
+r230 | ulfjorensen | 2008-11-04 22:51:08 +0530 (Tue, 04 Nov 2008) | 4 lines
+
+- Bugfix: XFileLoader does not generate dummy bone arrays anymore. Had screwed HasBones()-Test in the viewer, making bone-less objects vanish from view
+- made HasFooBar()-checks more precise on the way
+- cleared up everyone's destructors to also delete arrays if the corresponding mNumFoo member was zero. This hopefully does not break all too much
+- Bugfix: meshes without bones now properly show up with DisableMaterials enabled
+------------------------------------------------------------------------
+r229 | aramis_acg | 2008-11-04 22:14:27 +0530 (Tue, 04 Nov 2008) | 1 line
+
+Added test models 
+------------------------------------------------------------------------
+r228 | ulfjorensen | 2008-11-03 23:29:54 +0530 (Mon, 03 Nov 2008) | 1 line
+
+- added test file for BVH file format
+------------------------------------------------------------------------
+r227 | ulfjorensen | 2008-11-03 23:29:04 +0530 (Mon, 03 Nov 2008) | 2 lines
+
+- BVH-Loader more or less final now. Reads motion capturing date which plays fine in the viewer, just mirrored ATM.
+- Fixed RH->LH conversion, now correctly exchanging Y and Z axis. WARNING: this might propably break face orientations and stuff... I'm to revisit this in the next days. 
+------------------------------------------------------------------------
+r226 | alil | 2008-11-03 05:05:45 +0530 (Mon, 03 Nov 2008) | 1 line
+
+a first version for mdl7 loading on BE is now working (still one warning of a missed uv index)
+------------------------------------------------------------------------
+r225 | aramis_acg | 2008-11-03 04:00:37 +0530 (Mon, 03 Nov 2008) | 4 lines
+
+Small fix to the ASE loader - workaround for bitmaps with filename "None".
+Further work on the IRR loader. Still work in progress.
+Fixed a minor issue in StandardShapes.
+Fixed a bug in the Q3D loader causing models without textures to load incorrectly.
+------------------------------------------------------------------------
+r224 | alil | 2008-11-03 03:52:13 +0530 (Mon, 03 Nov 2008) | 1 line
+
+added some stuff to reduce compiler warnings of unused vars
+------------------------------------------------------------------------
+r223 | alil | 2008-11-03 03:51:07 +0530 (Mon, 03 Nov 2008) | 2 lines
+
+worked on be stuff for mdl loader
+
+------------------------------------------------------------------------
+r222 | ulfjorensen | 2008-11-03 02:54:27 +0530 (Mon, 03 Nov 2008) | 1 line
+
+- bone animations now also work with Disabled Materials Shader. There should be something missing, but it works. Strange...
+------------------------------------------------------------------------
+r221 | ulfjorensen | 2008-11-03 02:19:27 +0530 (Mon, 03 Nov 2008) | 1 line
+
+-Bugfix: Anim interpolation does not produce invalid floats anymore on one-frame animation tracks
+------------------------------------------------------------------------
+r220 | ulfjorensen | 2008-11-03 01:04:24 +0530 (Mon, 03 Nov 2008) | 1 line
+
+- finally found the last bug in the viewer animation code. Dwarf is now dwarfing, Tiny is now running correctly. 
+------------------------------------------------------------------------
+r219 | ulfjorensen | 2008-11-02 22:50:29 +0530 (Sun, 02 Nov 2008) | 3 lines
+
+- Viewer: additional bugfixes while trying to get the animations to work
+- added anim interpolation for anim playback
+- Bugfix: FindInvalidDataProcess was still mixed up a bit
+------------------------------------------------------------------------
+r218 | aramis_acg | 2008-11-02 22:28:31 +0530 (Sun, 02 Nov 2008) | 4 lines
+
+Added ScenePreProcessor helper class to add missing dummy animation channels.
+Modified FindInvalidData's behaviour regarding animation channels
+Futher work on the IRR scene and IRRMESH loaders. Q3D fix. 
+Updated aiNodeAnim documentation.
+------------------------------------------------------------------------
+r217 | aramis_acg | 2008-11-02 20:06:09 +0530 (Sun, 02 Nov 2008) | 1 line
+
+Updated VC9 workspace.
+------------------------------------------------------------------------
+r216 | aramis_acg | 2008-11-02 19:59:46 +0530 (Sun, 02 Nov 2008) | 1 line
+
+Fixed x64 compilation problem cause of an int 3 asm instruction.
+------------------------------------------------------------------------
+r215 | aramis_acg | 2008-11-01 22:12:16 +0530 (Sat, 01 Nov 2008) | 1 line
+
+Fixed some minor bugs in the Q3D loader. All test models from quick3d.org load correctly now.
+------------------------------------------------------------------------
+r214 | aramis_acg | 2008-11-01 20:44:00 +0530 (Sat, 01 Nov 2008) | 3 lines
+
+- Fixed a bug in FindInvalidData causing some animation channels to be lost
+- Added Q3D loader. Seems to work quite well with Quick 3D 4.0
+- Updated makefile, fixed GCC compilation error cause of packed matrix fields
+------------------------------------------------------------------------
+r213 | ulfjorensen | 2008-11-01 19:48:13 +0530 (Sat, 01 Nov 2008) | 4 lines
+
+- Bugfix: animation scene tree is correctly created and traversed now
+- Bugfix: viewer should not crash anymore when loading a second asset after a first asset with bones
+- deactived invalid animation filtering for the moment
+
+------------------------------------------------------------------------
+r212 | aramis_acg | 2008-11-01 17:01:03 +0530 (Sat, 01 Nov 2008) | 1 line
+
+Fixed shift warning in irrxml.
+------------------------------------------------------------------------
+r211 | ulfjorensen | 2008-11-01 04:47:43 +0530 (Sat, 01 Nov 2008) | 3 lines
+
+- fixed stupid little bug in the SceneAnimator - does not crash anymore on animations with empty tracks
+- reverted matrix operations to what I think is the correct matrix sequence. Skinned meshes still not working, though
+- fixed a strange runtime exception in the irrlicht mesh loader
+------------------------------------------------------------------------
+r210 | aramis_acg | 2008-11-01 01:02:00 +0530 (Sat, 01 Nov 2008) | 12 lines
+
+Rewrote 3DS loader to support BE - added temporary light & camera & animation support. few models not working anymore, transformation bug still unsolved.
+Fixed normal vector handling in the ASE loader. Improved animation & camera & light support - as for the 3DS Loader, still in the works.
+Fixed AC - Loader. It is now able to load models with complex hierarchies correctly. Added a small workaround for Quick3D, which writes invalid AC files.
+DXF-Loader skips {...} blocks produced by 3DS Max & AutoCad correctly now.
+DefaultLogger doesn't repeat identical log messages now.
+FindInvalidData-Process removes empty or dummy animation tracks now.
+LWO-Loader recognizes complex shaders (such as Fresnel) correctly now. Other LLWO bugs still unsolved.
+Fixed bugs in the Ply parser, causing non-triangular faces to crash.
+Added some additional helperutilities to StreamReader.
+Fixed a bug in ProcessHelper.h causing SPlitLargeMeses and SortBxPType to crash for meshes containing many bones.
+Changed OB default material from black to gray.
+Added additional test fils: ply (bugfix), ase (animation), QUick3D & Irr (in the works), STL (export from 3DS Max)
+------------------------------------------------------------------------
+r209 | alil | 2008-10-31 04:12:35 +0530 (Fri, 31 Oct 2008) | 1 line
+
+fixed BE problems in MDLLoader MD1,3,5 (I think 1-6, but there are no test examples) now work on BE systems.
+------------------------------------------------------------------------
+r208 | ulfjorensen | 2008-10-31 02:11:01 +0530 (Fri, 31 Oct 2008) | 2 lines
+
+- fixed upload of skinning matrices to the shader.
+- VC9 project files updated.
+------------------------------------------------------------------------
+r207 | aramis_acg | 2008-10-31 01:21:01 +0530 (Fri, 31 Oct 2008) | 1 line
+
+Small viewer fixes, at least something is visible now.
+------------------------------------------------------------------------
+r206 | ulfjorensen | 2008-10-30 18:19:28 +0530 (Thu, 30 Oct 2008) | 1 line
+
+- further works on the viewer's way to animation country. Now really fucked up, but Aramis is going to help me fix it.
+------------------------------------------------------------------------
+r205 | alil | 2008-10-30 03:59:07 +0530 (Thu, 30 Oct 2008) | 1 line
+
+added include <map> as the std::map is needed in this file
+------------------------------------------------------------------------
+r204 | alil | 2008-10-30 03:49:14 +0530 (Thu, 30 Oct 2008) | 1 line
+
+removed bad be code in validate header
+------------------------------------------------------------------------
+r203 | ulfjorensen | 2008-10-30 03:32:00 +0530 (Thu, 30 Oct 2008) | 3 lines
+
+- removed implementation headers from the public interface
+- corrected a few places that did not include those headers by other means
+- Bugfix: SkeletonMeshBuilder should now finally work correctly when skipping invalid node connections
+------------------------------------------------------------------------
+r202 | ulfjorensen | 2008-10-29 22:38:03 +0530 (Wed, 29 Oct 2008) | 1 line
+
+- further changes to add dummy animation support to the viewer. Still under heavy construction, bone meshes are not rendered correctly with this version at the moment. I'm sorry. Will be fixed soon.
+------------------------------------------------------------------------
+r201 | alil | 2008-10-29 04:48:06 +0530 (Wed, 29 Oct 2008) | 1 line
+
+worked on getting assimpl compiled on BE
+------------------------------------------------------------------------
+r200 | aramis_acg | 2008-10-28 17:35:11 +0530 (Tue, 28 Oct 2008) | 1 line
+
+Fixed linker error reported by PuMI causing the DLL build to fail.
+------------------------------------------------------------------------
+r199 | ulfjorensen | 2008-10-28 03:52:05 +0530 (Tue, 28 Oct 2008) | 1 line
+
+- Bugfix again: SkeletonMeshBuilder avoids validation warning for empty bones now.
+------------------------------------------------------------------------
+r198 | ulfjorensen | 2008-10-28 01:57:05 +0530 (Tue, 28 Oct 2008) | 1 line
+
+- Bugfix: SkeletonMeshBuilder does not create invalid faces anymore for child nodes at local position (0, 0, 0)
+------------------------------------------------------------------------
+r197 | aramis_acg | 2008-10-27 06:06:26 +0530 (Mon, 27 Oct 2008) | 9 lines
+
+Fixed third-person camera movement bug in the viewer.
+Fixed a bug that caused the viewer to render "random" polygons in some special cases. 
+ASE: Added parsing support for *GROUP nodes. Improved light & camera handling (still WIP). Fixed a bug that was caused by a recent change. Improved logging.
+Updated PretransformVertices. The step works now (and supports line and point meshes). Important: The position of the step in the pipeline has changed. No unit test yet.
+Minor fixes to SortByPType. Added a config option that allows users to specify which primitive types they don't need. 
+Added WIP version of an Irrlicht Scene Loader (.irr).
+Added a small helper class ("BatchLoader") to make it easy for loaders to load subsequent meshes from external files (needed for irr and lws).
+Added test models for IRR. Added dwarf.x from the Irrlicht repository (readme included) to the test X files.
+[Current TODO: Fix bugs in: AC, 3DS, LWO. Finish MDR and OG. Implement: IRR, LWS. Write some more ut's ... ]
+------------------------------------------------------------------------
+r196 | ulfjorensen | 2008-10-27 00:28:34 +0530 (Mon, 27 Oct 2008) | 2 lines
+
+- Removed Boost_MultiArray-Remake
+- Fixed rotation matrix to quaternion conversion, hopefully final this time.
+------------------------------------------------------------------------
+r195 | aramis_acg | 2008-10-25 14:31:40 +0530 (Sat, 25 Oct 2008) | 1 line
+
+Added a huge 'at the moment not working, sorry' mark to all build configs we don't maintain in the current development phase.
+------------------------------------------------------------------------
+r194 | aramis_acg | 2008-10-25 02:07:54 +0530 (Sat, 25 Oct 2008) | 3 lines
+
+Removed aiProcess_FindDegenerates from the viewer. The step seems to cause some problems that have not yet been solved.
+Added irrmesh (Irrlicht Mesh Format) loader to Assimp. Works quite stable, but no lightmapping support yet.
+Removed tinyxml, replaced it with irrxml instead. Added an IOStreamToIrrXML wrapper.
+------------------------------------------------------------------------
+r193 | aramis_acg | 2008-10-25 01:34:43 +0530 (Sat, 25 Oct 2008) | 1 line
+
+Added irrmesh test files.
+------------------------------------------------------------------------
+r192 | aramis_acg | 2008-10-23 01:36:16 +0530 (Thu, 23 Oct 2008) | 13 lines
+
+Fixed some minor issues in the AC loader. However, it still crashes with large and complicated models. Line handling is complete.
+Moved the code to find degenerated primitives to a separate step that is not anymore active by default. 
+The FindInvalidData-Step isn't active by default now. It hast a flag and must be explicitly requested.
+Added line and point handling code to the CalcTangentsStep - not yet tested.
+Added support for the Sense 8 (WorldToolKit) NFF file format. The format uses the same file extension as the "Neutral File Format" (and is implemented in the same loader). Seems to work well, added test files for it.
+Added itoa10 function - so we have itoa on all platforms.
+Small optimizations in the SortByPType step.
+Fixed the material validation: textured meshes without uv coords cause a warning now.
+Fixed a minor isses with the OFF loader.
+Added empty unit tests for the new steps - to be filled in the next days. 
+Added SceneCombiner.cpp. It contains utilities to join meshes and scenes. The latter will be needed by the LWS loader (LWS files contain references to external LWO files and the LWO loader is already to complicated that it would make sense to add an additional code path to it). Mesh joining is needed by some pp steps, but the code has not yet been moved to its new location.
+Added WIP light & camera support to the ASE loader. Works for the moment, but there's much missing. ASE parser refactored, the code is still quite long but at least cleaner. Fixed a bug that caused ASE to import invalid texture coordinates.
+Makefiles and VC8 solution are up-to-date. The rest isn't.
+------------------------------------------------------------------------
+r191 | ulfjorensen | 2008-10-22 21:06:54 +0530 (Wed, 22 Oct 2008) | 1 line
+
+Dummy animation support for AssimpView - work in progress. Uses boost in a new way, just because I can.
+------------------------------------------------------------------------
+r190 | aramis_acg | 2008-10-20 16:51:45 +0530 (Mon, 20 Oct 2008) | 1 line
+
+Added cast to unsigned long in PretransformVertices.cpp. Hopefully this fixes the compiler issues with GCC4 on linux.
+------------------------------------------------------------------------
+r189 | ulfjorensen | 2008-10-20 03:14:12 +0530 (Mon, 20 Oct 2008) | 2 lines
+
+- Further work at the BVH loader. Still work in progress.
+- Added a helper class to build a mesh for a meshless node hierarchy
+------------------------------------------------------------------------
+r188 | aramis_acg | 2008-10-20 02:56:52 +0530 (Mon, 20 Oct 2008) | 1 line
+
+Fixed a minor problem with the vertex format hash in the PretransformVertices step. Remember, the step seems still to swizzle materials in some cases.
+------------------------------------------------------------------------
+r187 | aramis_acg | 2008-10-20 02:47:01 +0530 (Mon, 20 Oct 2008) | 1 line
+
+Added missing pointer to NULL assignment in PretransformVertices.
+------------------------------------------------------------------------
+r186 | alil | 2008-10-20 01:21:24 +0530 (Mon, 20 Oct 2008) | 1 line
+
+fixed some linux issues
+------------------------------------------------------------------------
+r185 | aramis_acg | 2008-10-19 17:02:33 +0530 (Sun, 19 Oct 2008) | 8 lines
+
+Fixed bug in the AC loader causing lines to load incorrectly. Seems to work now.
+Added some more essential includes to AssimpPCH.hAdded support for line and point meshes to most steps - I did nto yet adapt all unit tests, so meshes with mixed primitive types are not absolutely safe at the moment.
+Added camera and light support to the PretransformVert step. Fixed some small inaccuracies and fixed a bug reported by Mark Sibly causing all transformations to be invalid. However the step is nto yet completely correct, there are still some small artifacts.
+Updated light and camera data structures, added temporary validation code for the
+Renamed AI_SCENE_FLAGS_ANIM_SKELETON_ONLY to a more generic AI_SCENE_FLAGS_INCOMPLETE flag.
+Fixed bug in the OFF loader causing meshes with polygons to crash
+Added line support to the DXF loader - seems to fail for the moment cause of SortByPType.
+Added support for lights and cameras to NFF, implemented another NFF format subtype (file starts with 'nff'). Implemented NFF 'tpp' chunk and a corresponding texture extension.
+------------------------------------------------------------------------
+r184 | aramis_acg | 2008-10-19 04:22:05 +0530 (Sun, 19 Oct 2008) | 3 lines
+
+Added DXF test file containing lines 
+Added Cube.off, an off files that contains more than 3 idxs per face. It crashes at the moment, but my current revision here is able to load it.
+
+------------------------------------------------------------------------
+r183 | aramis_acg | 2008-10-19 01:22:23 +0530 (Sun, 19 Oct 2008) | 1 line
+
+Added light & camera data structures to jAssimp and updated the list of configuration properties. However, I still had not yet the time to write the C++ binding to the Java API.
+------------------------------------------------------------------------
+r182 | aramis_acg | 2008-10-18 17:49:28 +0530 (Sat, 18 Oct 2008) | 1 line
+
+Added StreamReader.h
+------------------------------------------------------------------------
+r181 | aramis_acg | 2008-10-17 21:56:47 +0530 (Fri, 17 Oct 2008) | 1 line
+
+Added stream reader interface test.
+------------------------------------------------------------------------
+r180 | aramis_acg | 2008-10-17 21:09:11 +0530 (Fri, 17 Oct 2008) | 1 line
+
+Added a first draft of the aiCamera documentation.
+------------------------------------------------------------------------
+r179 | aramis_acg | 2008-10-17 20:13:53 +0530 (Fri, 17 Oct 2008) | 1 line
+
+Added modified aiLight data structure
+------------------------------------------------------------------------
+r178 | aramis_acg | 2008-10-16 22:06:25 +0530 (Thu, 16 Oct 2008) | 1 line
+
+
+------------------------------------------------------------------------
+r177 | ulfjorensen | 2008-10-15 21:42:18 +0530 (Wed, 15 Oct 2008) | 1 line
+
+- beginning of BVH loader, to continue working at home. Not usable, yet.
+------------------------------------------------------------------------
+r176 | aramis_acg | 2008-10-13 22:15:48 +0530 (Mon, 13 Oct 2008) | 6 lines
+
+Added temporary boost workaround - some assimp features work with reduced functionality in this case.
+Added AC-loader, WIP version.
+PLY loader is now able to load models from blender, test model added. Refactoring.
+Added FindInvalidData step.
+Added support for precompiled headers, the release builds in VC8 are configued to use PCH now.
+Added separate makefile for mingw, no -FPic warning anymore, -clear works now.
+------------------------------------------------------------------------
+r175 | ulfjorensen | 2008-10-13 21:20:12 +0530 (Mon, 13 Oct 2008) | 2 lines
+
+Viewer:
+- additional fixed to make the viewer work without shaders. Still dummy, though, but now useful enough to allow me to work
+------------------------------------------------------------------------
+r174 | ulfjorensen | 2008-10-10 02:48:59 +0530 (Fri, 10 Oct 2008) | 2 lines
+
+Viewer:
+- added hacky support for pre-shader graphics cards. Seems to work, but I'll not know for sure until I acutally test it on such a crippled hardware.
+------------------------------------------------------------------------
+r173 | ulfjorensen | 2008-10-10 01:47:46 +0530 (Fri, 10 Oct 2008) | 1 line
+
+- quick-fixed various shader errors to make AssimpView start again
+------------------------------------------------------------------------
+r172 | ulfjorensen | 2008-10-08 20:59:47 +0530 (Wed, 08 Oct 2008) | 1 line
+
+- adding fallback effects for non-shader graphics hardware. Work In Progress.
+------------------------------------------------------------------------
+r171 | rave3d | 2008-10-07 19:01:07 +0530 (Tue, 07 Oct 2008) | 3 lines
+
+Updating VC9 workspaces
+Adding Class definitions for Assimp.NET
+No Documentation an Implementation so far
+------------------------------------------------------------------------
+r170 | aramis_acg | 2008-10-07 15:19:52 +0530 (Tue, 07 Oct 2008) | 1 line
+
+Added tinyxml to the contrib dir.
+------------------------------------------------------------------------
+r169 | kimmi | 2008-10-05 18:35:53 +0530 (Sun, 05 Oct 2008) | 1 line
+
+FIX: Material files with blanks in the filename can be loaded.
+------------------------------------------------------------------------
+r168 | aramis_acg | 2008-10-02 20:52:38 +0530 (Thu, 02 Oct 2008) | 1 line
+
+Changed "KillNormals"-Step to "RemoveVertexComponentXYZ". See ML for more details on this.
+------------------------------------------------------------------------
+r167 | aramis_acg | 2008-10-01 01:50:56 +0530 (Wed, 01 Oct 2008) | 8 lines
+
+Added support for point and line primitives.
+Added SortByPType and DeterminePType (anon.) steps
+Optimized ASE, fixed 3DS.
+Rewrite all loaders to conform to the api changes.
+Optimized normal computation code in LWOLoader.cpp
+Added new unit tests
+Added test file for AC3D (good old wuson again)
+ 
+------------------------------------------------------------------------
+r166 | ulfjorensen | 2008-09-30 18:35:48 +0530 (Tue, 30 Sep 2008) | 1 line
+
+- renamed "bone" anims and associated structures to generic "node" anims. Breaking change, sorry for that.
+------------------------------------------------------------------------
+r165 | aramis_acg | 2008-09-28 00:56:13 +0530 (Sun, 28 Sep 2008) | 1 line
+
+Added unit test for SharedPostProcessInfo
+------------------------------------------------------------------------
+r164 | aramis_acg | 2008-09-27 22:16:05 +0530 (Sat, 27 Sep 2008) | 8 lines
+
+Optimized GenVertexNormal-Step.
+Added SharedPostProcessInfo-class to allow pp-steps to interact with each other.
+Used this new feature for some cross-optimization between the steps: SpatialSort is now solely computed once, not up to three times.
+3DS bugfix - orientation was wrong.
+ASE normal vectors - although they are normally wrong and not orthonormal they are working now.
+Fix in fast_atof.h - 1.45E45 (major 'E') is handlded correctly now.
+Improvements on jAssimp, still WIP and not working.
+Some LightWave bugfixes, still WIP.
+------------------------------------------------------------------------
+r162 | sebastianhempel | 2008-09-23 18:41:30 +0530 (Tue, 23 Sep 2008) | 1 line
+
+textures
+------------------------------------------------------------------------
+r161 | sebastianhempel | 2008-09-23 18:08:39 +0530 (Tue, 23 Sep 2008) | 1 line
+
+materials
+------------------------------------------------------------------------
+r160 | cgmelt | 2008-09-22 13:52:36 +0530 (Mon, 22 Sep 2008) | 1 line
+
+
+------------------------------------------------------------------------
+r159 | cgmelt | 2008-09-22 13:46:37 +0530 (Mon, 22 Sep 2008) | 2 lines
+
+destructors implemented
+per mesh normals
+------------------------------------------------------------------------
+r158 | cgmelt | 2008-09-22 13:45:18 +0530 (Mon, 22 Sep 2008) | 1 line
+
+normal per mesh, (not the whole scene)
+------------------------------------------------------------------------
+r157 | cgmelt | 2008-09-22 13:38:48 +0530 (Mon, 22 Sep 2008) | 1 line
+
+
+------------------------------------------------------------------------
+r156 | aramis_acg | 2008-09-20 21:25:51 +0530 (Sat, 20 Sep 2008) | 6 lines
+
+Added vertex color support to the DXF loader, fixed a minor bugs. Coordinate system issue still unsolved.
+Modified GenVertexNormals to take always the cross product of the first and the last normal of a face as face normal.
+Material implementation for LWO - seems to work, but there are some issues with highly complex models.
+Added some LWO test models
+Cleaned up the ./test dir - converted some BMPs to JPG to save space,
+Finished the matrial property list in jAssimp, some other changes, too. The Java part of the API should be working now.
+------------------------------------------------------------------------
+r155 | sebastianhempel | 2008-09-19 23:36:04 +0530 (Fri, 19 Sep 2008) | 1 line
+
+intelligent library search
+------------------------------------------------------------------------
+r154 | sebastianhempel | 2008-09-19 23:23:25 +0530 (Fri, 19 Sep 2008) | 1 line
+
+sample update
+------------------------------------------------------------------------
+r153 | sebastianhempel | 2008-09-19 23:22:58 +0530 (Fri, 19 Sep 2008) | 1 line
+
+bones
+------------------------------------------------------------------------
+r152 | rave3d | 2008-09-18 22:50:59 +0530 (Thu, 18 Sep 2008) | 2 lines
+
+Updating VC9 Workspace
+Adding Class Files for Assimp.NET
+------------------------------------------------------------------------
+r151 | sebastianhempel | 2008-09-18 19:06:34 +0530 (Thu, 18 Sep 2008) | 1 line
+
+searches assimp-library automatically
+------------------------------------------------------------------------
+r150 | sebastianhempel | 2008-09-18 18:47:44 +0530 (Thu, 18 Sep 2008) | 1 line
+
+new helper module; faces
+------------------------------------------------------------------------
+r149 | sebastianhempel | 2008-09-18 18:15:03 +0530 (Thu, 18 Sep 2008) | 1 line
+
+texture coordinates
+------------------------------------------------------------------------
+r148 | sebastianhempel | 2008-09-17 22:38:36 +0530 (Wed, 17 Sep 2008) | 1 line
+
+basic setup for test-models and some docstrings.
+------------------------------------------------------------------------
+r147 | sebastianhempel | 2008-09-17 20:55:20 +0530 (Wed, 17 Sep 2008) | 1 line
+
+PyAssimp initial import.
+------------------------------------------------------------------------
+r146 | DarkGuru | 2008-09-16 22:36:24 +0530 (Tue, 16 Sep 2008) | 1 line
+
+Share project "AssImp" into "https://assimp.svn.sourceforge.net/svnroot/assimp"
+------------------------------------------------------------------------
+r145 | aramis_acg | 2008-09-16 21:47:32 +0530 (Tue, 16 Sep 2008) | 4 lines
+
+Added RAW Loader. Tested with various configurations, seems to work.
+Added OFF Loader. Tested with various configurations, seems to work.
+Added POLYLINE support to the DXF Loader.
+Added WIP version of the MDR loader - disabled and not yet working.
+------------------------------------------------------------------------
+r144 | ulfjorensen | 2008-09-16 19:23:10 +0530 (Tue, 16 Sep 2008) | 3 lines
+
+More bugfixes from Jonathan:
+- fixed material loading in OBJ importer
+- Bugfix: loads obj files without texture coords correctly now
+------------------------------------------------------------------------
+r143 | kimmi | 2008-09-14 07:15:42 +0530 (Sun, 14 Sep 2008) | 1 line
+
+Add missing file
+------------------------------------------------------------------------
+r142 | aramis_acg | 2008-09-14 04:18:42 +0530 (Sun, 14 Sep 2008) | 1 line
+
+ASSIMP Beta 1, final fixes for the release.
+------------------------------------------------------------------------
+r141 | aramis_acg | 2008-09-14 04:01:15 +0530 (Sun, 14 Sep 2008) | 1 line
+
+ASSIMP Beta 1, final fixes for the release.
+------------------------------------------------------------------------
+r140 | ulfjorensen | 2008-09-14 03:49:15 +0530 (Sun, 14 Sep 2008) | 1 line
+
+added some credits details
+------------------------------------------------------------------------
+r139 | ulfjorensen | 2008-09-14 03:42:30 +0530 (Sun, 14 Sep 2008) | 1 line
+
+- deactivated jAssimp projects in all Visual Studio solutions
+------------------------------------------------------------------------
+r138 | aramis_acg | 2008-09-14 00:28:56 +0530 (Sun, 14 Sep 2008) | 1 line
+
+A few website fixes, format list in doxygen doc is complete now,format list in README file has been updated - OBJ was missing.
+------------------------------------------------------------------------
+r137 | kimmi | 2008-09-13 17:23:17 +0530 (Sat, 13 Sep 2008) | 1 line
+
+CHANGE: Add readme, license info and a very basic install howto.
+------------------------------------------------------------------------
+r136 | kimmi | 2008-09-13 17:08:40 +0530 (Sat, 13 Sep 2008) | 1 line
+
+BUGFIX: Make xml-documentation well defined.
+------------------------------------------------------------------------
+r135 | aramis_acg | 2008-09-13 16:41:51 +0530 (Sat, 13 Sep 2008) | 1 line
+
+LWO2 partial support, makefile fix.
+------------------------------------------------------------------------
+r134 | aramis_acg | 2008-09-13 14:31:24 +0530 (Sat, 13 Sep 2008) | 1 line
+
+Fixes for some warnings in the gcc4 linux 64 build.
+------------------------------------------------------------------------
+r132 | aramis_acg | 2008-09-13 01:55:11 +0530 (Sat, 13 Sep 2008) | 4 lines
+
+Fixes for build with mingw (no warnings in 32 Bit build, even with -wall).
+SMD bugfix.
+Makefile is up to date now.
+Added pack-attribute for aiVector3D and aiVector2D. 
+------------------------------------------------------------------------
+r131 | rave3d | 2008-09-12 15:25:06 +0530 (Fri, 12 Sep 2008) | 3 lines
+
+Adding VS 9.0 Workspace
+jAssimp will not build in this Configuration
+
+------------------------------------------------------------------------
+r130 | aramis_acg | 2008-09-12 02:20:15 +0530 (Fri, 12 Sep 2008) | 3 lines
+
+NFF finished except cone implementation.
+Added fixes by lynxeye to make assimp work with GCC 4.
+Website - again a backup of the current version.
+------------------------------------------------------------------------
+r129 | ulfjorensen | 2008-09-11 17:22:54 +0530 (Thu, 11 Sep 2008) | 1 line
+
+Bugfix by Jonathan Pokrass: MD3 loader did not use scaling
+------------------------------------------------------------------------
+r128 | aramis_acg | 2008-09-11 02:07:24 +0530 (Thu, 11 Sep 2008) | 2 lines
+
+NFF spheres are working now.
+Added additional NFF test model.
+------------------------------------------------------------------------
+r126 | aramis_acg | 2008-09-10 20:09:35 +0530 (Wed, 10 Sep 2008) | 3 lines
+
+Removed AI_C_THREADSAFE flag - there are unknown compiler errors in the x64 build.
+Removed config options for LWO, code cleanup; still WIP
+Added a few StandardShapes implementations.
+------------------------------------------------------------------------
+r125 | kimmi | 2008-09-10 04:02:04 +0530 (Wed, 10 Sep 2008) | 1 line
+
+BUGFIX: Correct handling of not stored texture coordinates
+------------------------------------------------------------------------
+r123 | aramis_acg | 2008-09-08 22:18:21 +0530 (Mon, 08 Sep 2008) | 2 lines
+
+Next WIP version of the LWO loader. LWO2 is still unfinished and crashes every time.
+Added NFF test model.
+------------------------------------------------------------------------
+r122 | kimmi | 2008-09-08 02:20:51 +0530 (Mon, 08 Sep 2008) | 1 line
+
+BUGFIX: Fix correct handling of erroreous models (invalid token will now not cause a crash)
+------------------------------------------------------------------------
+r121 | aramis_acg | 2008-09-07 22:21:05 +0530 (Sun, 07 Sep 2008) | 2 lines
+
+Added NFF loader. No standard shapes yet (sphere, cone), but a class for them (StandardShapes) has been declared.
+Fixed a small bug in the DXF loader, a few test models, however, are still corrupted.
+------------------------------------------------------------------------
+r120 | aramis_acg | 2008-09-05 18:51:01 +0530 (Fri, 05 Sep 2008) | 2 lines
+
+Added DXF implementation. No support for polymeshes yes, just 3DFACE elements are implemented.
+Added strtol64s function, refactored SMDLoader.cpp to use it.
+------------------------------------------------------------------------
+r119 | aramis_acg | 2008-08-29 05:19:20 +0530 (Fri, 29 Aug 2008) | 1 line
+
+GenVertexNormal bugfix. Angle limit wasn't correct.
+------------------------------------------------------------------------
+r118 | aramis_acg | 2008-08-29 04:30:03 +0530 (Fri, 29 Aug 2008) | 1 line
+
+ASE bugfix - light source sections are handled correctly now, unknown subchunks, too.
+------------------------------------------------------------------------
+r117 | aramis_acg | 2008-08-28 23:10:47 +0530 (Thu, 28 Aug 2008) | 1 line
+
+Added MD5 test model.
+------------------------------------------------------------------------
+r116 | aramis_acg | 2008-08-28 23:05:36 +0530 (Thu, 28 Aug 2008) | 6 lines
+
+MD5 bugfix.
+WIP version of the OptimizeGraph-Step.
+Added hashes to some string routines (speedup).
+Improved property system for float and strings.
+Refactoring code for computing normals from smoothinggroups.
+Implemented C-ASSIMP.
+------------------------------------------------------------------------
+r115 | kimmi | 2008-08-17 20:34:10 +0530 (Sun, 17 Aug 2008) | 1 line
+
+Fix linux build
+------------------------------------------------------------------------
+r114 | kimmi | 2008-08-17 20:31:43 +0530 (Sun, 17 Aug 2008) | 1 line
+
+Add scons build
+------------------------------------------------------------------------
+r113 | aramis_acg | 2008-08-16 04:53:28 +0530 (Sat, 16 Aug 2008) | 1 line
+
+STL bugfix. LWO2 next WIP version, deactivated for the moment (as I'm away for a week. LWOB (LightWave 1-4) remains activated). 
+------------------------------------------------------------------------
+r112 | kimmi | 2008-08-15 02:55:50 +0530 (Fri, 15 Aug 2008) | 3 lines
+
+- BUGFIX: Fixed a crash in the normal-loader method of obj loader.
+- CHANGE: Improve and fix a bug in texture coordinate loading in obj loader.
+- CHANGE: Use ai_assert instead of assert.
+------------------------------------------------------------------------
+r111 | aramis_acg | 2008-08-14 23:09:31 +0530 (Thu, 14 Aug 2008) | 1 line
+
+Added Andrew Galante to the CREDITS file. I forgot it yesterday.
+------------------------------------------------------------------------
+r110 | aramis_acg | 2008-08-14 05:16:46 +0530 (Thu, 14 Aug 2008) | 1 line
+
+Fixes from Andrew Galante for build with gcc4. LWOB materials finished, some research for LWO2. Unit tests are working again. Added makefile and project workspace for xcode3 (from Andrew, too).
+------------------------------------------------------------------------
+r109 | aramis_acg | 2008-08-13 21:15:57 +0530 (Wed, 13 Aug 2008) | 1 line
+
+LWOB loader nearly finished, LWO2 is WIP (many hours with the hex editor to come ...). Added test models for LWOB. Cleaned up the 3DS loader, overloaded ASSIMP_stricmp for std::string.
+------------------------------------------------------------------------
+r108 | aramis_acg | 2008-08-12 07:20:16 +0530 (Tue, 12 Aug 2008) | 1 line
+
+LWO update. ASE cleanup.
+------------------------------------------------------------------------
+r107 | aramis_acg | 2008-08-12 02:27:18 +0530 (Tue, 12 Aug 2008) | 1 line
+
+Fixed log formatting in DefaultLogger.cpp to work with AssimpView.
+------------------------------------------------------------------------
+r106 | kimmi | 2008-08-12 00:47:33 +0530 (Tue, 12 Aug 2008) | 1 line
+
+Add ThreadID to default log stream output.
+------------------------------------------------------------------------
+r105 | aramis_acg | 2008-08-11 23:19:02 +0530 (Mon, 11 Aug 2008) | 1 line
+
+Added Importer::RegisterLoader() and Importer::UnregisterLoader(). 
+------------------------------------------------------------------------
+r104 | aramis_acg | 2008-08-11 05:28:21 +0530 (Mon, 11 Aug 2008) | 1 line
+
+Update to the LWO loader. Still WIP.
+------------------------------------------------------------------------
+r103 | aramis_acg | 2008-08-10 04:09:57 +0530 (Sun, 10 Aug 2008) | 1 line
+
+Added first working version of a MDC loader; no further features like compressed frames tested at the moment. Added config options for keyframe loading, this has been tested with MDL7 only (atm). Some refactoring, a few files are much cleaner and smaller now. RemoveRedundantMats step does now remove unreferenced materials.
+------------------------------------------------------------------------
+r102 | aramis_acg | 2008-08-09 16:45:38 +0530 (Sat, 09 Aug 2008) | 1 line
+
+
+------------------------------------------------------------------------
+r101 | aramis_acg | 2008-08-09 05:28:40 +0530 (Sat, 09 Aug 2008) | 1 line
+
+Definitios for MDC and MDR added; MD2 loader is ready for BigEndian now, MD3 too. MD2 and MD3 keyframe option added, not yet implemented for MD3.
+------------------------------------------------------------------------
+r100 | aramis_acg | 2008-08-09 00:04:14 +0530 (Sat, 09 Aug 2008) | 1 line
+
+Refactoring ... added documentation, simplified some parts of the code and migrated some class declarations in separate files.
+------------------------------------------------------------------------
+r99 | aramis_acg | 2008-08-08 23:59:05 +0530 (Fri, 08 Aug 2008) | 1 line
+
+
+------------------------------------------------------------------------
+r98 | aramis_acg | 2008-08-08 23:55:55 +0530 (Fri, 08 Aug 2008) | 1 line
+
+ASE bugfixes.
+------------------------------------------------------------------------
+r97 | aramis_acg | 2008-08-08 23:53:09 +0530 (Fri, 08 Aug 2008) | 1 line
+
+Update to the SMD loader.
+------------------------------------------------------------------------
+r96 | aramis_acg | 2008-08-08 23:51:43 +0530 (Fri, 08 Aug 2008) | 1 line
+
+
+------------------------------------------------------------------------
+r95 | aramis_acg | 2008-08-08 21:56:34 +0530 (Fri, 08 Aug 2008) | 1 line
+
+Fixed typo in MDLMaterialLoader.cpp.
+------------------------------------------------------------------------
+r94 | aramis_acg | 2008-08-08 21:51:16 +0530 (Fri, 08 Aug 2008) | 1 line
+
+Added VS05 project file for jAssimp.
+------------------------------------------------------------------------
+r93 | aramis_acg | 2008-08-08 20:48:28 +0530 (Fri, 08 Aug 2008) | 1 line
+
+Added pushpack1.h and poppack1.h, integrated "FixInfacingNormals"-Step. Removed MD4 loader, MD4FileData.h remains in the extra directory. Renamed "VisualStudio" directory to "MSVC".
+------------------------------------------------------------------------
+r92 | aramis_acg | 2008-08-08 17:29:09 +0530 (Fri, 08 Aug 2008) | 1 line
+
+Integration of config interface patch is nearly complete; Importer::GetMemoryRequirements() patch is in the repos.
+------------------------------------------------------------------------
+r91 | aramis_acg | 2008-08-08 17:23:48 +0530 (Fri, 08 Aug 2008) | 1 line
+
+Added config interface
+------------------------------------------------------------------------
+r90 | aramis_acg | 2008-08-08 17:21:00 +0530 (Fri, 08 Aug 2008) | 1 line
+
+Added config interface. 
+------------------------------------------------------------------------
+r89 | aramis_acg | 2008-08-08 17:18:50 +0530 (Fri, 08 Aug 2008) | 1 line
+
+Added definitions for Importer::GetMemoryRequirements
+------------------------------------------------------------------------
+r88 | aramis_acg | 2008-08-08 06:37:45 +0530 (Fri, 08 Aug 2008) | 1 line
+
+Added "FixNormals"-Step.
+------------------------------------------------------------------------
+r87 | aramis_acg | 2008-08-08 06:35:56 +0530 (Fri, 08 Aug 2008) | 1 line
+
+Bugfix: missing return in logger::attachStream()
+------------------------------------------------------------------------
+r86 | aramis_acg | 2008-08-08 06:34:23 +0530 (Fri, 08 Aug 2008) | 1 line
+
+
+------------------------------------------------------------------------
+r85 | aramis_acg | 2008-08-08 06:33:55 +0530 (Fri, 08 Aug 2008) | 1 line
+
+Added new 3DS test file.
+------------------------------------------------------------------------
+r84 | aramis_acg | 2008-08-08 04:25:32 +0530 (Fri, 08 Aug 2008) | 1 line
+
+Added current WIP version of jAssimp
+------------------------------------------------------------------------
+r83 | aramis_acg | 2008-08-08 04:25:02 +0530 (Fri, 08 Aug 2008) | 1 line
+
+Added current WIP version of jAssimp
+------------------------------------------------------------------------
+r82 | aramis_acg | 2008-08-08 03:57:17 +0530 (Fri, 08 Aug 2008) | 1 line
+
+WIP version of a LWO file loader. Not working yet.
+------------------------------------------------------------------------
+r81 | aramis_acg | 2008-08-08 02:27:54 +0530 (Fri, 08 Aug 2008) | 1 line
+
+Moved NULLLogger class declaration to a separate header
+------------------------------------------------------------------------
+r80 | aramis_acg | 2008-08-08 02:25:59 +0530 (Fri, 08 Aug 2008) | 1 line
+
+Fixes to the VDSStep
+------------------------------------------------------------------------
+r79 | aramis_acg | 2008-08-08 02:22:25 +0530 (Fri, 08 Aug 2008) | 1 line
+
+Minor bugfix to the PLY loader
+------------------------------------------------------------------------
+r78 | aramis_acg | 2008-08-08 02:20:22 +0530 (Fri, 08 Aug 2008) | 1 line
+
+Added ByteSwap macros for BigEndian platforms
+------------------------------------------------------------------------
+r77 | aramis_acg | 2008-08-07 04:31:38 +0530 (Thu, 07 Aug 2008) | 1 line
+
+Added MD5 (md5mesh works, md5anim has not yet been tested) and STL. new unittests, although not yet complete (material system, normals). Bugfixes (GFn and MDL7). Added HMP5 support. Rewrote MD2 and MD3 to be more stable.
+------------------------------------------------------------------------
+r76 | ulfjorensen | 2008-08-02 18:50:41 +0530 (Sat, 02 Aug 2008) | 4 lines
+
+- Bugfix: XFileParser handles vertex colors correctly now. Fixes exception in sheep.x import
+- Added support for separate normal map filename tag in XFile material list
+- shortened texture type determination in XFile loader while I was there
+- Bugfix: ValidateDataStructure wrongly flagged animations with zero duration as error
+------------------------------------------------------------------------
+r75 | aramis_acg | 2008-07-31 05:29:03 +0530 (Thu, 31 Jul 2008) | 1 line
+
+Fixed orientation of MD2, MD3 and 3DS models.
+------------------------------------------------------------------------
+r74 | aramis_acg | 2008-07-31 04:30:25 +0530 (Thu, 31 Jul 2008) | 1 line
+
+Bufixes to the ASE loader, added "RemoveRedundantMaterials"-Step. Rewrite debug output.
+------------------------------------------------------------------------
+r73 | aramis_acg | 2008-07-30 02:06:27 +0530 (Wed, 30 Jul 2008) | 1 line
+
+The "SplitLargeMeshes"-Process handles bones correctly now. Added Unittest for it and fixed some minor details.
+------------------------------------------------------------------------
+r71 | aramis_acg | 2008-07-29 01:22:39 +0530 (Tue, 29 Jul 2008) | 1 line
+
+Added cppunit_note.txt. The file contains a list of all changes I made to cppunit to be as slim as possible.
+------------------------------------------------------------------------
+r70 | aramis_acg | 2008-07-24 16:49:24 +0530 (Thu, 24 Jul 2008) | 1 line
+
+Added cppunit to the ./contrib dir. Build config for x64 and dll builds (some bugs remaining, but most configs are working)
+------------------------------------------------------------------------
+r68 | aramis_acg | 2008-07-23 04:22:16 +0530 (Wed, 23 Jul 2008) | 1 line
+
+Added "ImproveCacheLocality"-Step; Added Unit tests (3 at the moment); Fixed hp spelling errors.
+------------------------------------------------------------------------
+r66 | aramis_acg | 2008-07-19 18:16:22 +0530 (Sat, 19 Jul 2008) | 1 line
+
+Moved ./web to the root - no need to have it in the distribution package
+------------------------------------------------------------------------
+r65 | aramis_acg | 2008-07-19 17:48:44 +0530 (Sat, 19 Jul 2008) | 1 line
+
+Next version of the website
+------------------------------------------------------------------------
+r64 | aramis_acg | 2008-07-19 01:59:46 +0530 (Sat, 19 Jul 2008) | 1 line
+
+Small update to the ASE loader.
+------------------------------------------------------------------------
+r63 | aramis_acg | 2008-07-10 22:19:01 +0530 (Thu, 10 Jul 2008) | 1 line
+
+3DS bugfixes; ASE bugfix (newline), PLY revert to older version, SMD is working now (partially); homepage added to SVN
+------------------------------------------------------------------------
+r62 | kimmi | 2008-07-03 02:11:30 +0530 (Thu, 03 Jul 2008) | 1 line
+
+BUGFIX: Correct handling of default material usage (referenced, when given material was not found or no material library was specified).
+------------------------------------------------------------------------
+r61 | kimmi | 2008-07-02 23:42:54 +0530 (Wed, 02 Jul 2008) | 2 lines
+
+CHANGE: Prototype for correct material loading, now the meshes have correct references to the used material.
+BUGFIX: Parsing of normals and texture coordinates fixed.
+------------------------------------------------------------------------
+r60 | aramis_acg | 2008-06-22 15:39:26 +0530 (Sun, 22 Jun 2008) | 1 line
+
+Finished loading of MD2, MD3, MDL2, MDL3, MDL4, MDL5, MDL7, MDL. First WIP version of the SMD loader. Additionals checks added to the validation step.
+------------------------------------------------------------------------
+r59 | aramis_acg | 2008-06-15 15:57:08 +0530 (Sun, 15 Jun 2008) | 1 line
+
+Added validation step, added helper macro AI_BUILD_KEY to the material system.
+------------------------------------------------------------------------
+r58 | kimmi | 2008-06-12 01:42:48 +0530 (Thu, 12 Jun 2008) | 1 line
+
+BUGFIX: Add defaultmaterial to obj-model data structure, when no materials are loaded
+------------------------------------------------------------------------
+r57 | ulfjorensen | 2008-06-09 01:56:06 +0530 (Mon, 09 Jun 2008) | 1 line
+
+- Bugfix: Matrix To Quaternion Conversion trashed the rotation in various border cases
+------------------------------------------------------------------------
+r56 | ulfjorensen | 2008-06-08 04:51:36 +0530 (Sun, 08 Jun 2008) | 1 line
+
+- added a post processing step to limit the bone count per vertex
+------------------------------------------------------------------------
+r55 | DarkGuru | 2008-06-04 23:20:39 +0530 (Wed, 04 Jun 2008) | 1 line
+
+Some fixes for build with MinGW
+------------------------------------------------------------------------
+r54 | aramis_acg | 2008-06-04 03:20:53 +0530 (Wed, 04 Jun 2008) | 1 line
+
+Finalized material system. Fixed texture coordinate transformation. Improvements to the ASE loaders, normals for the 3DS loader fixed. First try to load bones for MDL7 models (first try = failure ;-)). 
+------------------------------------------------------------------------
+r53 | kimmi | 2008-06-04 03:02:56 +0530 (Wed, 04 Jun 2008) | 1 line
+
+CHANGE: Bugfixes for ObjFile material import
+------------------------------------------------------------------------
+r52 | aramis_acg | 2008-06-01 19:33:45 +0530 (Sun, 01 Jun 2008) | 1 line
+
+Fixes for x64-build with GCC 
+------------------------------------------------------------------------
+r51 | aramis_acg | 2008-06-01 18:16:17 +0530 (Sun, 01 Jun 2008) | 1 line
+
+Fixes for 64 bit builds
+------------------------------------------------------------------------
+r50 | aramis_acg | 2008-05-31 04:31:25 +0530 (Sat, 31 May 2008) | 7 lines
+
+ase/ask loader is quite stable now, loads most models correctly
+added pretransformvertices postprocess step
+bugfixes in the 3ds material system. transparency is now displayed correctly
+Node view in the viewer display the local transformation matrix now
+Fixed wrong directory name. "unused" renamed to "extra"
+---> all is WIP ...
+
+------------------------------------------------------------------------
+r49 | DarkGuru | 2008-05-31 00:59:26 +0530 (Sat, 31 May 2008) | 1 line
+
+Some fixes for build with MinGW
+------------------------------------------------------------------------
+r48 | aramis_acg | 2008-05-29 16:37:25 +0530 (Thu, 29 May 2008) | 1 line
+
+Refactored the 3ds and ase loaders, anon. union and struct isn't anymore necessary
+------------------------------------------------------------------------
+r47 | aramis_acg | 2008-05-29 03:18:01 +0530 (Thu, 29 May 2008) | 1 line
+
+Added dummy names to anonymous unions and structs in 3ds
+------------------------------------------------------------------------
+r46 | aramis_acg | 2008-05-29 02:35:05 +0530 (Thu, 29 May 2008) | 1 line
+
+First half-working version of the ASE loader
+------------------------------------------------------------------------
+r45 | kimmi | 2008-05-29 02:15:56 +0530 (Thu, 29 May 2008) | 1 line
+
+Fixing some typos and add some little fixes in the documentation
+------------------------------------------------------------------------
+r44 | DarkGuru | 2008-05-28 00:28:36 +0530 (Wed, 28 May 2008) | 1 line
+
+Fixes for Linux build (debian etch, i386 32 bit)
+------------------------------------------------------------------------
+r43 | aramis_acg | 2008-05-27 02:58:19 +0530 (Tue, 27 May 2008) | 4 lines
+
+MakeVerbose moved to subdirectory
+pp step c'tors are protected now
+viewer changes
+JNI additions - JNI BUILD CURRENTLY NOT WORKING
+------------------------------------------------------------------------
+r42 | ulfjorensen | 2008-05-27 01:17:56 +0530 (Tue, 27 May 2008) | 2 lines
+
+- disabled generation of thousands of directories in the Doxyfile
+- documentation format details fixed 
+------------------------------------------------------------------------
+r41 | aramis_acg | 2008-05-26 03:59:05 +0530 (Mon, 26 May 2008) | 6 lines
+
+Minor changes to the logger (was necessary for the integration of jAssimp)
+Fixed face winding bugs (cw now ...)
+jAssimp incremental Update
+3DS hierarchy bug fixed
+Added "MakeVerboseFormat" postprocess step
+Viewer bugfixes
+------------------------------------------------------------------------
+r40 | DarkGuru | 2008-05-25 19:19:34 +0530 (Sun, 25 May 2008) | 1 line
+
+Some fixes for build with MinGW
+------------------------------------------------------------------------
+r39 | aramis_acg | 2008-05-24 20:34:25 +0530 (Sat, 24 May 2008) | 1 line
+
+
+------------------------------------------------------------------------
+r38 | DarkGuru | 2008-05-24 13:42:53 +0530 (Sat, 24 May 2008) | 1 line
+
+Some fixes for build with MinGW
+------------------------------------------------------------------------
+r37 | aramis_acg | 2008-05-24 04:08:35 +0530 (Sat, 24 May 2008) | 3 lines
+
+- ASE loader is now able to load triangles. Well, their position is not correct, but at least triangles ...
+- jAssimp API WIP. assimp.Mesh interface finished, including JNI implementations. Maybe a few more native functions than necessary, but I want to keep the native parts as simple as possible
+- Updates to the documentation
+------------------------------------------------------------------------
+r36 | kimmi | 2008-05-23 22:28:13 +0530 (Fri, 23 May 2008) | 1 line
+
+FEATURE: Add basic documentation for the logging mechanism and the default logger interface
+------------------------------------------------------------------------
+r35 | ulfjorensen | 2008-05-23 19:45:51 +0530 (Fri, 23 May 2008) | 1 line
+
+- Documentation continued. Mostly done now.
+------------------------------------------------------------------------
+r34 | aramis_acg | 2008-05-23 18:00:52 +0530 (Fri, 23 May 2008) | 1 line
+
+Updated jAssimp API. 40% are complete now, some JNI wrappers are ready
+------------------------------------------------------------------------
+r33 | aramis_acg | 2008-05-23 17:30:03 +0530 (Fri, 23 May 2008) | 1 line
+
+Added test model for MDL7
+------------------------------------------------------------------------
+r32 | aramis_acg | 2008-05-23 17:28:53 +0530 (Fri, 23 May 2008) | 1 line
+
+
+------------------------------------------------------------------------
+r31 | aramis_acg | 2008-05-23 17:15:56 +0530 (Fri, 23 May 2008) | 1 line
+
+Added material example (aiMaterial to D3DMATERIAL9)
+------------------------------------------------------------------------
+r30 | ulfjorensen | 2008-05-23 05:03:51 +0530 (Fri, 23 May 2008) | 2 lines
+
+SCHNAUZE VOLL ... erm... sorry. 
+- documentation continued. Still work in progress.
+------------------------------------------------------------------------
+r29 | aramis_acg | 2008-05-23 04:17:20 +0530 (Fri, 23 May 2008) | 1 line
+
+Added interface headers generated by javah
+------------------------------------------------------------------------
+r28 | aramis_acg | 2008-05-22 21:20:10 +0530 (Thu, 22 May 2008) | 1 line
+
+First WIP version of jAssimp
+------------------------------------------------------------------------
+r27 | ulfjorensen | 2008-05-22 19:25:13 +0530 (Thu, 22 May 2008) | 1 line
+
+- more documentation - chapter "usage" is now down more or less
+------------------------------------------------------------------------
+r26 | aramis_acg | 2008-05-22 15:57:36 +0530 (Thu, 22 May 2008) | 1 line
+
+Changed "Free" to "Open", Java build configs, port directory added, intellij idea5.1 project file added
+------------------------------------------------------------------------
+r25 | aramis_acg | 2008-05-22 15:50:31 +0530 (Thu, 22 May 2008) | 1 line
+
+Changed "Free" to "Open", Java build configs, port directory added, intellij idea5.1 project file added
+------------------------------------------------------------------------
+r24 | aramis_acg | 2008-05-22 01:27:53 +0530 (Thu, 22 May 2008) | 1 line
+
+Added preprocessor predefs to the DoxyFile. This ensures neither 'struct' (in its explicit c-style meaning) nor the replacement 'C_STRUCT' appears in the documentation.
+------------------------------------------------------------------------
+r23 | ulfjorensen | 2008-05-21 21:05:28 +0530 (Wed, 21 May 2008) | 3 lines
+
+- corrected all local include paths so that there are no "additional include paths" necessary in the build configuration anymore
+- wrote some further documentation text
+- moved ObjFileParser.h to the code directory
+------------------------------------------------------------------------
+r22 | ulfjorensen | 2008-05-20 23:09:14 +0530 (Tue, 20 May 2008) | 1 line
+
+- Dammit. Forgot to commit the deleted file as announced
+------------------------------------------------------------------------
+r21 | ulfjorensen | 2008-05-20 23:08:10 +0530 (Tue, 20 May 2008) | 3 lines
+
+- Details changed in the doxygen config
+- Corrected some documentation comments
+- removed aiDefs.h, it's not used anymore
+------------------------------------------------------------------------
+r20 | ulfjorensen | 2008-05-20 21:32:29 +0530 (Tue, 20 May 2008) | 1 line
+
+- Documentation - WorkInProgress
+------------------------------------------------------------------------
+r19 | DarkGuru | 2008-05-18 14:04:16 +0530 (Sun, 18 May 2008) | 1 line
+
+Some fixes for build with MinGW
+------------------------------------------------------------------------
+r18 | DarkGuru | 2008-05-18 14:03:03 +0530 (Sun, 18 May 2008) | 1 line
+
+Some fixes for build with MinGW
+------------------------------------------------------------------------
+r17 | kimmi | 2008-05-16 23:27:48 +0530 (Fri, 16 May 2008) | 1 line
+
+FEATURE: First prototype for ObjFile material-importer, the assimp data structure will not be created yet.
+------------------------------------------------------------------------
+r16 | aramis_acg | 2008-05-14 04:56:52 +0530 (Wed, 14 May 2008) | 7 lines
+
+- Major update to the viewer. A little bit buggy now, but I'll fix that
+- 2/3 of the viewer code are no wrapped in helper classes
+- ByteSwap.h header added 
+- Bugfix in the 3DS loader: Texture blend mode was read incorrectly
+- Bugfix in the X-Loader. Assets with specular_exp == 0 use gouraud lighting now
+- Added new helper functions to MaterialHelper 
+- Added aiMaterialGetTexture() function to allow easy access to all properties of a texture
+------------------------------------------------------------------------
+r15 | aramis_acg | 2008-05-11 21:39:50 +0530 (Sun, 11 May 2008) | 1 line
+
+Bugfix. Invalid .rc file
+------------------------------------------------------------------------
+r14 | ulfjorensen | 2008-05-11 18:24:16 +0530 (Sun, 11 May 2008) | 3 lines
+
+- Bugfix: XFileImporter now throws an error if the file is ill-formatted and thus perceived as empty
+- documented data structure updated
+- added WIN32 define to all project configurations to fix Win32Logger compilation error.
+------------------------------------------------------------------------
+r13 | DarkGuru | 2008-05-10 14:01:17 +0530 (Sat, 10 May 2008) | 1 line
+
+Some fixes for build with MinGW
+------------------------------------------------------------------------
+r12 | DarkGuru | 2008-05-10 14:00:42 +0530 (Sat, 10 May 2008) | 1 line
+
+Some fixes for build with MinGW
+------------------------------------------------------------------------
+r11 | aramis_acg | 2008-05-09 22:54:28 +0530 (Fri, 09 May 2008) | 6 lines
+
+- ASE loader alpha
+- MDL loader stable
+- 3ds bugfixes,
+- API extensions
+- New viewer features - WIP
+- Support for C
+------------------------------------------------------------------------
+r10 | aramis_acg | 2008-05-09 22:52:08 +0530 (Fri, 09 May 2008) | 1 line
+
+Partial commit - X files
+------------------------------------------------------------------------
+r9 | aramis_acg | 2008-05-09 22:51:30 +0530 (Fri, 09 May 2008) | 1 line
+
+Partial commit - MDL test files
+------------------------------------------------------------------------
+r8 | aramis_acg | 2008-05-09 22:48:27 +0530 (Fri, 09 May 2008) | 1 line
+
+Partial commit -> obj test files
+------------------------------------------------------------------------
+r7 | aramis_acg | 2008-05-09 22:39:47 +0530 (Fri, 09 May 2008) | 1 line
+
+Partial commit -> md3 test models
+------------------------------------------------------------------------
+r6 | aramis_acg | 2008-05-09 22:38:52 +0530 (Fri, 09 May 2008) | 1 line
+
+
+------------------------------------------------------------------------
+r5 | aramis_acg | 2008-05-09 22:38:06 +0530 (Fri, 09 May 2008) | 1 line
+
+Test commit
+------------------------------------------------------------------------
+r4 | aramis_acg | 2008-05-09 22:37:25 +0530 (Fri, 09 May 2008) | 1 line
+
+Test commit
+------------------------------------------------------------------------
+r3 | kimmi | 2008-05-09 01:32:51 +0530 (Fri, 09 May 2008) | 1 line
+
+FEATURE: Add default logger with file- and win32 debuglogging
+------------------------------------------------------------------------
+r2 | kimmi | 2008-05-08 03:03:35 +0530 (Thu, 08 May 2008) | 1 line
+
+FEATURE: Add interfaces for logger and logstream
+------------------------------------------------------------------------
+r1 | kimmi | 2008-05-05 18:06:31 +0530 (Mon, 05 May 2008) | 1 line
+
+Initiual commit: AssetImporter source moved from ZFXCE repository to its own repository. PLease do not use the ZFXCE repo any more.
+------------------------------------------------------------------------
