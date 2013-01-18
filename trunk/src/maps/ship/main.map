@@ -1,5 +1,5 @@
 2000.0 2000.0
-20
+28
 textures/buildings/concrete.tga 1
 textures/misc/los.tga 3
 textures/buildings/200x200building.tga 16
@@ -11,6 +11,7 @@ textures/buildings/barrel.tga 21
 textures/buildings/crate.tga 22
 textures/buildings/metal.tga 23
 textures/buildings/font.tga 50
+textures/buildings/wall.tga 30
 textures/panel/panel.tga 62
 textures/panel/panelhero.tga 65
 textures/panel/MutantManPanel.tga 66
@@ -20,6 +21,13 @@ textures/panel/MutantCheeta.tga 69
 textures/panel/MutantLizard.tga 70
 textures/panel/Ripper.tga 71
 textures/misc/tree.tga 72
+Creatures/Rhino/model.bmp 73
+Creatures/Hueteotl/model.bmp 78
+Creatures/Corpse/model.bmp 77
+Creatures/MutantCheeta/model.bmp 79
+Creatures/MutantLizard/model.bmp 80
+Creatures/Ripper/model.bmp 81
+Creatures/MutantMan/model.bmp 76
 26
 -1040 -1000 -1000 960 10  18 buildings/building_0.bld
 960 -1040 1000 1000 10 18 buildings/building_1.bld
@@ -48,36 +56,36 @@ textures/misc/tree.tga 72
 490 350 530 400 7 19 buildings/building_24.bld
 425 -400 625 -200 8 19 buildings/building_25.bld
 30
-Creatures/MutantMan 66 -700 550 -700 550 0 270 textures/panel/MutantManPanel.tga
-Creatures/Hueteotl 68 -900 200 -760 550 0.3 0 textures/panel/SkelPanel.tga
-Creatures/Hueteotl 68 -450 40 -450 40 0 90 textures/panel/SkelPanel.tga
-Creatures/Corpse 67 -400 650 -400 650 0 0 textures/panel/CorpsePanel.tga
-Creatures/MutantMan 66 -330 250 -330 250 0 250 textures/panel/MutantManPanel.tga
-Creatures/MutantMan 66 -300 250 -300 250 0 290 textures/panel/MutantManPanel.tga
-Creatures/MutantMan 66 0 300 -400 550 1 0 textures/panel/MutantManPanel.tga
-Creatures/MutantLizard 70 150 300 150 300 0 90 textures/panel/MutantLizard.tga
-Creatures/MutantCheeta 69 60 900 60 900 0 270 textures/panel/MutantCheeta.tga
-Creatures/MutantMan 66 -200 700 900 700 1.0 0 textures/panel/MutantManPanel.tga
-Creatures/MutantMan 66 -150 -120 -150 -120 0 60 textures/panel/MutantManPanel.tga
-Creatures/MutantLizard 70 475 -275 475 -275 0 150 textures/panel/MutantLizard.tga
-Creatures/MutantMan 66 500 -240 500 -240 0 110 textures/panel/MutantManPanel.tga
-Creatures/MutantMan 66 200 -120 200 -120 0 60 textures/panel/MutantManPanel.tga
-Creatures/MutantCheeta 69 140 -520 140 -520 0 90 textures/panel/MutantCheeta.tga
-Creatures/Ripper 71 220 -820 600 -820 1.5 0 textures/panel/Ripper.tga
-Creatures/Hueteotl 68 620 -380 820 -280 0.3 0 textures/panel/SkelPanel.tga
-Creatures/MutantMan 66 780 -880 830 -380 1 0 textures/panel/MutantManPanel.tga
-Creatures/MutantLizard 70 -800 -600 -800 -600 0 0 textures/panel/MutantLizard.tga
-Creatures/MutantMan 66 -380 -800 -280 -600 1 0 textures/panel/MutantManPanel.tga
-Creatures/Corpse 67 -740 -500 -480 -800 0.5 0 textures/panel/CorpsePanel.tga
-Creatures/MutantMan 66 -700 -300 -50 -300 1 0 textures/panel/MutantManPanel.tga
-Creatures/Ripper 71 500 100 900 70 1.5 0 textures/panel/Ripper.tga
-Creatures/Corpse 67 450 200 900 400 .5 0 textures/panel/CorpsePanel.tga
-Creatures/Hueteotl 68 900 90 900 90 0 180 textures/panel/SkelPanel.tga
-Creatures/MutantCheeta 69 300 400 -100 400 .7 0 textures/panel/MutantCheeta.tga
-Creatures/MutantCheeta 69 900 900 900 900 .7 230  textures/panel/MutantCheeta.tga
-Creatures/Ripper 71 0 -300 200 -500 1.5 270 textures/panel/Ripper.tga
-Creatures/Corpse 67 -50 -600 -50 -900 0.5 180 textures/panel/CorpsePanel.tga
-Creatures/Hueteotl 68 -450 -900 -450 -900 0 90 textures/panel/SkelPanel.tga
+Creatures/MutantMan/tris.md2 66 -700 550 -700 550 0 270 textures/panel/MutantManPanel.tga
+Creatures/Hueteotl/tris.md2 68 -900 200 -760 550 0.3 0 textures/panel/SkelPanel.tga
+Creatures/Hueteotl/tris.md2 68 -450 40 -450 40 0 90 textures/panel/SkelPanel.tga
+Creatures/Corpse/tris.md2 67 -400 650 -400 650 0 0 textures/panel/CorpsePanel.tga
+Creatures/MutantMan/tris.md2 66 -330 250 -330 250 0 250 textures/panel/MutantManPanel.tga
+Creatures/MutantMan/tris.md2 66 -300 250 -300 250 0 290 textures/panel/MutantManPanel.tga
+Creatures/MutantMan/tris.md2 66 0 300 -400 550 1 0 textures/panel/MutantManPanel.tga
+Creatures/MutantLizard/tris.md2 70 150 300 150 300 0 90 textures/panel/MutantLizard.tga
+Creatures/MutantCheeta/tris.md2 69 60 900 60 900 0 270 textures/panel/MutantCheeta.tga
+Creatures/MutantMan/tris.md2 66 -200 700 900 700 1.0 0 textures/panel/MutantManPanel.tga
+Creatures/MutantMan/tris.md2 66 -150 -120 -150 -120 0 60 textures/panel/MutantManPanel.tga
+Creatures/MutantLizard/tris.md2 70 475 -275 475 -275 0 150 textures/panel/MutantLizard.tga
+Creatures/MutantMan/tris.md2 66 500 -240 500 -240 0 110 textures/panel/MutantManPanel.tga
+Creatures/MutantMan/tris.md2 66 200 -120 200 -120 0 60 textures/panel/MutantManPanel.tga
+Creatures/MutantCheeta/tris.md2 69 140 -520 140 -520 0 90 textures/panel/MutantCheeta.tga
+Creatures/Ripper/tris.md2 71 220 -820 600 -820 1.5 0 textures/panel/Ripper.tga
+Creatures/Hueteotl/tris.md2 68 620 -380 820 -280 0.3 0 textures/panel/SkelPanel.tga
+Creatures/MutantMan/tris.md2 66 780 -880 830 -380 1 0 textures/panel/MutantManPanel.tga
+Creatures/MutantLizard/tris.md2 70 -800 -600 -800 -600 0 0 textures/panel/MutantLizard.tga
+Creatures/MutantMan/tris.md2 66 -380 -800 -280 -600 1 0 textures/panel/MutantManPanel.tga
+Creatures/Corpse/tris.md2 67 -740 -500 -480 -800 0.5 0 textures/panel/CorpsePanel.tga
+Creatures/MutantMan/tris.md2 66 -700 -300 -50 -300 1 0 textures/panel/MutantManPanel.tga
+Creatures/Ripper/tris.md2 71 500 100 900 70 1.5 0 textures/panel/Ripper.tga
+Creatures/Corpse/tris.md2 67 450 200 900 400 .5 0 textures/panel/CorpsePanel.tga
+Creatures/Hueteotl/tris.md2 68 900 90 900 90 0 180 textures/panel/SkelPanel.tga
+Creatures/MutantCheeta/tris.md2 69 300 400 -100 400 .7 0 textures/panel/MutantCheeta.tga
+Creatures/MutantCheeta/tris.md2 69 900 900 900 900 .7 230  textures/panel/MutantCheeta.tga
+Creatures/Ripper/tris.md2 71 0 -300 200 -500 1.5 270 textures/panel/Ripper.tga
+Creatures/Corpse/tris.md2 67 -50 -600 -50 -900 0.5 180 textures/panel/CorpsePanel.tga
+Creatures/Hueteotl/tris.md2 68 -450 -900 -450 -900 0 90 textures/panel/SkelPanel.tga
 8
 72 -1100 1100
 72 -1050 1100

@@ -145,8 +145,8 @@ int MD2::Load(const char *fn)
 
 	/* Load Texture Coordinates */
 	GF((tmpcoords = (MD2TexCoords*)malloc(h.num_st * sizeof(MD2TexCoords))) == NULL);
+	GF(readSt(f, tmpcoords, sizeof(MD2TexCoords), h.num_st, h.ofs_st));
 	GF((texCoords = (TexCoords *)malloc(h.num_st * sizeof(TexCoords))) == NULL);
-	GF(readSt(f, texCoords, sizeof(TexCoords), h.num_st, h.ofs_st));
 	for (i = 0; i < h.num_st; i++) {
 		texCoords[i].s = (float)tmpcoords[i].s / h.skinwidth;
 		texCoords[i].t = (float)tmpcoords[i].t / h.skinheight;
@@ -207,8 +207,6 @@ void MD2::Animate(void)
 	if (totframes)
 		frameno = a->frameStart + ((curtime - beginTime)/timescaler) % totframes;
 
-//	printf("RenderAnimating(%s) %s fno=%d\n", fn, a->name, frameno);
-
 	KeyFrame *k = frames[frameno];
 
 	glBegin(GL_TRIANGLES);
@@ -258,7 +256,6 @@ KeyFrame::KeyFrame(MD2Frame *fm, int num_verts)
 	memcpy(scale, fm->scale, sizeof(scale));
 	memcpy(translate, fm->translate, sizeof(translate));
 	strcpy(name, fm->name);
-	printf("Name = %s\n", name);
 
 	v = (Vertex3*)malloc(sizeof(Vertex3) * num_verts);
 
