@@ -24,19 +24,20 @@
 #define		PI		3.141
 
 Hero::Hero(float x, float y, float f, float s, GLuint fovTexID, GLuint panelTexID)
-:Md2(GAME_DATA_PATH"/Creatures/Rhino")
 {
+	Load(GAME_DATA_PATH"/Creatures/Rhino/tris.md2");
 	Initialize(x, y, f, s, fovTexID, panelTexID);
 }
 
 Hero::~Hero()
 {
+	Unload();
 }
 
 void Hero::Initialize(float x, float y, float f, float s, GLuint fovTexID, GLuint panelTexID)
 {
-	Md2::x = curx = x;
-	Md2::z = cury = y;
+	MD2::x = curx = x;
+	MD2::z = cury = y;
 	destx1 = destx = 0;
 	desty1 = desty = 0;
 	speed = s;
@@ -64,29 +65,29 @@ void Hero::Run(float dx, float dy, float perfectx, float perfecty)
 
 	if (status != HERO_RUNNING) {
 		status = HERO_RUNNING;
-		setAnimation(RUN);
+		setAnimation(ANIMTYPE_RUN);
 	}
 }
 
 void Hero::Stand(void)
 {
 	status = HERO_STANDING;
-	setAnimation(STAND);
+	setAnimation(ANIMTYPE_STAND);
 }
 
 void Hero::Attack(void)
 {
 	status = HERO_ATTACKING;
-	AttackFrameCount = getNumFrames(ATTACK);
+	AttackFrameCount = getNumFrames(ANIMTYPE_ATTACK);
 	//usleep(500000);
-	setAnimation(ATTACK);
+	setAnimation(ANIMTYPE_ATTACK);
 }
 
 void Hero::Death(void)
 {
 	status = HERO_DEAD;
-	DeathFrameCount = getNumFrames(DEATH);
-	setAnimation(DEATH);
+	DeathFrameCount = getNumFrames(ANIMTYPE_DEATH);
+	setAnimation(ANIMTYPE_DEATH);
 }
 
 int Hero::NextMove(void)

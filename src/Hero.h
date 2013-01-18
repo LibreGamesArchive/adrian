@@ -29,7 +29,7 @@ typedef enum {
 	HERO_DEAD
 } HeroStance;
 
-class Hero:public Md2, public RenderableObject {
+class Hero:public MD2, public RenderableObject {
  public:
 	float curx;
 	float cury;

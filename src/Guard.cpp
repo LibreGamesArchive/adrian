@@ -6,8 +6,8 @@
 
 Guard::Guard(char *filename, int texid, float x1, float y1, float x2, float y2,
 	     float speed, GLuint fovTexID, float botangle, int no)
-:Md2(filename)
 {
+	Load(filename);
 	float tempx, tempy;
 	game->block_convert(tempx, tempy, x1, y1);
 	x1 = tempx;
@@ -36,6 +36,9 @@ Guard::Guard(char *filename, int texid, float x1, float y1, float x2, float y2,
 	}
 
 	PanelTexId = texid;
+
+	// FIXME HACK for now
+	texID = PanelTexId + 10;
 
 	Initialize();
 }
@@ -67,24 +70,24 @@ void Guard::Run(float dx, float dy)
 
 	if (status != RUNNING) {
 		status = RUNNING;
-		setAnimation(RUN);
+		setAnimation(ANIMTYPE_RUN);
 	}
 }
 
 void Guard::Death(void)
 {
 	status = DEAD;
-	DeathFrameCount = getNumFrames(DEATH);
-	setAnimation(DEATH);
+	DeathFrameCount = getNumFrames(ANIMTYPE_DEATH);
+	setAnimation(ANIMTYPE_DEATH);
 }
 
 void Guard::Stand(float x, float y)
 {
-	Md2::x = curx = x;
-	Md2::y = 25;
-	Md2::z = cury = y;
+	MD2::x = curx = x;
+	MD2::y = 25;
+	MD2::z = cury = y;
 	status = STANDING;
-	setAnimation(STAND);
+	setAnimation(ANIMTYPE_STAND);
 }
 
 float* Guard::GetBB()
@@ -128,15 +131,15 @@ void Guard::RenderBBox()
 void Guard::Attack(float x, float y)
 {
 	status = ATTACKING;
-	AttackFrameCount = 20 * getNumFrames(ATTACK);
-	setAnimation(ATTACK);
+	AttackFrameCount = 20 * getNumFrames(ANIMTYPE_ATTACK);
+	setAnimation(ANIMTYPE_ATTACK);
 }
 
 int Guard::NextMove(void)
 {
 	if (game->gameover && Alive) {
 		status = STANDING;
-		setAnimation(STAND);
+		setAnimation(ANIMTYPE_STAND);
 		return 0;
 	}
 
@@ -225,7 +228,7 @@ int Guard::Patrol(float x1, float y1, float x2, float y2)
 	Compute(destx, desty);
 	onwardPatrol = true;
 	status = PATROL;
-	setAnimation(RUN);
+	setAnimation(ANIMTYPE_RUN);
 	return 0;
 }
 

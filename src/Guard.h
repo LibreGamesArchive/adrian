@@ -12,7 +12,7 @@ typedef enum {
 	DEAD
 } GuardStance;
 
-class Guard:public Md2, public RenderableObject {
+class Guard:public MD2, public RenderableObject {
  public:
 	float curx;
 	float cury;
