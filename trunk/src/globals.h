@@ -9,6 +9,8 @@
 
 #include "platform.h"
 
+#define	MAX_FILENAME_LEN	64
+
 class Game;
 class Menu;
 
@@ -29,6 +31,8 @@ extern bool enable_shaders;
 extern int hres;
 extern int vres;
 
+extern int curTime;
+
 //cursors
 extern SDL_Cursor *cursors[];
 
@@ -38,5 +42,6 @@ extern SDL_Cursor *cursors[];
 /* List of Menu Callback functions */
 extern void start_game(void);
 extern void end_game(void);
+extern void Quit(int val);
 
 #endif				/*      __GAME_GLOBALS_H__      */

@@ -2,9 +2,6 @@ include common.mk
 
 LINKER_LIBRARIES = ../vendor/assimp/bin/gcc/libassimp.so
 
-LINK_COMMAND = g++ -Wall -Werror -g3 $(LINKER_LIBRARIES) -lGL -lGLU -lm -lSDL -lSDL_image -lSDL_mixer -lSDL_ttf -lGLEW
-#LINK_COMMAND = g++ -Wall -Werror -g3 -lGL -lGLU -lm -lSDL -lSDL_image -lSDL_mixer -lSDL_ttf
-
 OBJECT_FILES	=	Map.o			\
 					MiniMap.o		\
 					Camera.o		\
@@ -30,10 +27,6 @@ OBJECT_FILES	=	Map.o			\
 					PPShaderProgram.o	\
 					SMShaderProgram.o	\
 
-CC = g++
-
-CFLAGS = -Wall -Werror -g3 -DGAME_DATA_PATH=$(GAME_DATA_PATH)
-	
 adrian: $(OBJECT_FILES) Menu/menu.a
 	$(LINK_COMMAND) $(OBJECT_FILES) Menu/menu.a -o adrian
 	
