@@ -31,8 +31,6 @@ extern bool enable_shaders;
 extern int hres;
 extern int vres;
 
-extern int curTime;
-
 //cursors
 extern SDL_Cursor *cursors[];
 

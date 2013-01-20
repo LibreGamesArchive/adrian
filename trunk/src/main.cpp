@@ -160,8 +160,6 @@ Uint32 TimerCallback(unsigned int)
 	menu->TimerCallback();
 	game->TimerCallback();
 
-	curTime++;
-
 	return 1;
 }
 

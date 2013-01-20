@@ -197,17 +197,23 @@ void MD2::Animate(void)
 {
 	int i, j;
 	Animation *a = anim[currentAnimation];
-	int curtime = curTime;
-	int frameno = 0;
+	int curtime = SDL_GetTicks();
+	int frm1 = 0;
+	int frm2 = 0;
+	float fraction = 0.0f;
 
-	int timescaler = 20;
+#define	MSEC_PER_MD2FRAME	200
 
 	/* FIXME Must have a time function here */
 	int totframes = a->frameEnd - a->frameStart + 1;
-	if (totframes)
-		frameno = a->frameStart + ((curtime - beginTime)/timescaler) % totframes;
+	if (totframes) {
+		frm1 = a->frameStart + ((curtime - beginTime)/MSEC_PER_MD2FRAME) % totframes;
+		frm2 = a->frameStart + ((curtime - beginTime + 1)/MSEC_PER_MD2FRAME) % totframes;
+		fraction = ((curtime - beginTime) % MSEC_PER_MD2FRAME) / (float)MSEC_PER_MD2FRAME;
+	}
 
-	KeyFrame *k = frames[frameno];
+	KeyFrame *k1 = frames[frm1];
+	KeyFrame *k2 = frames[frm2];
 
 	glBegin(GL_TRIANGLES);
 		/* Draw each triangle */
@@ -218,7 +224,8 @@ void MD2::Animate(void)
 				glTexCoord2f(texCoords[tIdx].s, texCoords[tIdx].t);
 
 				int vIdx = tris[i].vi[j];
-				glVertex3f(k->v[vIdx].x, k->v[vIdx].y, k->v[vIdx].z);
+#define	INTRPOLATE(D) (((k1->v[vIdx].D) * fraction) + ((k2->v[vIdx].D) * (1.0f - fraction)))
+				glVertex3f(INTRPOLATE(x), INTRPOLATE(y), INTRPOLATE(z));
 			}
 		}
 	glEnd();
@@ -226,7 +233,7 @@ void MD2::Animate(void)
 
 void MD2::setAnimation(AnimType at)
 {
-	beginTime = curTime;
+	beginTime = SDL_GetTicks();
 	currentAnimation = at;
 	printf("Setting anim to %d\n", at);
 }
