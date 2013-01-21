@@ -29,12 +29,7 @@ MD2::MD2(void)
 	memset(anim, 0, sizeof(anim));
 	texID = 73;
 
-	//lastTime = 0.0f;
-	x = 0;
-	y = 25;
-	z = 0;
-
-	currentAnimation = ANIMTYPE_STAND;
+	currentAnimation = ANIMTYPE_INVALID;
 }
 
 MD2::~MD2()
@@ -87,7 +82,6 @@ int MD2::addToAnimation(MD2Frame *mf, int frameno)
 		return -1;
 
 	if (anim[at] == NULL) {
-		printf("Spawning Animation: %s\n", mf->name);
 		anim[at] = new Animation;
 		anim[at]->animid = at;
 		strcpy(anim[at]->name, mf->name);
@@ -140,7 +134,7 @@ int MD2::Load(const char *fn)
 	for (i = 0; i < h.num_skins; i++) {
 		char texnm[MD2_SKIN_NAME_LEN];
 		GF(readSt(f, texnm, MD2_SKIN_NAME_LEN, 1, h.ofs_skins + i*MD2_SKIN_NAME_LEN));
-		printf("Loading MD2 Texture(%d): %s\n", i, texnm);
+//		printf("Loading MD2 Texture(%d): %s\n", i, texnm);
 	}
 
 	/* Load Texture Coordinates */
@@ -158,7 +152,7 @@ int MD2::Load(const char *fn)
 	GF(readSt(f, tris, sizeof(MD2Tris), h.num_tris, h.ofs_tris));
 
 	/* Load Frame information */
-	GF((frames = (KeyFrame**)malloc(sizeof(KeyFrame*) * h.num_frames)) == NULL);
+	GF((frames = (KeyFrame**)calloc(sizeof(KeyFrame*) , h.num_frames)) == NULL);
 	framesize = sizeof(MD2Frame) + h.num_xyz*sizeof(MD2VertCoords);
 	GF((mf = (MD2Frame*)malloc(framesize)) == NULL);
 	for (i = 0, j = 0; i < h.num_frames; i++) {
@@ -196,6 +190,9 @@ void MD2::Unload(void)
 void MD2::Animate(void)
 {
 	int i, j;
+	if (currentAnimation == ANIMTYPE_INVALID) {
+		return;
+	}
 	Animation *a = anim[currentAnimation];
 	int curtime = SDL_GetTicks();
 	int frm1 = 0;
@@ -204,7 +201,6 @@ void MD2::Animate(void)
 
 #define	MSEC_PER_MD2FRAME	200
 
-	/* FIXME Must have a time function here */
 	int totframes = a->frameEnd - a->frameStart + 1;
 	if (totframes) {
 		frm1 = a->frameStart + ((curtime - beginTime)/MSEC_PER_MD2FRAME) % totframes;
@@ -235,10 +231,9 @@ void MD2::setAnimation(AnimType at)
 {
 	beginTime = SDL_GetTicks();
 	currentAnimation = at;
-	printf("Setting anim to %d\n", at);
 }
 
-void MD2::render(void)
+void MD2::render(float x, float y, float z, float facingAngle)
 {
 	glEnable(GL_TEXTURE_2D);
 	glPushMatrix();

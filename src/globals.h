@@ -37,6 +37,8 @@ extern SDL_Cursor *cursors[];
 #define		SCR2RESX(x)		((x)/640.0 * (hres))
 #define		SCR2RESY(y)		((y)/480.0 * (vres))
 
+#define		MAP_MODEL_HEIGHT_Y	25
+
 /* List of Menu Callback functions */
 extern void start_game(void);
 extern void end_game(void);

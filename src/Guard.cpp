@@ -7,7 +7,10 @@
 Guard::Guard(char *filename, int texid, float x1, float y1, float x2, float y2,
 	     float speed, GLuint fovTexID, float botangle, int no)
 {
-	Load(filename);
+	y = MAP_MODEL_HEIGHT_Y;
+	basemodel = new MD2;
+	basemodel->Load(filename);
+
 	float tempx, tempy;
 	game->block_convert(tempx, tempy, x1, y1);
 	x1 = tempx;
@@ -38,13 +41,14 @@ Guard::Guard(char *filename, int texid, float x1, float y1, float x2, float y2,
 	PanelTexId = texid;
 
 	// FIXME HACK for now
-	texID = PanelTexId + 10;
+	basemodel->texID = PanelTexId + 10;
 
 	Initialize();
 }
 
 Guard::~Guard()
 {
+	basemodel->Unload();
 }
 
 void Guard::Initialize()
@@ -70,24 +74,23 @@ void Guard::Run(float dx, float dy)
 
 	if (status != RUNNING) {
 		status = RUNNING;
-		setAnimation(ANIMTYPE_RUN);
+		basemodel->setAnimation(ANIMTYPE_RUN);
 	}
 }
 
 void Guard::Death(void)
 {
 	status = DEAD;
-	DeathFrameCount = getNumFrames(ANIMTYPE_DEATH);
-	setAnimation(ANIMTYPE_DEATH);
+	DeathFrameCount = basemodel->getNumFrames(ANIMTYPE_DEATH);
+	basemodel->setAnimation(ANIMTYPE_DEATH);
 }
 
 void Guard::Stand(float x, float y)
 {
-	MD2::x = curx = x;
-	MD2::y = 25;
-	MD2::z = cury = y;
+	this->x = curx = x;
+	this->z = cury = y;
 	status = STANDING;
-	setAnimation(ANIMTYPE_STAND);
+	basemodel->setAnimation(ANIMTYPE_STAND);
 }
 
 float* Guard::GetBB()
@@ -131,15 +134,15 @@ void Guard::RenderBBox()
 void Guard::Attack(float x, float y)
 {
 	status = ATTACKING;
-	AttackFrameCount = 20 * getNumFrames(ANIMTYPE_ATTACK);
-	setAnimation(ANIMTYPE_ATTACK);
+	AttackFrameCount = 20 * basemodel->getNumFrames(ANIMTYPE_ATTACK);
+	basemodel->setAnimation(ANIMTYPE_ATTACK);
 }
 
 int Guard::NextMove(void)
 {
 	if (game->gameover && Alive) {
 		status = STANDING;
-		setAnimation(ANIMTYPE_STAND);
+		basemodel->setAnimation(ANIMTYPE_STAND);
 		return 0;
 	}
 
@@ -228,7 +231,7 @@ int Guard::Patrol(float x1, float y1, float x2, float y2)
 	Compute(destx, desty);
 	onwardPatrol = true;
 	status = PATROL;
-	setAnimation(ANIMTYPE_RUN);
+	basemodel->setAnimation(ANIMTYPE_RUN);
 	return 0;
 }
 
@@ -415,7 +418,7 @@ void Guard::Render(void)
 		glPopMatrix();
 	}
 	glColor3f(1.0, 1.0, 1.0);
-	render();
+	basemodel->render(x, y, z, facingAngle);
 	if (DeathFrameCount > 0)
 		DeathFrameCount -= 1;
 }
