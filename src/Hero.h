@@ -43,6 +43,7 @@ class Hero: public RenderableObject {
 	HeroStance status;
 
 	MD2 *basemodel;
+	AnimObj *md2AnimObj;
 
 	float x, y, z;
 	float facingAngle;
