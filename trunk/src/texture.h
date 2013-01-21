@@ -20,10 +20,7 @@
 #ifndef		__TEXTURE_H__
 #define		__TEXTURE_H__
 #include <GL/glew.h>
-//#include <GL/gl.h>
-//#include <GL/glu.h>
 #include <SDL/SDL_image.h>
-//#include <SDL/SDL_opengl.h>
 
 #define	MAX_IMG_PATH_LEN	256
 #define	INVALID_TEXTURE_ID	(0xFFFFFFFF)

@@ -1,5 +1,5 @@
 2000.0 2000.0
-27
+20
 textures/buildings/ground.tga 1
 textures/misc/los.tga 3
 textures/buildings/200x200building.tga 16
@@ -20,13 +20,6 @@ textures/panel/MutantCheeta.tga 69
 textures/panel/MutantLizard.tga 70
 textures/panel/Ripper.tga 71
 textures/misc/tree.tga 72
-models/dynamic/hero/hero.tga 73
-models/dynamic/hueteotl/hueteotl.tga 78
-models/dynamic/corpse/corpse.tga 77
-models/dynamic/mutantcheetah/mutantcheetah.tga 79
-models/dynamic/mutantlizard/mutantlizard.tga 80
-models/dynamic/mutantman/mutantman.tga 76
-models/dynamic/ripper/ripper.tga 81
 26
 -1040 -1000 -1000 960 10  18 buildings/building_0.bld
 960 -1040 1000 1000 10 18 buildings/building_1.bld

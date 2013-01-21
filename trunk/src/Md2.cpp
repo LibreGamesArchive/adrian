@@ -27,7 +27,6 @@
 MD2::MD2(void)
 {
 	memset(anim, 0, sizeof(anim));
-	texID = 73;
 }
 
 MD2::~MD2()
@@ -107,6 +106,8 @@ int MD2::Load(const char *fn)
 	FILE *f;
 	MD2TexCoords * tmpcoords = NULL;
 	MD2Frame *mf = NULL;
+	char texNm[256];
+	int l = strlen(fn);
 
 	if ((f = fopen(fn, "r")) == NULL) {
 		fprintf(stderr, "Opening MD2 Modelfile(%s) failed\n", fn);
@@ -129,11 +130,17 @@ int MD2::Load(const char *fn)
 	}
 
 	/* Load Textures */
-	for (i = 0; i < h.num_skins; i++) {
-		char texnm[MD2_SKIN_NAME_LEN];
-		GF(readSt(f, texnm, MD2_SKIN_NAME_LEN, 1, h.ofs_skins + i*MD2_SKIN_NAME_LEN));
+//	for (i = 0; i < h.num_skins; i++) {
+//		char texnm[MD2_SKIN_NAME_LEN];
+//		GF(readSt(f, texnm, MD2_SKIN_NAME_LEN, 1, h.ofs_skins + i*MD2_SKIN_NAME_LEN));
 //		printf("Loading MD2 Texture(%d): %s\n", i, texnm);
-	}
+//	}
+	strcpy(texNm, fn);
+	texNm[l-3] = 't';
+	texNm[l-2] = 'g';
+	texNm[l-1] = 'a';
+	GF((tex = new Texture(texNm)) == NULL);
+	GF(tex->Load());
 
 	/* Load Texture Coordinates */
 	GF((tmpcoords = (MD2TexCoords*)malloc(h.num_st * sizeof(MD2TexCoords))) == NULL);
@@ -171,6 +178,7 @@ int MD2::Load(const char *fn)
 		FREE(mf);
 		for (i = 0; i < MAX_NUM_ANIMATIONS; i++)
 			delete anim[i];
+		if (tex) delete tex;
 	}
 	if (f) fclose(f);
 	return err;
@@ -183,6 +191,7 @@ void MD2::Unload(void)
 	FREE(tris);
 	for (i = 0; i < MAX_NUM_ANIMATIONS; i++)
 		delete anim[i];
+	delete tex;
 }
 
 void MD2::Animate(AnimObj *ao) const
@@ -221,7 +230,7 @@ void MD2::render(AnimObj *ao) const
 			
 	glTranslatef(ao->x, ao->y, ao->z);
 	glRotatef(-ao->facingAngle, 0, 1, 0);
-	glBindTexture(GL_TEXTURE_2D, texID);
+	glBindTexture(GL_TEXTURE_2D, tex->GetTexID());
 	Animate(ao);
 	glPopMatrix();
 	glDisable(GL_TEXTURE_2D);
@@ -235,6 +244,12 @@ int MD2::getNumFrames(AnimType at) const
 /******************************************************************/
 /* AnimObj Definitions Start from here                            */
 /******************************************************************/
+AnimObj::AnimObj(void)
+{
+	x = y = z = facingAngle = 0;
+	currentAnimation = ANIMTYPE_INVALID;
+}
+
 void AnimObj::getFrames(Animation *a, int *frm1, int *frm2, float *fraction)
 {
 	int curtime = SDL_GetTicks();
