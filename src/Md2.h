@@ -133,6 +133,7 @@ struct MD2ModelTable {
 
 class AnimObj {
 	public:
+		AnimObj(void);
 		float x, y, z;
 		float facingAngle;
 		AnimType currentAnimation;
@@ -168,8 +169,9 @@ class MD2 {
 
 		void Animate(AnimObj *ao) const;
 
+		Texture *tex;
+
 	public:
-		mutable int texID; // HACK for now - remove later
 		MD2();
 		~MD2();
 

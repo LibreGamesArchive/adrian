@@ -88,7 +88,7 @@ void Texture::CreateTexFromSurf(SDL_Surface *surface, GLuint texid, bool reverse
 
 	GLenum colorformat = (reversed_rgb) ?
 		((format->Amask) ? GL_RGBA : GL_RGB) :
-		(format->Amask) ? GL_BGRA : GL_BGR;
+		 (format->Amask) ? GL_BGRA : GL_BGR;
 
 	gluBuild2DMipmaps(GL_TEXTURE_2D,
 					  (format->Amask) ? 4 : 3,

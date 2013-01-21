@@ -40,9 +40,6 @@ Guard::Guard(char *filename, int texid, float x1, float y1, float x2, float y2,
 
 	PanelTexId = texid;
 
-	// FIXME HACK for now
-	basemodel->texID = PanelTexId + 10;
-
 	Initialize();
 }
 
