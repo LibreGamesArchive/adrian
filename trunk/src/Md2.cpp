@@ -28,8 +28,6 @@ MD2::MD2(void)
 {
 	memset(anim, 0, sizeof(anim));
 	texID = 73;
-
-	currentAnimation = ANIMTYPE_INVALID;
 }
 
 MD2::~MD2()
@@ -187,26 +185,15 @@ void MD2::Unload(void)
 		delete anim[i];
 }
 
-void MD2::Animate(void)
+void MD2::Animate(AnimObj *ao)
 {
 	int i, j;
-	if (currentAnimation == ANIMTYPE_INVALID) {
-		return;
-	}
-	Animation *a = anim[currentAnimation];
-	int curtime = SDL_GetTicks();
-	int frm1 = 0;
-	int frm2 = 0;
-	float fraction = 0.0f;
+	int frm1, frm2;
+	float fraction;
 
 #define	MSEC_PER_MD2FRAME	200
 
-	int totframes = a->frameEnd - a->frameStart + 1;
-	if (totframes) {
-		frm1 = a->frameStart + ((curtime - beginTime)/MSEC_PER_MD2FRAME) % totframes;
-		frm2 = a->frameStart + ((curtime - beginTime + 1)/MSEC_PER_MD2FRAME) % totframes;
-		fraction = ((curtime - beginTime) % MSEC_PER_MD2FRAME) / (float)MSEC_PER_MD2FRAME;
-	}
+	ao->getFrames(anim, &frm1, &frm2, &fraction);
 
 	KeyFrame *k1 = frames[frm1];
 	KeyFrame *k2 = frames[frm2];
@@ -227,21 +214,32 @@ void MD2::Animate(void)
 	glEnd();
 }
 
-void MD2::setAnimation(AnimType at)
+void AnimObj::getFrames(Animation **anim, int *frm1, int *frm2, float *fraction)
+{
+	int curtime = SDL_GetTicks();
+	Animation *a = anim[currentAnimation];
+	int totframes = a->frameEnd - a->frameStart + 1;
+
+	*frm1 = a->frameStart + ((curtime - beginTime)/MSEC_PER_MD2FRAME) % totframes;
+	*frm2 = a->frameStart + ((curtime - beginTime + 1)/MSEC_PER_MD2FRAME) % totframes;
+	*fraction = ((curtime - beginTime) % MSEC_PER_MD2FRAME) / (float)MSEC_PER_MD2FRAME;
+}
+
+void AnimObj::setAnimation(AnimType at)
 {
 	beginTime = SDL_GetTicks();
 	currentAnimation = at;
 }
 
-void MD2::render(float x, float y, float z, float facingAngle)
+void MD2::render(AnimObj *ao)
 {
 	glEnable(GL_TEXTURE_2D);
 	glPushMatrix();
 			
-	glTranslatef(x, y, z);
-	glRotatef(-facingAngle, 0, 1, 0);
+	glTranslatef(ao->x, ao->y, ao->z);
+	glRotatef(-ao->facingAngle, 0, 1, 0);
 	glBindTexture(GL_TEXTURE_2D, texID);
-	Animate();
+	Animate(ao);
 	glPopMatrix();
 	glDisable(GL_TEXTURE_2D);
 }

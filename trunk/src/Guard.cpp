@@ -9,6 +9,7 @@ Guard::Guard(char *filename, int texid, float x1, float y1, float x2, float y2,
 {
 	y = MAP_MODEL_HEIGHT_Y;
 	basemodel = new MD2;
+	md2AnimObj = new AnimObj;
 	basemodel->Load(filename);
 
 	float tempx, tempy;
@@ -74,7 +75,7 @@ void Guard::Run(float dx, float dy)
 
 	if (status != RUNNING) {
 		status = RUNNING;
-		basemodel->setAnimation(ANIMTYPE_RUN);
+		md2AnimObj->setAnimation(ANIMTYPE_RUN);
 	}
 }
 
@@ -82,7 +83,7 @@ void Guard::Death(void)
 {
 	status = DEAD;
 	DeathFrameCount = basemodel->getNumFrames(ANIMTYPE_DEATH);
-	basemodel->setAnimation(ANIMTYPE_DEATH);
+	md2AnimObj->setAnimation(ANIMTYPE_DEATH);
 }
 
 void Guard::Stand(float x, float y)
@@ -90,7 +91,7 @@ void Guard::Stand(float x, float y)
 	this->x = curx = x;
 	this->z = cury = y;
 	status = STANDING;
-	basemodel->setAnimation(ANIMTYPE_STAND);
+	md2AnimObj->setAnimation(ANIMTYPE_STAND);
 }
 
 float* Guard::GetBB()
@@ -135,14 +136,14 @@ void Guard::Attack(float x, float y)
 {
 	status = ATTACKING;
 	AttackFrameCount = 20 * basemodel->getNumFrames(ANIMTYPE_ATTACK);
-	basemodel->setAnimation(ANIMTYPE_ATTACK);
+	md2AnimObj->setAnimation(ANIMTYPE_ATTACK);
 }
 
 int Guard::NextMove(void)
 {
 	if (game->gameover && Alive) {
 		status = STANDING;
-		basemodel->setAnimation(ANIMTYPE_STAND);
+		md2AnimObj->setAnimation(ANIMTYPE_STAND);
 		return 0;
 	}
 
@@ -231,7 +232,7 @@ int Guard::Patrol(float x1, float y1, float x2, float y2)
 	Compute(destx, desty);
 	onwardPatrol = true;
 	status = PATROL;
-	basemodel->setAnimation(ANIMTYPE_RUN);
+	md2AnimObj->setAnimation(ANIMTYPE_RUN);
 	return 0;
 }
 
@@ -418,7 +419,13 @@ void Guard::Render(void)
 		glPopMatrix();
 	}
 	glColor3f(1.0, 1.0, 1.0);
-	basemodel->render(x, y, z, facingAngle);
+
+	md2AnimObj->x = x;
+	md2AnimObj->y = y;
+	md2AnimObj->z = z;
+	md2AnimObj->facingAngle = facingAngle;
+	basemodel->render(md2AnimObj);
+
 	if (DeathFrameCount > 0)
 		DeathFrameCount -= 1;
 }

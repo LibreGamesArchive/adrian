@@ -123,6 +123,20 @@ struct Animation {
 		int frameEnd;
 };
 
+class AnimObj {
+	public:
+		float x, y, z;
+		float facingAngle;
+
+	private:
+		AnimType currentAnimation;
+		int beginTime;
+	
+	public:
+		void getFrames(Animation **anim, int *frm1, int *frm2, float *fraction);
+		void setAnimation(AnimType);
+};
+
 class MD2 {
 	private:
 		char fn[MAX_FILENAME_LEN];
@@ -139,11 +153,7 @@ class MD2 {
 		AnimType lookupAnimation(const char *name);
 		int addToAnimation(MD2Frame *mf, int frameno);
 
-		/* Animation data */
-		AnimType currentAnimation;
-		int beginTime;
-
-		void Animate(void);
+		void Animate(AnimObj *ao);
 
 	public:
 		int texID;
@@ -153,10 +163,9 @@ class MD2 {
 		int Load(const char *fn);
 		void Unload(void);
 
-		void setAnimation(AnimType);
 		int getNumFrames(AnimType);
 
-		void render(float x, float y, float z, float facingAngle);
+		void render(AnimObj *ao);
 };
 
 #endif /* __MD2_H__ */
