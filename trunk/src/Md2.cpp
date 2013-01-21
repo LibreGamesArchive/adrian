@@ -185,7 +185,7 @@ void MD2::Unload(void)
 		delete anim[i];
 }
 
-void MD2::Animate(AnimObj *ao)
+void MD2::Animate(AnimObj *ao) const
 {
 	int i, j;
 	int frm1, frm2;
@@ -193,7 +193,7 @@ void MD2::Animate(AnimObj *ao)
 
 #define	MSEC_PER_MD2FRAME	200
 
-	ao->getFrames(anim, &frm1, &frm2, &fraction);
+	ao->getFrames(anim[ao->currentAnimation], &frm1, &frm2, &fraction);
 
 	KeyFrame *k1 = frames[frm1];
 	KeyFrame *k2 = frames[frm2];
@@ -214,10 +214,30 @@ void MD2::Animate(AnimObj *ao)
 	glEnd();
 }
 
-void AnimObj::getFrames(Animation **anim, int *frm1, int *frm2, float *fraction)
+void MD2::render(AnimObj *ao) const
+{
+	glEnable(GL_TEXTURE_2D);
+	glPushMatrix();
+			
+	glTranslatef(ao->x, ao->y, ao->z);
+	glRotatef(-ao->facingAngle, 0, 1, 0);
+	glBindTexture(GL_TEXTURE_2D, texID);
+	Animate(ao);
+	glPopMatrix();
+	glDisable(GL_TEXTURE_2D);
+}
+
+int MD2::getNumFrames(AnimType at) const
+{
+	return anim[at]->frameEnd - anim[at]->frameStart;
+}
+
+/******************************************************************/
+/* AnimObj Definitions Start from here                            */
+/******************************************************************/
+void AnimObj::getFrames(Animation *a, int *frm1, int *frm2, float *fraction)
 {
 	int curtime = SDL_GetTicks();
-	Animation *a = anim[currentAnimation];
 	int totframes = a->frameEnd - a->frameStart + 1;
 
 	*frm1 = a->frameStart + ((curtime - beginTime)/MSEC_PER_MD2FRAME) % totframes;
@@ -231,24 +251,47 @@ void AnimObj::setAnimation(AnimType at)
 	currentAnimation = at;
 }
 
-void MD2::render(AnimObj *ao)
+const MD2* AnimObj::getMD2Base(const char *fn)
 {
-	glEnable(GL_TEXTURE_2D);
-	glPushMatrix();
-			
-	glTranslatef(ao->x, ao->y, ao->z);
-	glRotatef(-ao->facingAngle, 0, 1, 0);
-	glBindTexture(GL_TEXTURE_2D, texID);
-	Animate(ao);
-	glPopMatrix();
-	glDisable(GL_TEXTURE_2D);
+	int i;
+	for (i = 0; md2ModelTable[i].ptr != NULL; i++) {
+		if (!strcmp(md2ModelTable[i].filename, fn)) {
+			md2ModelTable[i].ref++;
+			return md2ModelTable[i].ptr;
+		}
+	}
+
+	/* OK we need to instantiate the model */
+	MD2 *m = NULL;
+	m = new MD2;
+	if (m->Load(fn) == 0) {
+		md2ModelTable[i].ref = 1;
+		md2ModelTable[i].ptr = m;
+		strcpy(md2ModelTable[i].filename, fn);
+	}
+	return m;
 }
 
-int MD2::getNumFrames(AnimType at)
+void AnimObj::putMD2Base(const MD2 *m)
 {
-	return anim[at]->frameEnd - anim[at]->frameStart;
+	int i;
+	for (i = 0; md2ModelTable[i].ptr != NULL; i++) {
+		if (md2ModelTable[i].ptr == m) {
+			md2ModelTable[i].ref--;
+			if (md2ModelTable[i].ref == 0) {
+				md2ModelTable[i].ptr->Unload();
+				md2ModelTable[i].ptr = NULL;
+				md2ModelTable[i].filename[0] = '\0';
+			}
+		}
+	}
 }
 
+MD2ModelTable AnimObj::md2ModelTable[MAX_LOADED_MD2_MODELS];
+
+/******************************************************************/
+/* Keyframe Definitions Start from here                           */
+/******************************************************************/
 KeyFrame::KeyFrame(MD2Frame *fm, int num_verts)
 {
 	int i;
