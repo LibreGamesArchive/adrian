@@ -25,7 +25,7 @@
 
 Hero::Hero(float x, float y, float f, float s, GLuint fovTexID, GLuint panelTexID)
 {
-	Load(GAME_DATA_PATH"/Creatures/Rhino/tris.md2");
+	Load(GAME_DATA_PATH"/models/dynamic/hero/hero.md2");
 	Initialize(x, y, f, s, fovTexID, panelTexID);
 }
 
