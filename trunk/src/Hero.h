@@ -29,7 +29,7 @@ typedef enum {
 	HERO_DEAD
 } HeroStance;
 
-class Hero:public MD2, public RenderableObject {
+class Hero: public RenderableObject {
  public:
 	float curx;
 	float cury;
@@ -41,6 +41,11 @@ class Hero:public MD2, public RenderableObject {
 	float desty1;
 
 	HeroStance status;
+
+	MD2 *basemodel;
+
+	float x, y, z;
+	float facingAngle;
 
 	float costheta;
 	float sintheta;

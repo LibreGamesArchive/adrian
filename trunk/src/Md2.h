@@ -144,15 +144,9 @@ class MD2 {
 		int beginTime;
 
 		void Animate(void);
-	protected:
-		int texID;
-	public:
-		/* Rendering Object details */
-		float x, y, z;
-		float rotangle;
-		float facingAngle;
 
 	public:
+		int texID;
 		MD2();
 		~MD2();
 
@@ -162,7 +156,7 @@ class MD2 {
 		void setAnimation(AnimType);
 		int getNumFrames(AnimType);
 
-		void render(void);
+		void render(float x, float y, float z, float facingAngle);
 };
 
 #endif /* __MD2_H__ */

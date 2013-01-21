@@ -12,7 +12,7 @@ typedef enum {
 	DEAD
 } GuardStance;
 
-class Guard:public MD2, public RenderableObject {
+class Guard: public RenderableObject {
  public:
 	float curx;
 	float cury;
@@ -21,6 +21,9 @@ class Guard:public MD2, public RenderableObject {
 	float desty;
 
 	GuardStance status;
+
+	MD2 *basemodel;
+	float x, y, z, facingAngle;
 
 	int guardNo;
 	float costheta;

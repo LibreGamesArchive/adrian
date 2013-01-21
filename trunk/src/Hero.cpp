@@ -25,19 +25,23 @@
 
 Hero::Hero(float x, float y, float f, float s, GLuint fovTexID, GLuint panelTexID)
 {
-	Load(GAME_DATA_PATH"/models/dynamic/hero/hero.md2");
 	Initialize(x, y, f, s, fovTexID, panelTexID);
 }
 
 Hero::~Hero()
 {
-	Unload();
+	basemodel->Unload();
 }
 
 void Hero::Initialize(float x, float y, float f, float s, GLuint fovTexID, GLuint panelTexID)
 {
-	MD2::x = curx = x;
-	MD2::z = cury = y;
+	basemodel = new MD2;
+
+	basemodel->Load(GAME_DATA_PATH"/models/dynamic/hero/hero.md2");
+
+	this->x = curx = x;
+	this->z = cury = y;
+	this->y = MAP_MODEL_HEIGHT_Y;
 	destx1 = destx = 0;
 	desty1 = desty = 0;
 	speed = s;
@@ -65,29 +69,29 @@ void Hero::Run(float dx, float dy, float perfectx, float perfecty)
 
 	if (status != HERO_RUNNING) {
 		status = HERO_RUNNING;
-		setAnimation(ANIMTYPE_RUN);
+		basemodel->setAnimation(ANIMTYPE_RUN);
 	}
 }
 
 void Hero::Stand(void)
 {
 	status = HERO_STANDING;
-	setAnimation(ANIMTYPE_STAND);
+	basemodel->setAnimation(ANIMTYPE_STAND);
 }
 
 void Hero::Attack(void)
 {
 	status = HERO_ATTACKING;
-	AttackFrameCount = getNumFrames(ANIMTYPE_ATTACK);
+	AttackFrameCount = basemodel->getNumFrames(ANIMTYPE_ATTACK);
 	//usleep(500000);
-	setAnimation(ANIMTYPE_ATTACK);
+	basemodel->setAnimation(ANIMTYPE_ATTACK);
 }
 
 void Hero::Death(void)
 {
 	status = HERO_DEAD;
-	DeathFrameCount = getNumFrames(ANIMTYPE_DEATH);
-	setAnimation(ANIMTYPE_DEATH);
+	DeathFrameCount = basemodel->getNumFrames(ANIMTYPE_DEATH);
+	basemodel->setAnimation(ANIMTYPE_DEATH);
 }
 
 int Hero::NextMove(void)
@@ -264,7 +268,6 @@ int Hero::Compute(float &dx, float &dy, float perfectx, float perfecty)
 			}
 			facingAngle = tmpang;
 		}
-
 	}
 
 	//checking Collisions
@@ -606,7 +609,7 @@ void Hero::Render(void)
 	Fov();
 	glPopMatrix();
 	glColor3f(1, 1, 1);
-	render();
+	basemodel->render(x, y, z, facingAngle);
 
 	if (AttackFrameCount > 0)
 		AttackFrameCount--;
