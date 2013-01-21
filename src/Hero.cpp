@@ -30,14 +30,14 @@ Hero::Hero(float x, float y, float f, float s, GLuint fovTexID, GLuint panelTexI
 
 Hero::~Hero()
 {
-	basemodel->Unload();
+	md2AnimObj->putMD2Base(basemodel);
+	delete md2AnimObj;
 }
 
 void Hero::Initialize(float x, float y, float f, float s, GLuint fovTexID, GLuint panelTexID)
 {
-	basemodel = new MD2;
 	md2AnimObj = new AnimObj;
-	basemodel->Load(GAME_DATA_PATH"/models/dynamic/hero/hero.md2");
+	basemodel = md2AnimObj->getMD2Base(GAME_DATA_PATH"/models/dynamic/hero/hero.md2");
 
 	this->x = curx = x;
 	this->z = cury = y;

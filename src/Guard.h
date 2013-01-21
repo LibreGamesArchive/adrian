@@ -22,7 +22,7 @@ class Guard: public RenderableObject {
 
 	GuardStance status;
 
-	MD2 *basemodel;
+	const MD2 *basemodel;
 	AnimObj *md2AnimObj;
 	float x, y, z, facingAngle;
 

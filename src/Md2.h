@@ -25,7 +25,8 @@
 
 #include "texture.h"
 
-#define MAX_FILENAME_LEN    64
+#define MAX_FILENAME_LEN    	64
+#define	MAX_LOADED_MD2_MODELS	32
 
 #define	ARRAY_SIZE(x)	(((int)sizeof(x)/(int)sizeof(x[0])))
 enum AnimType {
@@ -123,17 +124,29 @@ struct Animation {
 		int frameEnd;
 };
 
+class MD2;
+struct MD2ModelTable {
+	char filename[MAX_FILENAME_LEN];
+	MD2 *ptr;
+	int ref;
+};
+
 class AnimObj {
 	public:
 		float x, y, z;
 		float facingAngle;
+		AnimType currentAnimation;
 
 	private:
-		AnimType currentAnimation;
 		int beginTime;
+
+		static MD2ModelTable md2ModelTable[MAX_LOADED_MD2_MODELS];
 	
 	public:
-		void getFrames(Animation **anim, int *frm1, int *frm2, float *fraction);
+		const MD2 *getMD2Base(const char *fn);
+		void putMD2Base(const MD2 *);
+
+		void getFrames(Animation *anim, int *frm1, int *frm2, float *fraction);
 		void setAnimation(AnimType);
 };
 
@@ -153,19 +166,19 @@ class MD2 {
 		AnimType lookupAnimation(const char *name);
 		int addToAnimation(MD2Frame *mf, int frameno);
 
-		void Animate(AnimObj *ao);
+		void Animate(AnimObj *ao) const;
 
 	public:
-		int texID;
+		mutable int texID; // HACK for now - remove later
 		MD2();
 		~MD2();
 
 		int Load(const char *fn);
 		void Unload(void);
 
-		int getNumFrames(AnimType);
+		int getNumFrames(AnimType) const;
 
-		void render(AnimObj *ao);
+		void render(AnimObj *ao) const;
 };
 
 #endif /* __MD2_H__ */

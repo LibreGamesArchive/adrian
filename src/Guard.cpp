@@ -8,9 +8,8 @@ Guard::Guard(char *filename, int texid, float x1, float y1, float x2, float y2,
 	     float speed, GLuint fovTexID, float botangle, int no)
 {
 	y = MAP_MODEL_HEIGHT_Y;
-	basemodel = new MD2;
 	md2AnimObj = new AnimObj;
-	basemodel->Load(filename);
+	basemodel = md2AnimObj->getMD2Base(filename);
 
 	float tempx, tempy;
 	game->block_convert(tempx, tempy, x1, y1);
@@ -49,7 +48,8 @@ Guard::Guard(char *filename, int texid, float x1, float y1, float x2, float y2,
 
 Guard::~Guard()
 {
-	basemodel->Unload();
+	md2AnimObj->putMD2Base(basemodel);
+	delete md2AnimObj;
 }
 
 void Guard::Initialize()
