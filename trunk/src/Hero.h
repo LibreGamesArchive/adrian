@@ -53,7 +53,6 @@ class Hero: public RenderableObject {
 	bool movingright;
 	bool movingup;
 	bool gunselected;
-	bool Alive;
 	float speed;
 
 	float fov;
