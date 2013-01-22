@@ -39,6 +39,8 @@ extern SDL_Cursor *cursors[];
 
 #define		MAP_MODEL_HEIGHT_Y	25
 
+#define		MAX_END_TIME		0x7fffffff
+
 /* List of Menu Callback functions */
 extern void start_game(void);
 extern void end_game(void);

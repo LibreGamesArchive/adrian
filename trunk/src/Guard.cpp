@@ -79,8 +79,7 @@ void Guard::Run(float dx, float dy)
 void Guard::Death(void)
 {
 	status = DEAD;
-	DeathFrameCount = basemodel->getNumFrames(ANIMTYPE_DEATH);
-	md2AnimObj->setAnimation(ANIMTYPE_DEATH);
+	md2AnimObj->setAnimation(ANIMTYPE_DEATH, 1, ANIMTYPE_INVISIBLE);
 }
 
 void Guard::Stand(float x, float y)
@@ -132,8 +131,7 @@ void Guard::RenderBBox()
 void Guard::Attack(float x, float y)
 {
 	status = ATTACKING;
-	AttackFrameCount = 20 * basemodel->getNumFrames(ANIMTYPE_ATTACK);
-	md2AnimObj->setAnimation(ANIMTYPE_ATTACK);
+	md2AnimObj->setAnimation(ANIMTYPE_ATTACK, 20);
 }
 
 int Guard::NextMove(void)
@@ -148,11 +146,11 @@ int Guard::NextMove(void)
 	case STANDING:
 		return 0;
 	case ATTACKING:
-		if (AttackFrameCount == 0) ;
+		if (md2AnimObj->getCurAnimation() != ANIMTYPE_ATTACK) ;	// FIXME ;?
 		Stand(patrolCoords[0], patrolCoords[1]);
 		return 0;
 	case DEAD:
-		if (DeathFrameCount == 0)
+		if (md2AnimObj->getCurAnimation() == ANIMTYPE_INVISIBLE)
 			Alive = false;
 		return 0;
 
@@ -422,9 +420,6 @@ void Guard::Render(void)
 	md2AnimObj->z = z;
 	md2AnimObj->facingAngle = facingAngle;
 	basemodel->render(md2AnimObj);
-
-	if (DeathFrameCount > 0)
-		DeathFrameCount -= 1;
 }
 
 void Guard::Dump(void)

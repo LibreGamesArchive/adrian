@@ -28,6 +28,8 @@
 #define MAX_FILENAME_LEN    	64
 #define	MAX_LOADED_MD2_MODELS	32
 
+#define	MSEC_PER_MD2FRAME	200
+
 #define	ARRAY_SIZE(x)	(((int)sizeof(x)/(int)sizeof(x[0])))
 enum AnimType {
 	ANIMTYPE_INVALID = -1,
@@ -35,6 +37,9 @@ enum AnimType {
 	ANIMTYPE_ATTACK,
 	ANIMTYPE_RUN,
 	ANIMTYPE_DEATH,
+	ANIMTYPE_DEATH2,
+	ANIMTYPE_DEATH3,
+	ANIMTYPE_INVISIBLE,
 	MAX_NUM_ANIMATIONS
 };
 
@@ -141,17 +146,29 @@ class AnimObj {
 	private:
 		int beginTime;
 
+		/* For single shot cases */
+		AnimType nextAnimation;
+		int endTime;
+
+		const Animation *const*anim;
+
 		static MD2ModelTable md2ModelTable[MAX_LOADED_MD2_MODELS];
-	
+
 	public:
 		const MD2 *getMD2Base(const char *fn);
 		void putMD2Base(const MD2 *);
 
-		void getFrames(Animation *anim, int *frm1, int *frm2, float *fraction);
-		void setAnimation(AnimType);
+		bool getFrames(int *frm1, int *frm2, float *fraction);
+		void setAnimation(AnimType at, int fixed_reps = 0, AnimType next = ANIMTYPE_INVALID);
+
+		inline AnimType getCurAnimation(void) const
+		{
+			return currentAnimation;
+		}
 };
 
 class MD2 {
+	friend class AnimObj;
 	private:
 		char fn[MAX_FILENAME_LEN];
 		MD2Header h;

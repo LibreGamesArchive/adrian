@@ -82,15 +82,13 @@ void Hero::Stand(void)
 void Hero::Attack(void)
 {
 	status = HERO_ATTACKING;
-	AttackFrameCount = basemodel->getNumFrames(ANIMTYPE_ATTACK);
 	//usleep(500000);
-	md2AnimObj->setAnimation(ANIMTYPE_ATTACK);
+	md2AnimObj->setAnimation(ANIMTYPE_ATTACK, 1, ANIMTYPE_STAND);
 }
 
 void Hero::Death(void)
 {
 	status = HERO_DEAD;
-	DeathFrameCount = basemodel->getNumFrames(ANIMTYPE_DEATH);
 	md2AnimObj->setAnimation(ANIMTYPE_DEATH);
 }
 
@@ -100,7 +98,7 @@ int Hero::NextMove(void)
 	case HERO_STANDING:
 		return 0;
 	case HERO_ATTACKING:
-		if (AttackFrameCount == 0)
+		if (md2AnimObj->getCurAnimation() != ANIMTYPE_ATTACK)
 			Stand();
 		return 0;
 	case HERO_DEAD:
@@ -614,12 +612,6 @@ void Hero::Render(void)
 	md2AnimObj->z = z;
 	md2AnimObj->facingAngle = facingAngle;
 	basemodel->render(md2AnimObj);
-
-	if (AttackFrameCount > 0)
-		AttackFrameCount--;
-
-	if (DeathFrameCount > 0)
-		DeathFrameCount -= 1;
 }
 
 void Hero::Dump(void)
