@@ -52,8 +52,6 @@ class Hero: public RenderableObject {
 	float sintheta;
 	bool movingright;
 	bool movingup;
-	int AttackFrameCount;
-	int DeathFrameCount;
 	bool gunselected;
 	bool Alive;
 	float speed;

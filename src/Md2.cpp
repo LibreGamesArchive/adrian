@@ -59,6 +59,8 @@ AnimType MD2::lookupAnimation(const char *name)
 	static const AnimTypeMap animTypeMap[] = {
 		{ V("stand"),  ANIMTYPE_STAND },
 		{ V("death"),  ANIMTYPE_DEATH },
+		{ V("death"),  ANIMTYPE_DEATH2 },
+		{ V("death"),  ANIMTYPE_DEATH3 },
 		{ V("attack"), ANIMTYPE_ATTACK },
 		{ V("run"),    ANIMTYPE_RUN },
 	};
@@ -78,12 +80,21 @@ int MD2::addToAnimation(MD2Frame *mf, int frameno)
 	if (at == ANIMTYPE_INVALID)
 		return -1;
 
+	/* Each MD2 has 3 types of death */
+	if (at == ANIMTYPE_DEATH && anim[ANIMTYPE_DEATH]) {
+		if (frameno > anim[ANIMTYPE_DEATH]->frameStart + 11)
+			at = ANIMTYPE_DEATH3;
+		else if (frameno > anim[ANIMTYPE_DEATH]->frameStart + 5)
+			at = ANIMTYPE_DEATH2;
+	}
+
 	if (anim[at] == NULL) {
 		anim[at] = new Animation;
 		anim[at]->animid = at;
 		strcpy(anim[at]->name, mf->name);
 		anim[at]->frameStart = frameno;
 	}
+
 	anim[at]->frameEnd = frameno;
 	return 0;
 }
@@ -200,9 +211,8 @@ void MD2::Animate(AnimObj *ao) const
 	int frm1, frm2;
 	float fraction;
 
-#define	MSEC_PER_MD2FRAME	200
-
-	ao->getFrames(anim[ao->currentAnimation], &frm1, &frm2, &fraction);
+	if (!ao->getFrames(&frm1, &frm2, &fraction))
+		return;
 
 	KeyFrame *k1 = frames[frm1];
 	KeyFrame *k2 = frames[frm2];
@@ -236,10 +246,6 @@ void MD2::render(AnimObj *ao) const
 	glDisable(GL_TEXTURE_2D);
 }
 
-int MD2::getNumFrames(AnimType at) const
-{
-	return anim[at]->frameEnd - anim[at]->frameStart;
-}
 
 /******************************************************************/
 /* AnimObj Definitions Start from here                            */
@@ -250,19 +256,52 @@ AnimObj::AnimObj(void)
 	currentAnimation = ANIMTYPE_INVALID;
 }
 
-void AnimObj::getFrames(Animation *a, int *frm1, int *frm2, float *fraction)
+bool AnimObj::getFrames(int *frm1, int *frm2, float *fraction)
 {
 	int curtime = SDL_GetTicks();
+
+	if (endTime <= curtime) {
+		setAnimation(nextAnimation);
+	}
+
+	/* Nothing to render */
+	if (currentAnimation == ANIMTYPE_INVISIBLE)
+		return false;
+
+	assert(currentAnimation != ANIMTYPE_INVALID);
+
+	const Animation *a = anim[currentAnimation];
 	int totframes = a->frameEnd - a->frameStart + 1;
 
 	*frm1 = a->frameStart + ((curtime - beginTime)/MSEC_PER_MD2FRAME) % totframes;
 	*frm2 = a->frameStart + ((curtime - beginTime + 1)/MSEC_PER_MD2FRAME) % totframes;
 	*fraction = ((curtime - beginTime) % MSEC_PER_MD2FRAME) / (float)MSEC_PER_MD2FRAME;
+
+	return true;
 }
 
-void AnimObj::setAnimation(AnimType at)
+void AnimObj::setAnimation(AnimType at, int fixed_reps, AnimType next)
 {
 	beginTime = SDL_GetTicks();
+	if (at == ANIMTYPE_DEATH) {
+		switch(rand() % 3) {
+			case 2:
+				at = ANIMTYPE_DEATH3;
+				break;
+			case 1:
+				at = ANIMTYPE_DEATH2;
+				break;
+		}
+	}
+	if (fixed_reps > 0) {
+		const Animation *a = anim[at];
+		int num_frames = (a->frameEnd - a->frameStart + 1) * fixed_reps;
+		endTime = beginTime + num_frames * MSEC_PER_MD2FRAME;
+		nextAnimation = next;
+	} else {
+		endTime = MAX_END_TIME;
+		nextAnimation = ANIMTYPE_INVALID;
+	}
 	currentAnimation = at;
 }
 
@@ -272,6 +311,7 @@ const MD2* AnimObj::getMD2Base(const char *fn)
 	for (i = 0; md2ModelTable[i].ptr != NULL; i++) {
 		if (!strcmp(md2ModelTable[i].filename, fn)) {
 			md2ModelTable[i].ref++;
+			this->anim = md2ModelTable[i].ptr->anim;
 			return md2ModelTable[i].ptr;
 		}
 	}
@@ -284,6 +324,7 @@ const MD2* AnimObj::getMD2Base(const char *fn)
 		md2ModelTable[i].ptr = m;
 		strcpy(md2ModelTable[i].filename, fn);
 	}
+	this->anim = m->anim;
 	return m;
 }
 

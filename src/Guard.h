@@ -34,8 +34,6 @@ class Guard: public RenderableObject {
 	bool selected;
 	bool Alive;
 	bool showbeam;
-	int DeathFrameCount;
-	int AttackFrameCount;
 	int PanelTexId;
 	float speed;
 
