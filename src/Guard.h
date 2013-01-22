@@ -60,6 +60,7 @@ class Guard: public RenderableObject {
 	int NextMove(void);
 	int Patrol(float, float, float, float);
 	void Death(void);
+	void FreezeFrame(void);
 
 	int Compute(float &x, float &y);
 

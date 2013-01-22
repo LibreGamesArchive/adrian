@@ -39,6 +39,7 @@ enum AnimType {
 	ANIMTYPE_DEATH,
 	ANIMTYPE_DEATH2,
 	ANIMTYPE_DEATH3,
+	ANIMTYPE_FREEZEFRAME,
 	ANIMTYPE_INVISIBLE,
 	MAX_NUM_ANIMATIONS
 };
@@ -145,6 +146,7 @@ class AnimObj {
 
 	private:
 		int beginTime;
+		int frozen;
 
 		/* For single shot cases */
 		AnimType nextAnimation;
@@ -160,6 +162,9 @@ class AnimObj {
 
 		bool getFrames(int *frm1, int *frm2, float *fraction);
 		void setAnimation(AnimType at, int fixed_reps = 0, AnimType next = ANIMTYPE_INVALID);
+
+		void Freeze(int freezetime = 0);
+		void Unfreeze(void);
 
 		inline AnimType getCurAnimation(void) const
 		{

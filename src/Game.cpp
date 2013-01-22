@@ -57,8 +57,7 @@ void Game::resetVars(void)
 {
 	started = false;
 	gameover = false;
-
-	stop_all_animation = false;
+	gamelost = false;
 
 	/* Disable Cheat codes */
 	cheat_code_invisible_enabled = false;
@@ -135,10 +134,8 @@ void Game::InitializeGame(const char *gamefile)
 		exit(-1);
 	}
 	panel = new Panel(62);
-	hero = new Hero(660, 550, 270, 1,
-					map->getTextureID(GAME_DATA_PATH"/textures/misc/los.tga"),
-					map->getTextureID(GAME_DATA_PATH"/textures/panel/panelhero.tga"));
-	minimap = new MiniMap();
+	hero = new Hero;
+	minimap = new MiniMap;
 	PanelBotTexId = 65;
 
 	/* font init requires a TGA loaded by map */
@@ -444,7 +441,7 @@ void Game::ProcessEvents(void)
 						    && hero->cury <= -640) {
 							started = false;
 							gameover = true;
-							stop_all_animation = true;
+							gamelost = false;
 						}
 						break;
 					}
@@ -682,9 +679,14 @@ void Game::TimerCallback(void)
 
 	if (!started) {
 		if (gameover) {
-			/* Rotate the camera! */
-			angle += 0.009;
-			camera->Rotate(angle);
+			if (!gamelost) {
+				/* Rotate the camera! */
+				angle += 0.009;
+				camera->Rotate(angle);
+			}
+			for (int i = 0; i < num_guards; i++) {
+				guard[i]->FreezeFrame();
+			}
 		}
 		return;
 	}
@@ -713,10 +715,10 @@ void Game::TimerCallback(void)
 			soundSystem->HaltAllChannels();
 			soundSystem->PlaySound(SOUNDTYPE_ALARM);
 			guard[i]->showbeam = true;
-			hero->Stand();
+			hero->Death();
 			started = false;
 			gameover = true;
-			stop_all_animation = true;
+			gamelost = true;
 		}
 	}
 

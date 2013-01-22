@@ -50,6 +50,7 @@ class Game
  private:
 	bool started;
 	bool gameover;
+	bool gamelost;
 
 	/* Key event variables */
 	bool Bool_Cam_RotateP;
@@ -93,7 +94,6 @@ class Game
  public:
 	bool initialized;
 	Map *map;
-	bool stop_all_animation;
 
 	/* Cheat Codes */
 	bool cheat_code_invisible_enabled;

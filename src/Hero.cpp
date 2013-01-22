@@ -23,9 +23,8 @@
 
 #define		PI		3.141
 
-Hero::Hero(float x, float y, float f, float s, GLuint fovTexID, GLuint panelTexID)
+Hero::Hero(void)
 {
-	Initialize(x, y, f, s, fovTexID, panelTexID);
 }
 
 Hero::~Hero()
@@ -89,7 +88,7 @@ void Hero::Attack(void)
 void Hero::Death(void)
 {
 	status = HERO_DEAD;
-	md2AnimObj->setAnimation(ANIMTYPE_DEATH);
+	md2AnimObj->setAnimation(ANIMTYPE_DEATH, 1, ANIMTYPE_FREEZEFRAME);
 }
 
 int Hero::NextMove(void)

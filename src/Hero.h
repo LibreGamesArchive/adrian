@@ -67,7 +67,7 @@ class Hero: public RenderableObject {
 	bool selected;
     float bbox[6];
  public:
-	 Hero(float, float, float, float, GLuint fovTexID, GLuint panelTexID);
+	 Hero(void);
 	~Hero();
 	void Initialize(float, float, float, float, GLuint, GLuint);
 
