@@ -253,6 +253,7 @@ void MD2::render(AnimObj *ao) const
 AnimObj::AnimObj(void)
 {
 	x = y = z = facingAngle = 0;
+	frozen = 0;
 	currentAnimation = ANIMTYPE_INVALID;
 }
 
@@ -261,7 +262,11 @@ bool AnimObj::getFrames(int *frm1, int *frm2, float *fraction)
 	int curtime = SDL_GetTicks();
 
 	if (endTime <= curtime) {
-		setAnimation(nextAnimation);
+		if (nextAnimation != ANIMTYPE_FREEZEFRAME) {
+			setAnimation(nextAnimation);
+		} else {
+			Freeze(endTime-MSEC_PER_MD2FRAME);
+		}
 	}
 
 	/* Nothing to render */
@@ -269,6 +274,10 @@ bool AnimObj::getFrames(int *frm1, int *frm2, float *fraction)
 		return false;
 
 	assert(currentAnimation != ANIMTYPE_INVALID);
+
+	if (frozen) {
+		curtime = frozen;
+	}
 
 	const Animation *a = anim[currentAnimation];
 	int totframes = a->frameEnd - a->frameStart + 1;
@@ -280,9 +289,23 @@ bool AnimObj::getFrames(int *frm1, int *frm2, float *fraction)
 	return true;
 }
 
+void AnimObj::Freeze(int freezeTime)
+{
+	if (freezeTime)
+		frozen = freezeTime;
+	else if (!frozen)
+		frozen = SDL_GetTicks();
+}
+
+void AnimObj::Unfreeze(void)
+{
+	frozen = 0;
+}
+
 void AnimObj::setAnimation(AnimType at, int fixed_reps, AnimType next)
 {
 	beginTime = SDL_GetTicks();
+
 	if (at == ANIMTYPE_DEATH) {
 		switch(rand() % 3) {
 			case 2:

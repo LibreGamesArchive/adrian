@@ -82,6 +82,11 @@ void Guard::Death(void)
 	md2AnimObj->setAnimation(ANIMTYPE_DEATH, 1, ANIMTYPE_INVISIBLE);
 }
 
+void Guard::FreezeFrame(void)
+{
+	md2AnimObj->Freeze();
+}
+
 void Guard::Stand(float x, float y)
 {
 	this->x = curx = x;
