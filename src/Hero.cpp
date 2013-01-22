@@ -47,7 +47,6 @@ void Hero::Initialize(float x, float y, float f, float s, GLuint fovTexID, GLuin
 	facingAngle = f;
 	selected = true;
 	gunselected = false;
-	Alive = true;
 	Stand();
 	textureID = 2;
 
@@ -101,9 +100,6 @@ int Hero::NextMove(void)
 			Stand();
 		return 0;
 	case HERO_DEAD:
-//		if (DeathFrameCount == 0)
-//		TODO Never worked! :)
-//			Alive == false;
 		return 0;
 	case HERO_RUNNING:
 		{

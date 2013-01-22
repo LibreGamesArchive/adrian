@@ -313,9 +313,6 @@ void Game::ProcessEvents(void)
 	if (!initialized)
 		return;
 
-	if (!hero->Alive)
-		Quit(0);
-
 	SDL_Event event;
 	/* Grab all the events off the queue. */
 	while (SDL_PollEvent(&event)) {
@@ -687,6 +684,8 @@ void Game::TimerCallback(void)
 			for (int i = 0; i < num_guards; i++) {
 				guard[i]->FreezeFrame();
 			}
+			/* Allows user to move & rotate screen */
+			WorldCamUpdate();
 		}
 		return;
 	}
