@@ -46,13 +46,6 @@ extern Uint32 TimerCallback(unsigned int);
 
 extern SDL_Cursor *init_system_cursor(const char *image[]);
 
-void Quit(int val)
-{
-	SDL_SetTimer(TIME_INTERVAL, NULL);
-	SDL_Quit();
-	exit(val);
-}
-
 void Usage(void)
 {
 	fprintf(stderr, "./adrian [options]\n");
@@ -64,6 +57,9 @@ void Usage(void)
 int main(int argc, char *argv[])
 {
 	int option_idx = 0;
+	int VideoFlags = 0;
+	SDL_Surface *MainWindow = NULL;
+
 #ifndef	WIN32
 	srand(time(NULL));
 	while (1) {
@@ -96,21 +92,16 @@ int main(int argc, char *argv[])
 	}
 #endif
 
-	int VideoFlags = 0;
-	SDL_Surface *MainWindow;
-
 	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER) < 0)	// try to initialize SDL video module
 	{
 		printf("SDL ERROR:%s\n", SDL_GetError());	// report error if it fails
-		Quit(0);
+		goto out;
 	}
 
-	const SDL_VideoInfo *VideoInfo = SDL_GetVideoInfo();	// query SDL for information about our video hardware
-
-	if (VideoInfo == NULL)	// if this query fails
+	if (SDL_GetVideoInfo() == NULL)	// if this query fails
 	{
 		printf("Failed getting Video Info : %s\n", SDL_GetError());	// report error
-		Quit(0);
+		goto out;
 	}
 
 	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);	// tell SDL that the GL drawing is going to be double buffered
@@ -120,12 +111,12 @@ int main(int argc, char *argv[])
 //	MainWindow =
 //	    SDL_SetVideoMode(hres, vres, 16,
 //			     SDL_FULLSCREEN | SDL_OPENGL | SDL_HWPALETTE);
-      MainWindow = SDL_SetVideoMode(hres, vres, 16, SDL_RESIZABLE | SDL_OPENGL | SDL_HWPALETTE );
+    MainWindow = SDL_SetVideoMode(hres, vres, 16, SDL_RESIZABLE | SDL_OPENGL | SDL_HWPALETTE );
 
 	if (MainWindow == NULL)	// if window creation failed
 	{
 		printf("Failed to Create Window : %s\n", SDL_GetError());	// report error
-		Quit(0);
+		goto out;
 	}
 	SDL_WM_SetCaption("A D R I A N", "A D R I A N");
 	//SDL_ShowCursor( SDL_DISABLE );
@@ -156,8 +147,14 @@ int main(int argc, char *argv[])
 
 		if (end_game_show_menu)
 			end_game();
+
+		if (quit_app)
+			break;
 	}
 
+ out:
+	SDL_SetTimer(TIME_INTERVAL, NULL);
+	SDL_Quit();
 	return 0;
 }
 

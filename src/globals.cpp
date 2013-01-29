@@ -16,6 +16,8 @@ bool enable_shaders = false;
 
 bool showHelp = false;
 
+bool quit_app = false;
+
 #if 0
 int hres = 640;
 int vres = 480;

@@ -448,7 +448,7 @@ void Game::ProcessEvents(void)
 					}
 				case SDLK_q:
 					{
-						Quit(0);
+						quit_app = true;
 						break;
 					}
 				case SDLK_ESCAPE:
@@ -554,7 +554,7 @@ void Game::ProcessEvents(void)
 		case SDL_QUIT:
 			{
 				/* Handle quit requests (like Ctrl-c). */
-				Quit(0);
+				quit_app = true;
 				break;
 			}
 		}
