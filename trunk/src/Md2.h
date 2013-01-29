@@ -192,6 +192,7 @@ class MD2 {
 		void Animate(AnimObj *ao) const;
 
 		Texture *tex;
+		bool loaded;
 
 	public:
 		MD2();
