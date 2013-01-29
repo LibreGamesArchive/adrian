@@ -32,6 +32,8 @@
 #include "config.h"
 #include "TTFFont.h"
 
+#define	MAX_NUM_GUARDS	50
+
 /*#include <GL/gl.h>
 #include <GL/glu.h>*/
 #include <SDL/SDL.h>
@@ -75,7 +77,7 @@ class Game
 	/* Guard & Hero informations */
 	Camera *camera;
 	Hero *hero;
-	Guard *guard[50];
+	Guard *guard[MAX_NUM_GUARDS];
 	int num_guards;
 	MiniMap *minimap;
 	Panel *panel;

@@ -27,6 +27,7 @@
 MD2::MD2(void)
 {
 	memset(anim, 0, sizeof(anim));
+	memset(&h, 0, sizeof(h));
 	tex = NULL;
 	texCoords = NULL;
 	tris = NULL;
@@ -202,7 +203,11 @@ int MD2::Load(const char *fn)
 		FREE(tmpcoords);
 		FREE(tris);
 		FREE(mf);
-		FREE(frames);
+		if (frames) {
+			for (i = 0; i < h.num_frames; i++)
+				DELETEP(frames[i]);
+			FREE(frames);
+		}
 		for (i = 0; i < MAX_NUM_ANIMATIONS; i++)
 			DELETEP(anim[i]);
 		DELETEP(tex);
@@ -217,10 +222,13 @@ void MD2::Unload(void)
 	loaded = false;
 	FREE(texCoords);
 	FREE(tris);
+	for (i = 0; i < h.num_frames; i++)
+		DELETEP(frames[i]);
 	FREE(frames);
 	for (i = 0; i < MAX_NUM_ANIMATIONS; i++)
 		DELETEP(anim[i]);
 	DELETEP(tex);
+	memset(&h, 0, sizeof(h));
 }
 
 void MD2::Animate(AnimObj *ao) const

@@ -154,6 +154,9 @@ int main(int argc, char *argv[])
 
  out:
 	SDL_SetTimer(TIME_INTERVAL, NULL);
+
+	delete game;
+	delete menu;
 	SDL_Quit();
 	return 0;
 }
