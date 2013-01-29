@@ -157,6 +157,9 @@ int main(int argc, char *argv[])
 
 	delete game;
 	delete menu;
+	soundSystem->Destroy();
+	delete soundSystem;
+
 	SDL_Quit();
 	return 0;
 }
