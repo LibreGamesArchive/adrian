@@ -48,9 +48,10 @@ int MD2::readSt(FILE *f, void *buf, int sz, unsigned int num, int off)
 				off, fn);
 		return -1;
 	}
-	if (fread(buf, sz, num, f) != num) {
-		fprintf(stderr, "Reading structures from MD2 Modelfile(%s) failed\n",
-				fn);
+	int n;
+	if ((n = fread(buf, sz, num, f)) != num) {
+		fprintf(stderr, "Reading structures from MD2 Modelfile(%s) failed (read %d out of %d)\n",
+				fn, n, num);
 		return -1;
 	}
 
@@ -130,7 +131,7 @@ int MD2::Load(const char *fn)
 	char texNm[256];
 	int l = strlen(fn);
 
-	if ((f = fopen(fn, "r")) == NULL) {
+	if ((f = fopen(fn, "rb")) == NULL) {
 		fprintf(stderr, "Opening MD2 Modelfile(%s) failed\n", fn);
 		goto fail;
 	}
@@ -357,6 +358,9 @@ const MD2* AnimObj::getMD2Base(const char *fn)
 		md2ModelTable[i].ref = 1;
 		md2ModelTable[i].ptr = m;
 		strcpy(md2ModelTable[i].filename, fn);
+	} else {
+		delete m;
+		return NULL;
 	}
 	this->anim = m->anim;
 	return m;
