@@ -5,7 +5,6 @@
 
 void fontInit();
 void drawfontString(const char *, float, float, float, float);
-Panel *panel;
 SDL_Cursor *cursors[4];
 SoundSystem *soundSystem = NULL;
 
