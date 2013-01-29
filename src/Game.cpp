@@ -49,6 +49,9 @@ Game::Game(void)
 
 Game::~Game()
 {
+	if (initialized) {
+		DestroyGame();
+	}
 }
 
 /* This should contain ONLY LEGAL RESET VALUES!!!
@@ -154,6 +157,9 @@ void Game::InitializeGame(const char *gamefile)
 
 void Game::DestroyGame(void)
 {
+	if (!initialized)
+		return;
+
 	initialized = false;
 
 	soundSystem->UnloadAll();
