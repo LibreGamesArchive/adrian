@@ -48,7 +48,7 @@ int MD2::readSt(FILE *f, void *buf, int sz, unsigned int num, int off)
 				off, fn);
 		return -1;
 	}
-	int n;
+	unsigned int n;
 	if ((n = fread(buf, sz, num, f)) != num) {
 		fprintf(stderr, "Reading structures from MD2 Modelfile(%s) failed (read %d out of %d)\n",
 				fn, n, num);
