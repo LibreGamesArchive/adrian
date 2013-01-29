@@ -112,7 +112,7 @@ int MD2::addToAnimation(MD2Frame *mf, int frameno)
 		free(x); \
 	(x) = NULL; \
 } while(0)
-#define	DELETE(x) do {\
+#define	DELETEP(x) do {\
 	if ((x) != NULL) \
 		delete (x); \
 	(x) = NULL; \
@@ -199,8 +199,8 @@ int MD2::Load(const char *fn)
 		FREE(mf);
 		FREE(frames);
 		for (i = 0; i < MAX_NUM_ANIMATIONS; i++)
-			DELETE(anim[i]);
-		DELETE(tex);
+			DELETEP(anim[i]);
+		DELETEP(tex);
 	}
 	if (f) fclose(f);
 	return err;

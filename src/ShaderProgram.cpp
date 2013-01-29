@@ -1,4 +1,5 @@
 #include "ShaderProgram.h"
+#include "globals.h"
 #include <stdio.h>
 #include <stdlib.h>
 
