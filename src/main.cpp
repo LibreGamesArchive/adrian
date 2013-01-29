@@ -33,7 +33,9 @@
 #include <signal.h>
 #include <time.h>
 
+#ifndef	WIN32
 #include <getopt.h>
+#endif
 
 bool load_game = false;
 const char *next_game_map = NULL;
@@ -64,7 +66,6 @@ int main(int argc, char *argv[])
 	int option_idx = 0;
 #ifndef	WIN32
 	srand(time(NULL));
-#endif
 	while (1) {
 		int c;
 		const static struct option longopts[] = {
@@ -93,6 +94,7 @@ int main(int argc, char *argv[])
 				return -1;
 		}
 	}
+#endif
 
 	int VideoFlags = 0;
 	SDL_Surface *MainWindow;

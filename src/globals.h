@@ -9,6 +9,10 @@
 
 #include "platform.h"
 
+#ifndef	GAME_DATA_PATH
+#define	GAME_DATA_PATH	"."
+#endif
+
 #define	MAX_FILENAME_LEN	64
 
 class Game;
