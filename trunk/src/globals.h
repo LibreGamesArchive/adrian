@@ -32,6 +32,8 @@ extern bool gameOver;
 extern bool showHelp;
 extern bool enable_shaders;
 
+extern bool quit_app;
+
 extern int hres;
 extern int vres;
 
