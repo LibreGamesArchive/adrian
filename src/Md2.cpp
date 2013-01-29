@@ -31,10 +31,13 @@ MD2::MD2(void)
 	texCoords = NULL;
 	tris = NULL;
 	frames = NULL;
+	loaded = false;
 }
 
 MD2::~MD2()
 {
+	if (loaded)
+		Unload();
 }
 
 int MD2::readSt(FILE *f, void *buf, int sz, unsigned int num, int off)
@@ -191,6 +194,7 @@ int MD2::Load(const char *fn)
 	FREE(mf);
 
 	err = 0;
+	loaded = true;
 
  fail:
 	if (err) {
@@ -210,11 +214,13 @@ int MD2::Load(const char *fn)
 void MD2::Unload(void)
 {
 	int i;
+	loaded = false;
 	FREE(texCoords);
 	FREE(tris);
+	FREE(frames);
 	for (i = 0; i < MAX_NUM_ANIMATIONS; i++)
-		delete anim[i];
-	delete tex;
+		DELETEP(anim[i]);
+	DELETEP(tex);
 }
 
 void MD2::Animate(AnimObj *ao) const
@@ -369,13 +375,16 @@ const MD2* AnimObj::getMD2Base(const char *fn)
 void AnimObj::putMD2Base(const MD2 *m)
 {
 	int i;
-	for (i = 0; md2ModelTable[i].ptr != NULL; i++) {
+	for (i = 0; i < MAX_LOADED_MD2_MODELS; i++) {
 		if (md2ModelTable[i].ptr == m) {
 			md2ModelTable[i].ref--;
 			if (md2ModelTable[i].ref == 0) {
-				md2ModelTable[i].ptr->Unload();
-				md2ModelTable[i].ptr = NULL;
+				MD2 *tmp = md2ModelTable[i].ptr;
 				md2ModelTable[i].filename[0] = '\0';
+				md2ModelTable[i].ptr = NULL;
+				tmp->Unload();
+				delete tmp;
+				break;
 			}
 		}
 	}
