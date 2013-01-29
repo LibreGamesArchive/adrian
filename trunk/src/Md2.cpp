@@ -27,6 +27,10 @@
 MD2::MD2(void)
 {
 	memset(anim, 0, sizeof(anim));
+	tex = NULL;
+	texCoords = NULL;
+	tris = NULL;
+	frames = NULL;
 }
 
 MD2::~MD2()
@@ -104,10 +108,16 @@ int MD2::addToAnimation(MD2Frame *mf, int frameno)
 		goto fail; \
 } while(0)
 #define	FREE(x) do {\
-	if (x != NULL) \
+	if ((x) != NULL) \
 		free(x); \
-	x = NULL; \
+	(x) = NULL; \
 } while(0)
+#define	DELETE(x) do {\
+	if ((x) != NULL) \
+		delete (x); \
+	(x) = NULL; \
+} while(0)
+
 
 int MD2::Load(const char *fn)
 {
@@ -187,9 +197,10 @@ int MD2::Load(const char *fn)
 		FREE(tmpcoords);
 		FREE(tris);
 		FREE(mf);
+		FREE(frames);
 		for (i = 0; i < MAX_NUM_ANIMATIONS; i++)
-			delete anim[i];
-		if (tex) delete tex;
+			DELETE(anim[i]);
+		DELETE(tex);
 	}
 	if (f) fclose(f);
 	return err;
@@ -208,14 +219,14 @@ void MD2::Unload(void)
 void MD2::Animate(AnimObj *ao) const
 {
 	int i, j;
-	int frm1, frm2;
+	int frame1, frame2;
 	float fraction;
 
-	if (!ao->getFrames(&frm1, &frm2, &fraction))
+	if (!ao->getFrames(&frame1, &frame2, &fraction))
 		return;
 
-	KeyFrame *k1 = frames[frm1];
-	KeyFrame *k2 = frames[frm2];
+	KeyFrame *k1 = frames[frame1];
+	KeyFrame *k2 = frames[frame2];
 
 	glBegin(GL_TRIANGLES);
 		/* Draw each triangle */
@@ -257,7 +268,7 @@ AnimObj::AnimObj(void)
 	currentAnimation = ANIMTYPE_INVALID;
 }
 
-bool AnimObj::getFrames(int *frm1, int *frm2, float *fraction)
+bool AnimObj::getFrames(int *frame1, int *frame2, float *fraction)
 {
 	int curtime = SDL_GetTicks();
 
@@ -282,8 +293,8 @@ bool AnimObj::getFrames(int *frm1, int *frm2, float *fraction)
 	const Animation *a = anim[currentAnimation];
 	int totframes = a->frameEnd - a->frameStart + 1;
 
-	*frm1 = a->frameStart + ((curtime - beginTime)/MSEC_PER_MD2FRAME) % totframes;
-	*frm2 = a->frameStart + ((curtime - beginTime + 1)/MSEC_PER_MD2FRAME) % totframes;
+	*frame1 = a->frameStart + ((curtime - beginTime)/MSEC_PER_MD2FRAME) % totframes;
+	*frame2 = a->frameStart + ((curtime - beginTime + 1)/MSEC_PER_MD2FRAME) % totframes;
 	*fraction = ((curtime - beginTime) % MSEC_PER_MD2FRAME) / (float)MSEC_PER_MD2FRAME;
 
 	return true;

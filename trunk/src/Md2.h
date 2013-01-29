@@ -160,7 +160,7 @@ class AnimObj {
 		const MD2 *getMD2Base(const char *fn);
 		void putMD2Base(const MD2 *);
 
-		bool getFrames(int *frm1, int *frm2, float *fraction);
+		bool getFrames(int *frame1, int *frame2, float *fraction);
 		void setAnimation(AnimType at, int fixed_reps = 0, AnimType next = ANIMTYPE_INVALID);
 
 		void Freeze(int freezetime = 0);
