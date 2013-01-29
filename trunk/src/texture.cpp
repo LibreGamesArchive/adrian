@@ -48,6 +48,9 @@ int Texture::Load(GLuint tid)
 #ifndef WIN32
 	if (!strcasestr(extension, "tga"))
 		reversed_rgb = true;
+#else
+	if (strstr(extension, "jpg"))
+		reversed_rgb = true;
 #endif
 
 	/* Load the SDL Image into memory */
