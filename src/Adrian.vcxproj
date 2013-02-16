@@ -53,7 +53,7 @@
       <WarningLevel>Level1</WarningLevel>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <ForcedIncludeFiles>windows.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
-      <AdditionalOptions>/D GAME_DATA_PATH="\".\"" %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/D WIN32 /D GAME_DATA_PATH="\".\"" %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <AdditionalDependencies>glew32.lib;glu32.lib;opengl32.lib;sdl.lib;sdlmain.lib;sdl_mixer.lib;sdl_ttf.lib;sdl_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -73,7 +73,7 @@
       <WarningLevel>Level1</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <ForcedIncludeFiles>windows.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
-      <AdditionalOptions>/D GAME_DATA_PATH="\".\"" %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/D WIN32 /D GAME_DATA_PATH="\".\"" %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <AdditionalOptions>glew32.lib glu32.lib opengl32.lib sdl.lib sdlmain.lib sdl_mixer.lib sdl_ttf.lib sdl_image.lib %(AdditionalOptions)</AdditionalOptions>
