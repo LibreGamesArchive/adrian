@@ -27,8 +27,8 @@ OBJECT_FILES	=	Map.o			\
 					PPShaderProgram.o	\
 					SMShaderProgram.o	\
 
-adrian: $(OBJECT_FILES) Menu/menu.a
-	$(LINK_COMMAND) $(OBJECT_FILES) Menu/menu.a -o adrian
+adrian: $(OBJECT_FILES) Menu/menu.a Menu2/Menu.a
+	$(LINK_COMMAND) $(OBJECT_FILES) Menu/menu.a Menu2/Menu.a -o adrian
 	
 Menu/menu.a: Menu/*.cpp Menu/*.h
 	make -C Menu

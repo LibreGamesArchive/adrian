@@ -60,7 +60,7 @@ int main(int argc, char *argv[])
 	int VideoFlags = 0;
 	SDL_Surface *MainWindow = NULL;
 
-#ifndef	WIN32
+#ifdef LINUX
 	srand(time(NULL));
 	while (1) {
 		int c;

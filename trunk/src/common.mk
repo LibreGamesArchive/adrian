@@ -2,7 +2,7 @@ GAME_DATA_PATH="\"./\""
 
 CC = g++
 
-CFLAGS = -Wall -Werror -g3 -DGAME_DATA_PATH=$(GAME_DATA_PATH) -I../vendor/assimp/include
+CFLAGS = -Wall -Werror -g3 -DLINUX -DGAME_DATA_PATH=$(GAME_DATA_PATH) -I../vendor/assimp/include
 
 COMPILE_COMMAND = $(CC) $(CFLAGS)
 
