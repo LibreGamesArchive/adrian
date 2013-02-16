@@ -114,7 +114,7 @@ void Menu::InitializeMenu(void)
 	if (initialized)
 		return;
 
-	InitMenuOpenGL(1024, 768);
+	InitMenuOpenGL(hres, vres);
 
 	itemfont = new TTFFont(GAME_DATA_PATH"/fonts/font.ttf", 64, TTF_STYLE_BOLD);
 
@@ -353,25 +353,25 @@ void Menu::Render(void)
 
     glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
-	static int linex1 = rand() * 1024;
+	static int linex1 = rand() * hres;
 	glColor3f( 1, 0, 0 );
 	glLineWidth(5);
 	glBegin(GL_LINES);
 		glVertex3f(linex1++ , 0, -1.5);
-		glVertex3f(linex1++ , 768, -1.5);
+		glVertex3f(linex1++ , vres, -1.5);
 	glEnd();
 	glBegin(GL_LINES);
 		glVertex3f(linex * 3, 0, -1.5);
-		glVertex3f(linex * 3, 768, -1.5);
+		glVertex3f(linex * 3, vres, -1.5);
 	glEnd();
 
 	glBegin(GL_LINES);
 		glVertex3f(0, 200 + linex * 2, -1.5);
-		glVertex3f(1024, 200 + linex * 2, -1.5);
+		glVertex3f(hres, 200 + linex * 2, -1.5);
 	glEnd();
 	glBegin(GL_LINES);
 		glVertex3f(0, linex * 3, -1.5);
-		glVertex3f(1024, linex * 3, -1.5);
+		glVertex3f(hres, linex * 3, -1.5);
 	glEnd();
 
 	glColor3f( 1, 1, 1 );
@@ -381,11 +381,11 @@ void Menu::Render(void)
 		glTexCoord2f(0 ,1);
 		glVertex3f(0, 0, -1.6);
 		glTexCoord2f(0 ,0);
-		glVertex3f(0, 768, -1.6);
+		glVertex3f(0, vres, -1.6);
 		glTexCoord2f(1 ,0);
-		glVertex3f(1024, 768, -1.6);
+		glVertex3f(hres, vres, -1.6);
 		glTexCoord2f(1 ,1);
-		glVertex3f(1024, 0, -1.6);
+		glVertex3f(hres, 0, -1.6);
 	glEnd();
 
 	currentMenuPage->Render();

@@ -31,14 +31,14 @@ MenuItem::MenuItem(const char *text, TTFFont *itemfont,
 				   float fontWidth)
 {
 	strncpy(this->text, text, MAX_MENU_STRING_LENGTH);
-	this->x = x;
-	this->y = y;
+	this->x = (x*hres)/1024;
+	this->y = (y*vres)/768;
 	this->funcPtr = funcPtr;
 	this->funcArg = funcArg;
 	this->nextMenuPage = nextMenuPage;
 	this->enabled = enabled;
-	this->startx = startx;
-	this->starty = starty;
+	this->startx = (startx*hres)/1024;
+	this->starty = (starty*vres)/768;
 	this->animationType = animationType;
 	this->fontHeight = fontHeight;
 	this->fontWidth = fontWidth;
@@ -205,7 +205,7 @@ bool MenuItem::isInside(int mousex, int mousey)
 {
 //      printf("(%d,%d) ( %f,%f )\n",mousex,mousey,x,y );
 	if (mousex >= x && mousex <= x + fontWidth * 20) {
-		if (768 - mousey >= y && 768 - mousey <= y + fontHeight) {
+		if (vres - mousey >= y && vres - mousey <= y + fontHeight) {
 			return true;
 		}
 	}
