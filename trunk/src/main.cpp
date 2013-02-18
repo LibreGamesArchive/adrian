@@ -33,7 +33,10 @@
 #include <signal.h>
 #include <time.h>
 
-#ifndef	WIN32
+#include <libxml/parser.h>
+#include <libxml/tree.h>
+
+#ifdef	LINUX
 #include <getopt.h>
 #endif
 
@@ -59,6 +62,8 @@ int main(int argc, char *argv[])
 	int option_idx = 0;
 	int VideoFlags = 0;
 	SDL_Surface *MainWindow = NULL;
+
+	LIBXML_TEST_VERSION;
 
 #ifdef LINUX
 	srand(time(NULL));
