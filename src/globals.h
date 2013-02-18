@@ -13,6 +13,22 @@
 #define	GAME_DATA_PATH	"."
 #endif
 
+#ifdef	DEBUG
+#define	WLOG(...) do { \
+	fprintf(stderr, __VA_ARGS__);\
+} while (0)
+#define	DLOG(...) do { \
+	fprintf(stderr, __VA_ARGS__);\
+} while (0)
+#define	ELOG(...) do { \
+	fprintf(stderr, __VA_ARGS__);\
+} while (0)
+#else
+#define	WLOG(...)
+#define	DLOG(...)
+#define	ELOG(...)
+#endif
+
 #define	MAX_FILENAME_LEN	64
 
 class Game;
