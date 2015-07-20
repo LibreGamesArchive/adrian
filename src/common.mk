@@ -2,7 +2,7 @@ GAME_DATA_PATH="\"./\""
 
 CC = g++
 
-CFLAGS = -DDEBUG -Wall -Werror -g3 -DLINUX -DGAME_DATA_PATH=$(GAME_DATA_PATH) -I../vendor/assimp/include `xml2-config --cflags`
+CFLAGS = -DDEBUG -Wall -g3 -DLINUX -DGAME_DATA_PATH=$(GAME_DATA_PATH) -I../vendor/assimp/include `xml2-config --cflags`
 
 COMPILE_COMMAND = $(CC) $(CFLAGS)
 
