@@ -1,6 +1,6 @@
 include common.mk
 
-LINKER_LIBRARIES = ../vendor/assimp/bin/gcc/libassimp.so
+LINKER_LIBRARIES = ../vendor/assimp/lib/libassimp.so
 
 OBJECT_FILES	=	Map.o			\
 					MiniMap.o		\
